@@ -36,7 +36,6 @@ class Trainer:
         self.dataset = dataset
         self.torch_dataset = torch_dataset
         self.max_epochs = self.get_max_epochs()
-
         # Data Loading
         self.data_loader_nprocs = (
             cpu_count() if c.data_loader_nprocs == -1
@@ -97,7 +96,6 @@ class Trainer:
             self.c, dataset.metadata,
             device=self.gpu, tradeoff_annealer=self.tradeoff_annealer,
             is_minibatch_sgd=self.c.exp_minibatch_sgd)
-
         if self.c.exp_eval_every_epoch_or_steps == 'steps':
             self.last_eval = 0
 
@@ -162,7 +160,6 @@ class Trainer:
             self.c.debug_eval_row_interactions and epoch == 2)
 
         eval_model = end_experiment or self.eval_check(epoch)
-
         if self.c.debug_eval_row_interactions:
             train_loss = None
         else:
@@ -220,7 +217,8 @@ class Trainer:
     def eval_model(self, train_loss, epoch, end_experiment):
         """Obtain val and test losses."""
         kwargs = dict(epoch=epoch, eval_model=True)
-
+        counter = EarlyStopSignal.END
+        '''
         # Evaluate over val rows
         val_loss = self.run_epoch(dataset_mode='val', **kwargs)
 
@@ -255,6 +253,7 @@ class Trainer:
 
                 # update val loss
                 val_loss = self.run_epoch(dataset_mode='val', **kwargs)
+                '''
 
         if train_loss is None and not self.c.debug_eval_row_interactions:
             # Train and compute loss over masked features in train rows
@@ -270,7 +269,7 @@ class Trainer:
             test_loss = self.run_epoch(dataset_mode='test', **kwargs)
         else:
             test_loss = None
-
+        val_loss = {}
         loss_dict = self.logger.log(
             train_loss, val_loss, test_loss, self.scheduler.num_steps, epoch)
 
@@ -330,7 +329,8 @@ class Trainer:
             # loading is I/O bound (which it probably is)
             batch_dataset = self.dataset.cv_dataset
             extra_args = {}
-
+            #here print
+            #print('self.dataset.load_torch_dataset ------------------- ', next(self.dataset.load_datasets()).mode_mask_matrix)
             if not self.c.data_set_on_cuda:
                 extra_args['pin_memory'] = True
 
@@ -343,6 +343,7 @@ class Trainer:
                 **extra_args)
             batch_iter = tqdm(
                 batch_iter, desc='Batch') if self.c.verbose else batch_iter
+
 
         if (eval_model and self.c.debug_eval_row_interactions
                 and epoch == 2 and dataset_mode in {'test'}):
@@ -366,6 +367,11 @@ class Trainer:
             #       duplicate row of the chosen row_index
             # - For other experiments (e.g., standard datasets), we
             #       independently permute all other columns
+
+            #here
+            #print('data dict | train.py run_epoch() ----', batch_dict_)
+
+
             if (eval_model and self.c.debug_eval_row_interactions
                     and epoch == 2 and dataset_mode in {'test'}):
                 n_rows = batch_dict_['data_arrs'][0].shape[0]
@@ -593,21 +599,25 @@ class Trainer:
             augmentation_mask_matrix,):
         """Run forward pass and evaluate model loss."""
         extra_args = {}
-
+        #print('masked tensor (input to model) ------------', masked_tensors)
+        print('Dataset mode ----- ', dataset_mode)
         if eval_model:
             with torch.no_grad():
+                #print('Using torch no grad, eval model=', eval_model)
                 output = self.model(masked_tensors, **extra_args)
         else:
             output = self.model(masked_tensors, **extra_args)
 
         loss_kwargs = dict(
             output=output, ground_truth_data=ground_truth_tensors,
+            masked_tensors = masked_tensors,
             label_mask_matrix=label_mask_matrix,
             augmentation_mask_matrix=augmentation_mask_matrix,
             data_dict=batch_dict, dataset_mode=dataset_mode,
             eval_model=eval_model)
 
         self.loss.compute(**loss_kwargs)
+        print('Done -------------------------epoch ', epoch)
 
     def eval_check(self, epoch):
         """Check if it's time to evaluate val and test errors."""

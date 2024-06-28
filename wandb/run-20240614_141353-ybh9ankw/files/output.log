@@ -1,0 +1,43 @@
+Shape of boundary points tensor: torch.Size([11, 6])
+Shape of collocation points tensor: torch.Size([989, 6])
+Disabling AUROC metric.
+	Because dataset has 0 =/= 1 categorical target columns.
+Loaded metadata for fixed test set. n_cv_splits set to 1.
+Fixed test set provided. n_cv_splits set to 1.
+Percentage of each group: Train 0.18 | 0.03 | 0.80
+Traceback (most recent call last):
+  File "run.py", line 204, in <module>
+    main(args)
+  File "run.py", line 23, in main
+    run_cv(args=args, wandb_args=wandb_args)
+  File "run.py", line 117, in run_cv
+    run_cv_splits(wandb_args, args, c, wandb_run)
+  File "run.py", line 125, in run_cv_splits
+    dataset = ColumnEncodingDataset(c)
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/column_encoding_dataset.py", line 100, in __init__
+    self.reset_cv_splits()
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/column_encoding_dataset.py", line 105, in reset_cv_splits
+    self.dataset_gen = self.run_preprocessing_and_caching()
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/column_encoding_dataset.py", line 401, in run_preprocessing_and_caching
+    for split_idx, data_dict in enumerate(self.dataset_gen):
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/column_encoding_dataset.py", line 533, in generate_classification_regression_dataset
+    new_missing_matrix = missing_matrix[
+IndexError: index 989 is out of bounds for dimension 0 with size 989
+Traceback (most recent call last):
+  File "run.py", line 204, in <module>
+    main(args)
+  File "run.py", line 23, in main
+    run_cv(args=args, wandb_args=wandb_args)
+  File "run.py", line 117, in run_cv
+    run_cv_splits(wandb_args, args, c, wandb_run)
+  File "run.py", line 125, in run_cv_splits
+    dataset = ColumnEncodingDataset(c)
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/column_encoding_dataset.py", line 100, in __init__
+    self.reset_cv_splits()
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/column_encoding_dataset.py", line 105, in reset_cv_splits
+    self.dataset_gen = self.run_preprocessing_and_caching()
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/column_encoding_dataset.py", line 401, in run_preprocessing_and_caching
+    for split_idx, data_dict in enumerate(self.dataset_gen):
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/column_encoding_dataset.py", line 533, in generate_classification_regression_dataset
+    new_missing_matrix = missing_matrix[
+IndexError: index 989 is out of bounds for dimension 0 with size 989

@@ -1,0 +1,30 @@
+Loaded metadata for fixed test set. n_cv_splits set to 1.
+CV Splits for this dataset are cached. Loading from file.
+dataset----> <npt.column_encoding_dataset.ColumnEncodingDataset object at 0x30e4471f0>
+CV Index: 0
+Train-test Split 1/1
+Building NPT.
+All features are either categorical or numerical. Not going to bother doing feature type embeddings.
+Using feature type embedding (unique embedding for categorical and numerical features).
+Using feature index embedding (unique embedding for each column).
+Clipping gradients to value 1.0.
+Model has 8550275 parameters,batch size -1.
+Initialized "lookahead_lamb" optimizer.
+Warming up for 70000.0/100000.0 steps.
+Initialized "flat_and_anneal" learning rate scheduler.
+/Users/devu/anaconda3/envs/npt/lib/python3.8/site-packages/torch/optim/lr_scheduler.py:143: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  warnings.warn("Detected call of `lr_scheduler.step()` before `optimizer.step()`. "
+Traceback (most recent call last):
+  File "run.py", line 205, in <module>
+    main(args)
+  File "run.py", line 23, in main
+    run_cv(args=args, wandb_args=wandb_args)
+  File "run.py", line 117, in run_cv
+    run_cv_splits(wandb_args, args, c, wandb_run)
+  File "run.py", line 193, in run_cv_splits
+    trainer = Trainer(
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/train.py", line 39, in __init__
+    print('self.dataset cv-------->', self.dataset.cv_dataset['data_arrs'])
+  File "/Users/devu/anaconda3/envs/npt/lib/python3.8/site-packages/torch/utils/data/dataset.py", line 60, in __getitem__
+    raise NotImplementedError("Subclasses of Dataset should implement __getitem__.")
+NotImplementedError: Subclasses of Dataset should implement __getitem__.

@@ -45,7 +45,10 @@ class NPTBatchDataset(torch.utils.data.IterableDataset):
                 self.metadata['cat_target_cols'] +
                 self.metadata['num_target_cols']))
         self.sigmas = sigmas
+
         self.valid_modes = ['train', 'val', 'test']
+        self.valid_modes = ['train', 'test']
+
         self.device = device
 
         if self.c.exp_batch_size == -1:
@@ -66,6 +69,7 @@ class NPTBatchDataset(torch.utils.data.IterableDataset):
         # These are never altered (we purely copy these, as opposed to
         # making views which might be altered downstream).
         self.data_dict = data_dict
+        #print('data_dict', data_dict)
 
         # Use model setting information to filter indices
         self.dataset_mode_to_batch_settings = {
@@ -316,7 +320,7 @@ class NPTBatchDataset(torch.utils.data.IterableDataset):
                 extra_args['train_indices'] = mode_indices[0]
 
             stratified_sampler = StratifiedIndexSampler(
-                y=mode_indicators, n_splits=n_splits, shuffle=True,
+                y=mode_indicators, n_splits=n_splits, shuffle=False,
                 **extra_args)
 
         # Concatenate together mode_indices (which index into our matrices)
@@ -356,15 +360,17 @@ class NPTBatchDataset(torch.utils.data.IterableDataset):
             # the batch modes.
             starting_mode = DATASET_ENUM_TO_MODE[batch_modes[0]]
             mode_mask_matrix = self.data_dict[f'{starting_mode}_mask_matrix']
+            #print('construct_mode_matrices mode mask matrix',mode_mask_matrix)
 
             if len(batch_modes) > 1:
                 for batch_mode in batch_modes[1:]:
                     next_mode = DATASET_ENUM_TO_MODE[batch_mode]
-                    mode_mask_matrix = (mode_mask_matrix | self.data_dict[
-                        f'{next_mode}_mask_matrix'])
+                    #mode_mask_matrix = (mode_mask_matrix | self.data_dict[f'{next_mode}_mask_matrix'])
+                #print('yooo construct_mode_matrices mode mask matrix', mode_mask_matrix)
 
             # Determine the bert_mask_matrix.
             bert_mask_matrix = ~(mode_mask_matrix | missing_matrix)
+
             mode_masks[dataset_mode] = (mode_mask_matrix, bert_mask_matrix)
 
         return mode_masks
@@ -396,19 +402,19 @@ class NPTBatchDataset(torch.utils.data.IterableDataset):
     def batch_gen(self):
         # Assures that all batchings across CV splits and epochs
         # have different seeds.
+
         _, batch_modes, row_index_order, stratified_sampler = (
             self.dataset_mode_to_batch_settings[self.dataset_mode])
 
         # Avoid stratifying when we have a super small batch size
         # TODO Should ideally check against number of classes (in classification)
         if stratified_sampler and self.batch_size > 10:
+            print('Inside stratified sampler -')
             row_index_order, batch_sizes = (
                 stratified_sampler.get_stratified_test_array(row_index_order))
             self.batch_sizes = batch_sizes
         else:
-            np.random.shuffle(row_index_order)
             self.batch_sizes = None
-
         # Construct tensor copies with the specified row index order
         mode_mask_matrix, mode_bert_mask_matrix = self.mode_masks[
             self.dataset_mode]
@@ -425,6 +431,7 @@ class NPTBatchDataset(torch.utils.data.IterableDataset):
         self.target_loss_matrix = self.data_dict[mode_mask_matrix_str][
             row_index_order, :]
 
+
         # Stochastic label masking
         dataset_mode_mask_matrices = None
         if self.c.model_label_bert_mask_prob[self.dataset_mode] < 1:
@@ -437,7 +444,7 @@ class NPTBatchDataset(torch.utils.data.IterableDataset):
         self.data_arrs = [
             col[row_index_order, :]
             for col in self.data_dict['data_arrs']]
-
+        #print('data_dict at batch_dataset', self.data_dict)
         (self.masked_tensors, self.label_mask_matrix,
             self.augmentation_mask_matrix) = (
                 mask_data_for_dataset_mode(
@@ -447,7 +454,6 @@ class NPTBatchDataset(torch.utils.data.IterableDataset):
                     self.metadata['cat_features'],
                     self.bert_mask_matrix, self.data_arrs, self.dataset_mode,
                     self.device))
-
         self.row_index = 0
         self.batch_index = 0
 

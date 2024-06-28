@@ -1,0 +1,96 @@
+2024-06-18 15:40:57,201 INFO    StreamThr :18663 [internal.py:wandb_internal():86] W&B internal server running at pid: 18663, started at: 2024-06-18 15:40:57.200426
+2024-06-18 15:40:57,203 DEBUG   HandlerThread:18663 [handler.py:handle_request():146] handle_request: status
+2024-06-18 15:40:57,213 INFO    WriterThread:18663 [datastore.py:open_for_write():87] open: ./wandb/run-20240618_154057-mh9mcc9n/run-mh9mcc9n.wandb
+2024-06-18 15:40:57,214 DEBUG   SenderThread:18663 [sender.py:send():379] send: header
+2024-06-18 15:40:57,248 DEBUG   SenderThread:18663 [sender.py:send():379] send: run
+2024-06-18 15:40:58,110 INFO    SenderThread:18663 [dir_watcher.py:__init__():211] watching files in: ./wandb/run-20240618_154057-mh9mcc9n/files
+2024-06-18 15:40:58,110 INFO    SenderThread:18663 [sender.py:_start_run_threads():1124] run started: mh9mcc9n with start time 1718705457.20131
+2024-06-18 15:40:58,122 DEBUG   HandlerThread:18663 [handler.py:handle_request():146] handle_request: check_version
+2024-06-18 15:40:58,123 DEBUG   SenderThread:18663 [sender.py:send_request():406] send_request: check_version
+2024-06-18 15:40:58,217 DEBUG   HandlerThread:18663 [handler.py:handle_request():146] handle_request: run_start
+2024-06-18 15:40:58,217 DEBUG   HandlerThread:18663 [system_info.py:__init__():26] System info init
+2024-06-18 15:40:58,218 DEBUG   HandlerThread:18663 [system_info.py:__init__():41] System info init done
+2024-06-18 15:40:58,218 INFO    HandlerThread:18663 [system_monitor.py:start():194] Starting system monitor
+2024-06-18 15:40:58,218 INFO    SystemMonitor:18663 [system_monitor.py:_start():158] Starting system asset monitoring threads
+2024-06-18 15:40:58,218 INFO    HandlerThread:18663 [system_monitor.py:probe():214] Collecting system info
+2024-06-18 15:40:58,219 INFO    SystemMonitor:18663 [interfaces.py:start():190] Started cpu monitoring
+2024-06-18 15:40:58,219 INFO    SystemMonitor:18663 [interfaces.py:start():190] Started disk monitoring
+2024-06-18 15:40:58,221 DEBUG   HandlerThread:18663 [system_info.py:probe():150] Probing system
+2024-06-18 15:40:58,221 INFO    SystemMonitor:18663 [interfaces.py:start():190] Started gpuapple monitoring
+2024-06-18 15:40:58,225 INFO    SystemMonitor:18663 [interfaces.py:start():190] Started memory monitoring
+2024-06-18 15:40:58,225 INFO    SystemMonitor:18663 [interfaces.py:start():190] Started network monitoring
+2024-06-18 15:40:58,230 DEBUG   HandlerThread:18663 [system_info.py:_probe_git():135] Probing git
+2024-06-18 15:40:58,268 DEBUG   HandlerThread:18663 [system_info.py:_probe_git():143] Probing git done
+2024-06-18 15:40:58,269 DEBUG   HandlerThread:18663 [system_info.py:probe():198] Probing system done
+2024-06-18 15:40:58,269 DEBUG   HandlerThread:18663 [system_monitor.py:probe():223] {'os': 'macOS-14.5-arm64-arm-64bit', 'python': '3.8.19', 'heartbeatAt': '2024-06-18T10:10:58.223634', 'startedAt': '2024-06-18T10:10:57.187840', 'docker': None, 'cuda': None, 'args': ('--data_set', 'ode'), 'state': 'running', 'program': 'run.py', 'codePathLocal': 'run.py', 'codePath': 'run.py', 'git': {'remote': 'https://github.com/OATML/non-parametric-transformers.git', 'commit': 'a399360c4ac953eac3149692918df12fafee66e0'}, 'email': None, 'root': '/Users/devu/PycharmProjects/non-parametric-transformers', 'host': 'Devanshus-MacBook-Air.local', 'username': 'devu', 'executable': '/Users/devu/anaconda3/envs/npt/bin/python', 'cpu_count': 8, 'cpu_count_logical': 8, 'cpu_freq': {'current': 3204, 'min': 600, 'max': 3204}, 'cpu_freq_per_core': [{'current': 3204, 'min': 600, 'max': 3204}], 'disk': {'/': {'total': 228.27386474609375, 'used': 9.55832290649414}}, 'gpuapple': {'type': 'arm', 'vendor': 'Apple'}, 'memory': {'total': 8.0}}
+2024-06-18 15:40:58,269 INFO    HandlerThread:18663 [system_monitor.py:probe():224] Finished collecting system info
+2024-06-18 15:40:58,269 INFO    HandlerThread:18663 [system_monitor.py:probe():227] Publishing system info
+2024-06-18 15:40:58,269 DEBUG   HandlerThread:18663 [system_info.py:_save_conda():207] Saving list of conda packages installed into the current environment
+2024-06-18 15:40:59,116 INFO    Thread-12 :18663 [dir_watcher.py:_on_file_created():271] file/dir created: ./wandb/run-20240618_154057-mh9mcc9n/files/conda-environment.yaml
+2024-06-18 15:41:04,131 INFO    Thread-12 :18663 [dir_watcher.py:_on_file_modified():288] file/dir modified: ./wandb/run-20240618_154057-mh9mcc9n/files/conda-environment.yaml
+2024-06-18 15:41:04,174 DEBUG   HandlerThread:18663 [system_info.py:_save_conda():222] Saving conda packages done
+2024-06-18 15:41:04,175 INFO    HandlerThread:18663 [system_monitor.py:probe():229] Finished publishing system info
+2024-06-18 15:41:04,181 DEBUG   HandlerThread:18663 [handler.py:handle_request():146] handle_request: status_report
+2024-06-18 15:41:04,181 DEBUG   HandlerThread:18663 [handler.py:handle_request():146] handle_request: keepalive
+2024-06-18 15:41:04,182 DEBUG   SenderThread:18663 [sender.py:send():379] send: files
+2024-06-18 15:41:04,182 INFO    SenderThread:18663 [sender.py:_save_file():1390] saving file wandb-metadata.json with policy now
+2024-06-18 15:41:04,309 DEBUG   HandlerThread:18663 [handler.py:handle_request():146] handle_request: python_packages
+2024-06-18 15:41:04,309 DEBUG   SenderThread:18663 [sender.py:send_request():406] send_request: python_packages
+2024-06-18 15:41:04,311 DEBUG   HandlerThread:18663 [handler.py:handle_request():146] handle_request: stop_status
+2024-06-18 15:41:04,311 DEBUG   SenderThread:18663 [sender.py:send_request():406] send_request: stop_status
+2024-06-18 15:41:04,312 DEBUG   HandlerThread:18663 [handler.py:handle_request():146] handle_request: internal_messages
+2024-06-18 15:41:04,760 DEBUG   SenderThread:18663 [sender.py:send():379] send: telemetry
+2024-06-18 15:41:04,761 DEBUG   SenderThread:18663 [sender.py:send():379] send: config
+2024-06-18 15:41:05,136 INFO    Thread-12 :18663 [dir_watcher.py:_on_file_created():271] file/dir created: ./wandb/run-20240618_154057-mh9mcc9n/files/requirements.txt
+2024-06-18 15:41:05,136 INFO    Thread-12 :18663 [dir_watcher.py:_on_file_created():271] file/dir created: ./wandb/run-20240618_154057-mh9mcc9n/files/wandb-metadata.json
+2024-06-18 15:41:05,136 INFO    Thread-12 :18663 [dir_watcher.py:_on_file_created():271] file/dir created: ./wandb/run-20240618_154057-mh9mcc9n/files/output.log
+2024-06-18 15:41:05,284 INFO    wandb-upload_0:18663 [upload_job.py:push():131] Uploaded file /var/folders/89/yf6sr3f103jfyn0hrg_qrbnw0000gn/T/tmpaniz5hcpwandb/77k54nis-wandb-metadata.json
+2024-06-18 15:41:07,154 INFO    Thread-12 :18663 [dir_watcher.py:_on_file_modified():288] file/dir modified: ./wandb/run-20240618_154057-mh9mcc9n/files/output.log
+2024-06-18 15:41:07,921 DEBUG   HandlerThread:18663 [handler.py:handle_request():146] handle_request: status_report
+2024-06-18 15:41:12,952 DEBUG   HandlerThread:18663 [handler.py:handle_request():146] handle_request: status_report
+2024-06-18 15:41:15,197 INFO    Thread-12 :18663 [dir_watcher.py:_on_file_modified():288] file/dir modified: ./wandb/run-20240618_154057-mh9mcc9n/files/output.log
+2024-06-18 15:41:18,912 DEBUG   HandlerThread:18663 [handler.py:handle_request():146] handle_request: status_report
+2024-06-18 15:41:19,391 DEBUG   HandlerThread:18663 [handler.py:handle_request():146] handle_request: stop_status
+2024-06-18 15:41:19,392 DEBUG   HandlerThread:18663 [handler.py:handle_request():146] handle_request: internal_messages
+2024-06-18 15:41:19,395 DEBUG   SenderThread:18663 [sender.py:send_request():406] send_request: stop_status
+2024-06-18 15:41:23,244 INFO    Thread-12 :18663 [dir_watcher.py:_on_file_modified():288] file/dir modified: ./wandb/run-20240618_154057-mh9mcc9n/files/output.log
+2024-06-18 15:41:23,998 DEBUG   HandlerThread:18663 [handler.py:handle_request():146] handle_request: status_report
+2024-06-18 15:41:29,077 DEBUG   HandlerThread:18663 [handler.py:handle_request():146] handle_request: status_report
+2024-06-18 15:41:30,324 INFO    Thread-12 :18663 [dir_watcher.py:_on_file_modified():288] file/dir modified: ./wandb/run-20240618_154057-mh9mcc9n/files/config.yaml
+2024-06-18 15:41:31,319 INFO    Thread-12 :18663 [dir_watcher.py:_on_file_modified():288] file/dir modified: ./wandb/run-20240618_154057-mh9mcc9n/files/output.log
+2024-06-18 15:41:34,448 DEBUG   HandlerThread:18663 [handler.py:handle_request():146] handle_request: internal_messages
+2024-06-18 15:41:34,454 DEBUG   HandlerThread:18663 [handler.py:handle_request():146] handle_request: stop_status
+2024-06-18 15:41:34,461 DEBUG   SenderThread:18663 [sender.py:send_request():406] send_request: stop_status
+2024-06-18 15:41:34,837 DEBUG   HandlerThread:18663 [handler.py:handle_request():146] handle_request: status_report
+2024-06-18 15:41:39,339 INFO    Thread-12 :18663 [dir_watcher.py:_on_file_modified():288] file/dir modified: ./wandb/run-20240618_154057-mh9mcc9n/files/output.log
+2024-06-18 15:41:40,550 DEBUG   HandlerThread:18663 [handler.py:handle_request():146] handle_request: status_report
+2024-06-18 15:41:45,572 DEBUG   HandlerThread:18663 [handler.py:handle_request():146] handle_request: status_report
+2024-06-18 15:41:49,389 INFO    Thread-12 :18663 [dir_watcher.py:_on_file_modified():288] file/dir modified: ./wandb/run-20240618_154057-mh9mcc9n/files/output.log
+2024-06-18 15:41:49,436 DEBUG   HandlerThread:18663 [handler.py:handle_request():146] handle_request: stop_status
+2024-06-18 15:41:49,437 DEBUG   SenderThread:18663 [sender.py:send_request():406] send_request: stop_status
+2024-06-18 15:41:49,460 DEBUG   HandlerThread:18663 [handler.py:handle_request():146] handle_request: internal_messages
+2024-06-18 15:41:50,927 DEBUG   HandlerThread:18663 [handler.py:handle_request():146] handle_request: status_report
+2024-06-18 15:41:55,946 DEBUG   HandlerThread:18663 [handler.py:handle_request():146] handle_request: status_report
+2024-06-18 15:41:58,229 DEBUG   SystemMonitor:18663 [system_monitor.py:_start():172] Starting system metrics aggregation loop
+2024-06-18 15:41:58,295 DEBUG   SenderThread:18663 [sender.py:send():379] send: telemetry
+2024-06-18 15:41:58,345 DEBUG   SenderThread:18663 [sender.py:send():379] send: stats
+2024-06-18 15:41:59,429 INFO    Thread-12 :18663 [dir_watcher.py:_on_file_modified():288] file/dir modified: ./wandb/run-20240618_154057-mh9mcc9n/files/output.log
+2024-06-18 15:42:01,380 DEBUG   HandlerThread:18663 [handler.py:handle_request():146] handle_request: status_report
+2024-06-18 15:42:02,436 INFO    Thread-12 :18663 [dir_watcher.py:_on_file_modified():288] file/dir modified: ./wandb/run-20240618_154057-mh9mcc9n/files/config.yaml
+2024-06-18 15:42:04,412 DEBUG   HandlerThread:18663 [handler.py:handle_request():146] handle_request: stop_status
+2024-06-18 15:42:04,414 DEBUG   HandlerThread:18663 [handler.py:handle_request():146] handle_request: internal_messages
+2024-06-18 15:42:04,419 DEBUG   SenderThread:18663 [sender.py:send_request():406] send_request: stop_status
+2024-06-18 15:42:07,853 DEBUG   HandlerThread:18663 [handler.py:handle_request():146] handle_request: status_report
+2024-06-18 15:42:11,467 INFO    Thread-12 :18663 [dir_watcher.py:_on_file_modified():288] file/dir modified: ./wandb/run-20240618_154057-mh9mcc9n/files/output.log
+2024-06-18 15:42:13,098 DEBUG   HandlerThread:18663 [handler.py:handle_request():146] handle_request: status_report
+2024-06-18 15:42:18,108 DEBUG   HandlerThread:18663 [handler.py:handle_request():146] handle_request: status_report
+2024-06-18 15:42:19,383 DEBUG   HandlerThread:18663 [handler.py:handle_request():146] handle_request: stop_status
+2024-06-18 15:42:19,383 DEBUG   SenderThread:18663 [sender.py:send_request():406] send_request: stop_status
+2024-06-18 15:42:19,397 DEBUG   HandlerThread:18663 [handler.py:handle_request():146] handle_request: internal_messages
+2024-06-18 15:42:23,716 DEBUG   HandlerThread:18663 [handler.py:handle_request():146] handle_request: status_report
+2024-06-18 15:42:26,455 INFO    cpu       :18663 [interfaces.py:monitor():140] Process cpu has exited.
+2024-06-18 15:42:26,456 INFO    memory    :18663 [interfaces.py:monitor():140] Process proc.memory.rssMB has exited.
+2024-06-18 15:42:26,458 DEBUG   SystemMonitor:18663 [system_monitor.py:_start():179] Finished system metrics aggregation loop
+2024-06-18 15:42:26,458 DEBUG   SystemMonitor:18663 [system_monitor.py:_start():183] Publishing last batch of metrics
+2024-06-18 15:42:26,461 DEBUG   SenderThread:18663 [sender.py:send():379] send: stats
+2024-06-18 15:42:28,532 INFO    MainThread:18663 [internal.py:handle_exit():76] Internal process exited

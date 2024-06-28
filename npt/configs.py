@@ -27,6 +27,26 @@ def build_parser():
     parser.add_argument(
         '--project', type=str, default='default',
         help='Wandb project name.')
+
+    ###########################################################################
+    # #### Dataset Config ########################################################
+    ###########################################################################
+    parser.add_argument('--dataset_path', type=str, default='./dataset', help='Path to the dataset')
+    parser.add_argument('--start_coeff_1', type=int, default=0, help='start point of beta range')
+    parser.add_argument('--start_coeff_2', type=int, default=0, help='start point of nu range')
+    parser.add_argument('--start_coeff_3', type=int, default=0, help='start point of rho range')
+
+    parser.add_argument('--end_coeff_1', type=int, default=0, help='end point of beta range')
+    parser.add_argument('--end_coeff_2', type=int, default=0, help='end point of nu range')
+    parser.add_argument('--end_coeff_3', type=int, default=0, help='end point of rho range')
+
+    parser.add_argument('--init_cond', type=str, default='sin_1')
+    parser.add_argument('--pde_type', type=str, default='convection')
+
+    parser.add_argument('--target_coeff_1', type=int, default=0, help='target coefficient beta')
+    parser.add_argument('--target_coeff_2', type=int, default=0, help='target coefficient nu')
+    parser.add_argument('--target_coeff_3', type=int, default=0, help='target coefficient rho')
+
     ###########################################################################
     # #### Data Config ########################################################
     ###########################################################################
@@ -37,7 +57,7 @@ def build_parser():
         '--data_path', type=str, default='data',
         help='Path of data')
     parser.add_argument(
-        '--data_set', type=str, default='breast-cancer',
+        '--data_set', type=str, default='ode',
         help=f'Currently supported are breast-cancer, poker-hand, '
         f'higgs, epsilon, forest-cover, boston-housing, mnist, yacht, '
         f'concrete, income, protein, cifar10.')
@@ -126,10 +146,10 @@ def build_parser():
         default=True, action='store_false',
         help='Full batch gradient descent (as opposed to mini-batch GD)')
     parser.add_argument(
-        '--exp_val_perc', type=float, default=0.1,
+        '--exp_val_perc', type=float, default=0,
         help='Percent of examples in validation set')
     parser.add_argument(
-        '--exp_test_perc', type=float, default=0.2,
+        '--exp_test_perc', type=float, default=1,
         help='Percent of examples in test set. '
              'Determines number of CV splits.')
     parser.add_argument(
@@ -483,7 +503,7 @@ def build_parser():
     # #### Normalization ######################################################
 
     parser.add_argument(
-        '--model_embedding_layer_norm', default=True, type='bool',
+        '--model_embedding_layer_norm', default=False, type='bool',
         help='(Disable) use of layer normalization after in-/out-embedding.')
     parser.add_argument(
         '--model_att_block_layer_norm', default=True, type='bool',
@@ -538,7 +558,7 @@ def build_parser():
     ###########################################################################
 
     parser.add_argument(
-        '--model_dim_hidden', type=int, default=64,
+        '--model_dim_hidden', type=int, default=128,
         help='Intermediate feature dimension.')
     parser.add_argument(
         '--model_num_heads', type=int, default=8,

@@ -1,0 +1,479 @@
+Loaded metadata for fixed test set. n_cv_splits set to 1.
+CV Splits for this dataset are cached. Loading from file.
+CV Index: 0
+Train-test Split 1/1
+Building NPT.
+All features are either categorical or numerical. Not going to bother doing feature type embeddings.
+Using feature type embedding (unique embedding for categorical and numerical features).
+Using feature index embedding (unique embedding for each column).
+Clipping gradients to value 1.0.
+Model has 31576838 parameters,batch size -1.
+Initialized "lookahead_lamb" optimizer.
+Warming up for 70000.0/100000.0 steps.
+Initialized "flat_and_anneal" learning rate scheduler.
+Initialized "cosine" augmentation/label tradeoff annealer. Annealing to minimum value in 100000 steps.
+Disabled AUROC in loss module.
+end_experiment or self.eval_check(epoch) False False
+Dataset mode -----  train
+loss indices {'label': tensor([[0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        ...,
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.]], requires_grad=True), 'augmentation': tensor([[0., 0., 0., 0., 1., 1.],
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        ...,
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 1., 0.],
+        [0., 0., 0., 0., 0., 0.]], requires_grad=True)}
+Computing PINNs Loss:
+0 tensor(193., grad_fn=<SumBackward0>)
+/Users/devu/anaconda3/envs/npt/lib/python3.8/site-packages/torch/optim/lr_scheduler.py:143: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  warnings.warn("Detected call of `lr_scheduler.step()` before `optimizer.step()`. "
+/Users/devu/PycharmProjects/non-parametric-transformers/npt/mask.py:108: UserWarning: torch.sparse.SparseTensor(indices, values, shape, *, device=) is deprecated.  Please use torch.sparse_coo_tensor(indices, values, shape, dtype=, device=). (Triggered internally at /Users/runner/work/_temp/anaconda/conda-bld/pytorch_1711403207619/work/torch/csrc/utils/tensor_new.cpp:620.)
+  mask = torch.sparse.FloatTensor(
+residual tensor([[ 0.0057,  0.0499],
+        [ 0.0190,  0.0496],
+        [-0.0005,  0.0269],
+        ...,
+        [-0.0306,  0.0552],
+        [ 0.0019,  0.0623],
+        [ 0.0057,  0.0512]], grad_fn=<SubBackward0>)
+torch.Size([1256, 2])
+Physics Loss:  tensor(0.0017, grad_fn=<MeanBackward0>)
+loss indices {'label': tensor([[0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        ...,
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.]], requires_grad=True), 'augmentation': tensor([[0., 0., 0., 0., 1., 1.],
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        ...,
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 1., 0.],
+        [0., 0., 0., 0., 0., 0.]], requires_grad=True)}
+Computing PINNs Loss:
+1 tensor(172., grad_fn=<SumBackward0>)
+residual tensor([[-0.0083, -0.0173],
+        [-0.0056, -0.0046],
+        [-0.0159, -0.0620],
+        ...,
+        [-0.0044, -0.0350],
+        [-0.0331, -0.0676],
+        [-0.0108, -0.0375]], grad_fn=<SubBackward0>)
+torch.Size([1256, 2])
+Physics Loss:  tensor(0.0016, grad_fn=<MeanBackward0>)
+loss indices {'label': tensor([[0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        ...,
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.]], requires_grad=True), 'augmentation': tensor([[0., 0., 0., 0., 1., 1.],
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        ...,
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 1., 0.],
+        [0., 0., 0., 0., 0., 0.]], requires_grad=True)}
+Computing PINNs Loss:
+2 tensor(1., grad_fn=<SumBackward0>)
+1098
+yoooo
+residual tensor([[-0.0114, -0.0176],
+        [-0.0331, -0.0232],
+        [-0.0004, -0.0172],
+        ...,
+        [ 0.0065, -0.0365],
+        [ 0.0277, -0.0610],
+        [ 0.0187, -0.0371]], grad_fn=<SubBackward0>)
+torch.Size([1256, 2])
+Physics Loss:  tensor(0.0011, grad_fn=<MeanBackward0>)
+Computing PINNs Loss:
+2 tensor(37., grad_fn=<SumBackward0>)
+3
+yoooo
+12
+yoooo
+47
+yoooo
+67
+yoooo
+103
+yoooo
+112
+yoooo
+179
+yoooo
+246
+yoooo
+253
+yoooo
+299
+yoooo
+316
+yoooo
+381
+yoooo
+385
+yoooo
+407
+yoooo
+446
+yoooo
+473
+yoooo
+492
+yoooo
+535
+yoooo
+554
+yoooo
+566
+yoooo
+572
+yoooo
+647
+yoooo
+676
+yoooo
+690
+yoooo
+695
+yoooo
+706
+yoooo
+718
+yoooo
+764
+yoooo
+822
+yoooo
+925
+yoooo
+964
+yoooo
+972
+yoooo
+992
+yoooo
+1010
+yoooo
+1017
+yoooo
+1077
+yoooo
+1224
+yoooo
+residual tensor([[-0.0114, -0.0176],
+        [-0.0331, -0.0232],
+        [-0.0004, -0.0172],
+        ...,
+        [ 0.0065, -0.0365],
+        [ 0.0277, -0.0610],
+        [ 0.0187, -0.0371]], grad_fn=<SubBackward0>)
+torch.Size([1256, 2])
+Physics Loss:  tensor(0.0011, grad_fn=<MeanBackward0>)
+loss indices {'label': tensor([[0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        ...,
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.]], requires_grad=True), 'augmentation': tensor([[0., 0., 0., 0., 1., 1.],
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        ...,
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 1., 0.],
+        [0., 0., 0., 0., 0., 0.]], requires_grad=True)}
+Computing PINNs Loss:
+3 tensor(202., grad_fn=<SumBackward0>)
+residual tensor([[-0.0162, -0.0239],
+        [-0.0098, -0.0392],
+        [ 0.0241, -0.0453],
+        ...,
+        [ 0.0022, -0.0534],
+        [ 0.0019, -0.0334],
+        [ 0.0109, -0.0192]], grad_fn=<SubBackward0>)
+torch.Size([1256, 2])
+Physics Loss:  tensor(0.0007, grad_fn=<MeanBackward0>)
+loss indices {'label': tensor([[0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        ...,
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.]], requires_grad=True), 'augmentation': tensor([[0., 0., 0., 0., 1., 1.],
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        ...,
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 1., 0.],
+        [0., 0., 0., 0., 0., 0.]], requires_grad=True)}
+Computing PINNs Loss:
+4 tensor(179., grad_fn=<SumBackward0>)
+residual tensor([[-0.0011,  0.0048],
+        [-0.0134,  0.0281],
+        [ 0.0009,  0.0323],
+        ...,
+        [ 0.0038, -0.0095],
+        [ 0.0261,  0.0274],
+        [ 0.0266,  0.0466]], grad_fn=<SubBackward0>)
+torch.Size([1256, 2])
+Physics Loss:  tensor(0.0008, grad_fn=<MeanBackward0>)
+loss indices {'label': tensor([[0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        ...,
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.]], requires_grad=True), 'augmentation': tensor([[0., 0., 0., 0., 1., 1.],
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        ...,
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 1., 0.],
+        [0., 0., 0., 0., 0., 0.]], requires_grad=True)}
+Computing PINNs Loss:
+5 tensor(187., grad_fn=<SumBackward0>)
+residual tensor([[-0.0127, -0.0159],
+        [-0.0183, -0.0393],
+        [ 0.0128, -0.0557],
+        ...,
+        [ 0.0111, -0.0132],
+        [-0.0059, -0.0197],
+        [-0.0086, -0.0229]], grad_fn=<SubBackward0>)
+torch.Size([1256, 2])
+Physics Loss:  tensor(0.0008, grad_fn=<MeanBackward0>)
+Done -------------------------epoch  1
+end_experiment or self.eval_check(epoch) False False
+Dataset mode -----  train
+loss indices {'label': tensor([[0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        ...,
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.]], requires_grad=True), 'augmentation': tensor([[0., 0., 0., 0., 1., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        ...,
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.]], requires_grad=True)}
+Computing PINNs Loss:
+0 tensor(211., grad_fn=<SumBackward0>)
+residual tensor([[ 0.0180,  0.0152],
+        [ 0.0243, -0.0050],
+        [ 0.0082, -0.0034],
+        ...,
+        [ 0.0317,  0.0183],
+        [-0.0143, -0.0114],
+        [ 0.0357,  0.0196]], grad_fn=<SubBackward0>)
+torch.Size([1256, 2])
+Physics Loss:  tensor(0.0005, grad_fn=<MeanBackward0>)
+loss indices {'label': tensor([[0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        ...,
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.]], requires_grad=True), 'augmentation': tensor([[0., 0., 0., 0., 1., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        ...,
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.]], requires_grad=True)}
+Computing PINNs Loss:
+1 tensor(174., grad_fn=<SumBackward0>)
+residual tensor([[-0.0068,  0.0197],
+        [-0.0141, -0.0357],
+        [ 0.0151, -0.0312],
+        ...,
+        [-0.0191, -0.0153],
+        [-0.0033,  0.0270],
+        [-0.0152, -0.0213]], grad_fn=<SubBackward0>)
+torch.Size([1256, 2])
+Physics Loss:  tensor(0.0006, grad_fn=<MeanBackward0>)
+loss indices {'label': tensor([[0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        ...,
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.]], requires_grad=True), 'augmentation': tensor([[0., 0., 0., 0., 1., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        ...,
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.]], requires_grad=True)}
+Computing PINNs Loss:
+2 tensor(1., grad_fn=<SumBackward0>)
+1196
+yoooo
+residual tensor([[ 0.0279, -0.0209],
+        [-0.0262,  0.0265],
+        [ 0.0261,  0.0212],
+        ...,
+        [ 0.0171, -0.0233],
+        [ 0.0191, -0.0218],
+        [ 0.0067, -0.0308]], grad_fn=<SubBackward0>)
+torch.Size([1256, 2])
+Physics Loss:  tensor(0.0004, grad_fn=<MeanBackward0>)
+Computing PINNs Loss:
+2 tensor(46., grad_fn=<SumBackward0>)
+24
+yoooo
+44
+yoooo
+54
+yoooo
+67
+yoooo
+99
+yoooo
+104
+yoooo
+167
+yoooo
+184
+yoooo
+185
+yoooo
+195
+yoooo
+203
+yoooo
+208
+yoooo
+234
+yoooo
+266
+yoooo
+270
+yoooo
+315
+yoooo
+428
+yoooo
+479
+yoooo
+509
+yoooo
+513
+yoooo
+561
+yoooo
+667
+yoooo
+673
+yoooo
+689
+yoooo
+699
+yoooo
+706
+yoooo
+717
+yoooo
+735
+yoooo
+757
+yoooo
+758
+yoooo
+778
+yoooo
+825
+yoooo
+853
+yoooo
+856
+yoooo
+885
+yoooo
+944
+yoooo
+951
+yoooo
+968
+yoooo
+988
+yoooo
+1055
+yoooo
+1068
+yoooo
+1090
+yoooo
+1150
+yoooo
+1173
+yoooo
+1221
+yoooo
+1224
+yoooo
+Traceback (most recent call last):
+  File "run.py", line 204, in <module>
+    main(args)
+  File "run.py", line 23, in main
+    run_cv(args=args, wandb_args=wandb_args)
+  File "run.py", line 117, in run_cv
+    run_cv_splits(wandb_args, args, c, wandb_run)
+  File "run.py", line 195, in run_cv_splits
+    trainer.train_and_eval()
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/train.py", line 216, in train_and_eval
+    if self.per_epoch_train_eval(epoch=epoch):
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/train.py", line 171, in per_epoch_train_eval
+    train_loss = self.run_epoch(dataset_mode='train', epoch=epoch,
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/train.py", line 437, in run_epoch
+    self.run_batch(
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/train.py", line 546, in run_batch
+    self.forward_and_loss(**forward_kwargs)
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/train.py", line 613, in forward_and_loss
+    self.loss.compute(**loss_kwargs)
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/loss.py", line 96, in compute
+    loss_dict = self.compute_loss(*args, **kwargs)
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/loss.py", line 326, in compute_loss
+    # Compute PINNs loss
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/loss.py", line 157, in convection_diffusion_loss
+    u_xx = torch.autograd.grad(u_x.sum(), x, create_graph=True)[0]
+  File "/Users/devu/anaconda3/envs/npt/lib/python3.8/site-packages/torch/autograd/__init__.py", line 411, in grad
+    result = Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "run.py", line 204, in <module>
+    main(args)
+  File "run.py", line 23, in main
+    run_cv(args=args, wandb_args=wandb_args)
+  File "run.py", line 117, in run_cv
+    run_cv_splits(wandb_args, args, c, wandb_run)
+  File "run.py", line 195, in run_cv_splits
+    trainer.train_and_eval()
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/train.py", line 216, in train_and_eval
+    if self.per_epoch_train_eval(epoch=epoch):
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/train.py", line 171, in per_epoch_train_eval
+    train_loss = self.run_epoch(dataset_mode='train', epoch=epoch,
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/train.py", line 437, in run_epoch
+    self.run_batch(
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/train.py", line 546, in run_batch
+    self.forward_and_loss(**forward_kwargs)
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/train.py", line 613, in forward_and_loss
+    self.loss.compute(**loss_kwargs)
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/loss.py", line 96, in compute
+    loss_dict = self.compute_loss(*args, **kwargs)
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/loss.py", line 326, in compute_loss
+    # Compute PINNs loss
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/loss.py", line 157, in convection_diffusion_loss
+    u_xx = torch.autograd.grad(u_x.sum(), x, create_graph=True)[0]
+  File "/Users/devu/anaconda3/envs/npt/lib/python3.8/site-packages/torch/autograd/__init__.py", line 411, in grad
+    result = Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+KeyboardInterrupt

@@ -41,7 +41,7 @@ def get_class_reg_train_val_test_splits(
     If fixed_test_set_index is not None,
     use the index to perform the test split
     """
-    if should_stratify and label_rows.dtype == np.object:
+    if should_stratify and label_rows.dtype == object:
         from sklearn.preprocessing import LabelEncoder
         # Encode the label column
         label_rows = LabelEncoder().fit_transform(label_rows)
@@ -58,7 +58,7 @@ def get_class_reg_train_val_test_splits(
     else:
         kf_class = StratifiedKFold if should_stratify else KFold
         kf = kf_class(
-            n_splits=n_cv_splits, shuffle=True, random_state=c.np_seed)
+            n_splits=n_cv_splits, shuffle=False, random_state=c.np_seed)
         train_test_splits = kf.split(np.arange(N), label_rows)
 
     for train_val_indices, test_indices in train_test_splits:
@@ -72,7 +72,7 @@ def get_class_reg_train_val_test_splits(
                 train_val_label_rows = None
 
             train_indices, val_indices = train_test_split(
-                train_val_indices, test_size=normed_val_perc, shuffle=True,
+                train_val_indices, test_size=normed_val_perc, shuffle=False,
                 random_state=c.np_seed, stratify=train_val_label_rows)
         else:
             train_indices = train_val_indices
@@ -82,7 +82,7 @@ def get_class_reg_train_val_test_splits(
         test_perc = len(test_indices) / N
         print(
             f'Percentage of each group: Train {train_perc:.2f} '
-            f'| {val_perc:.2f} | {test_perc:.2f}')
+            f'| Val {val_perc:.2f} | Test {test_perc:.2f}')
 
         if c.exp_show_empirical_label_dist:
             print('Empirical Label Distributions:')
@@ -96,7 +96,6 @@ def get_class_reg_train_val_test_splits(
                     for key in sorted(class_counter.keys())}
                 print(f'{split_name}:')
                 print(class_proportions)
-
         yield train_indices, val_indices, test_indices
 
 

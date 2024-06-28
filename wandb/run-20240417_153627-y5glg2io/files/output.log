@@ -1,0 +1,123 @@
+CV Splits for this dataset are cached. Loading from file.
+CV Index: 0
+Train-test Split 1/5
+c.exp_n_runs = 1. Stopping at 1 splits.
+Building NPT.
+Using feature type embedding (unique embedding for categorical and numerical features).
+Using feature index embedding (unique embedding for each column).
+Clipping gradients to value 1.0.
+Model has 205023200 parameters,batch size -1.
+Initialized "lookahead_lamb" optimizer.
+Warming up for 70000.0/100000.0 steps.
+Initialized "flat_and_anneal" learning rate scheduler.
+Initialized "cosine" augmentation/label tradeoff annealer. Annealing to minimum value in 100000 steps.
+Using AUROC in loss module.
+/Users/devu/anaconda3/envs/npt/lib/python3.8/site-packages/torch/optim/lr_scheduler.py:143: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  warnings.warn("Detected call of `lr_scheduler.step()` before `optimizer.step()`. "
+/Users/devu/PycharmProjects/non-parametric-transformers/npt/mask.py:108: UserWarning: torch.sparse.SparseTensor(indices, values, shape, *, device=) is deprecated.  Please use torch.sparse_coo_tensor(indices, values, shape, dtype=, device=). (Triggered internally at /Users/runner/work/_temp/anaconda/conda-bld/pytorch_1711403207619/work/torch/csrc/utils/tensor_new.cpp:620.)
+  mask = torch.sparse.FloatTensor(
+X encoded Size:  torch.Size([569, 31, 64]) tensor([[[-2.1683e-01, -2.6749e-01,  5.2106e-01,  ...,  4.4190e-02,
+           1.3279e-01, -9.2809e-02],
+         [-5.4170e-01, -8.5221e-01,  9.9480e-02,  ..., -3.3746e-02,
+           3.8787e-01,  6.5126e-01],
+         [ 2.6908e-01, -0.0000e+00,  3.4451e-01,  ...,  2.4546e-01,
+          -2.2299e-02,  6.5528e-01],
+         ...,
+         [ 1.0774e-01, -6.0379e-01,  2.5836e-01,  ...,  4.0985e-01,
+          -1.7877e-01, -5.2463e-02],
+         [-6.1630e-02,  0.0000e+00,  7.1673e-02,  ..., -2.9523e-01,
+          -2.4192e-01, -7.9697e-02],
+         [-0.0000e+00, -4.7164e-01, -1.6600e-01,  ..., -1.2692e-01,
+           2.2909e-01,  8.7935e-02]],
+        [[ 1.3738e-01, -8.6734e-01,  4.0786e-01,  ...,  1.7887e-02,
+           2.2023e-01,  2.6445e-01],
+         [-0.0000e+00, -9.5686e-01,  2.6947e-01,  ...,  3.0031e-03,
+           6.2306e-01,  1.0507e+00],
+         [-9.3995e-02, -0.0000e+00, -7.4552e-02,  ..., -1.8212e-01,
+          -4.0164e-01,  3.2591e-01],
+         ...,
+         [-2.9123e-01, -6.8323e-01, -1.6605e-01,  ...,  4.1308e-01,
+          -3.9481e-02, -0.0000e+00],
+         [-1.4717e-02, -4.5191e-01,  1.3852e-01,  ..., -1.7414e-01,
+           6.3918e-02, -4.5476e-01],
+         [ 1.3475e-01, -4.7849e-01, -1.4873e-01,  ..., -7.4418e-02,
+           2.9610e-01, -4.0189e-01]],
+        [[-5.7565e-01, -0.0000e+00,  3.5590e-01,  ..., -2.0314e-01,
+           0.0000e+00, -2.9526e-01],
+         [-6.8076e-01, -5.6475e-01,  1.3326e-01,  ...,  6.3953e-02,
+           5.7290e-01,  2.5168e-01],
+         [ 7.4601e-04, -6.5446e-01, -6.5922e-02,  ...,  1.6471e-01,
+          -1.3016e-01,  2.0230e-01],
+         ...,
+         [ 8.5617e-02, -1.0755e+00,  1.0544e-01,  ...,  1.7630e-01,
+           1.1774e-02,  1.2876e-01],
+         [-1.4749e-02, -5.0955e-02,  3.9472e-02,  ...,  1.4204e-01,
+          -6.9642e-02, -8.1715e-02],
+         [-2.0233e-01, -7.2715e-01, -1.6080e-01,  ...,  3.3341e-01,
+           4.1068e-02, -1.4579e-01]],
+        ...,
+        [[-1.5586e-01, -6.3737e-01,  5.3644e-01,  ...,  2.2106e-01,
+           1.9724e-01,  1.9464e-01],
+         [-1.3075e-01, -7.1289e-01,  2.5162e-02,  ...,  4.4992e-01,
+           2.2881e-01,  9.6715e-01],
+         [ 3.2043e-01, -6.0613e-01,  1.4807e-01,  ..., -2.1282e-01,
+          -1.1061e-01,  1.6651e-01],
+         ...,
+         [-2.7065e-01, -8.1734e-01, -9.6379e-02,  ...,  5.2750e-01,
+          -7.8285e-02,  2.8472e-01],
+         [-2.0193e-01,  1.2171e-01,  6.2098e-02,  ..., -0.0000e+00,
+           0.0000e+00, -2.1084e-01],
+         [ 5.7911e-02, -0.0000e+00, -0.0000e+00,  ..., -8.8972e-02,
+           1.9376e-01, -6.0741e-02]],
+        [[-0.0000e+00,  5.0036e-02,  2.6034e-01,  ..., -9.8894e-02,
+           1.3069e-01, -1.7018e-01],
+         [-6.4012e-03, -0.0000e+00,  2.2263e-01,  ...,  4.1374e-01,
+           7.9492e-02,  7.4074e-01],
+         [-2.0053e-01, -5.0180e-02,  0.0000e+00,  ..., -3.5249e-01,
+          -6.5377e-02,  2.6823e-01],
+         ...,
+         [-7.9949e-02, -6.7933e-01,  4.0862e-01,  ...,  0.0000e+00,
+           1.1697e-01, -1.0959e-01],
+         [ 1.0344e-01, -1.0716e-03,  3.1792e-01,  ...,  2.6934e-01,
+          -2.9159e-01, -6.2740e-02],
+         [ 1.9369e-01, -7.7912e-01, -3.0310e-01,  ..., -1.1156e-01,
+           4.4014e-01,  1.6916e-01]],
+        [[-1.0635e-02, -6.9936e-01,  2.1220e-01,  ...,  1.0424e-02,
+           1.7101e-01,  3.9608e-01],
+         [-5.3188e-01, -7.6695e-01,  1.4214e-01,  ...,  3.8854e-01,
+           4.9159e-01,  6.9077e-01],
+         [ 1.6468e-01, -5.9063e-01,  2.1247e-01,  ..., -1.2106e-01,
+          -5.1565e-01,  1.4849e-01],
+         ...,
+         [-4.0219e-01, -3.0074e-01,  6.0498e-01,  ...,  2.2637e-01,
+           1.0497e-01, -1.6577e-02],
+         [ 2.0956e-01, -0.0000e+00,  3.0283e-01,  ..., -2.5971e-01,
+          -2.6216e-01, -0.0000e+00],
+         [ 3.5584e-02, -6.6712e-01, -3.0656e-01,  ..., -2.1766e-01,
+           4.4466e-01, -1.7586e-01]]], grad_fn=<MulBackward0>)
+Traceback (most recent call last):
+  File "run.py", line 204, in <module>
+    main(args)
+  File "run.py", line 23, in main
+    run_cv(args=args, wandb_args=wandb_args)
+  File "run.py", line 117, in run_cv
+    run_cv_splits(wandb_args, args, c, wandb_run)
+  File "run.py", line 195, in run_cv_splits
+    trainer.train_and_eval()
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/train.py", line 217, in train_and_eval
+    if self.per_epoch_train_eval(epoch=epoch):
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/train.py", line 172, in per_epoch_train_eval
+    train_loss = self.run_epoch(dataset_mode='train', epoch=epoch,
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/train.py", line 437, in run_epoch
+    self.run_batch(
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/train.py", line 546, in run_batch
+    self.forward_and_loss(**forward_kwargs)
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/train.py", line 601, in forward_and_loss
+    output = self.model(masked_tensors, **extra_args)
+  File "/Users/devu/anaconda3/envs/npt/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/Users/devu/anaconda3/envs/npt/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/model/npt.py", line 447, in forward
+    print('\n X_ragged encoded Size: ', X_ragged.size(),X_ragged)
+AttributeError: 'list' object has no attribute 'size'

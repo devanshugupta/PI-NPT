@@ -5,11 +5,14 @@ import pickle
 import numpy as np
 import torch
 
+from npt.datasets.ODE import OrdinaryDifferentialEquationDataset
+
 from npt.batch_dataset import NPTBatchDataset
 from npt.datasets.base import BaseDataset
 from npt.datasets.boston_housing import BostonHousingDataset
 from npt.datasets.breast_cancer import (
     BreastCancerClassificationDataset, BreastCancerDebugClassificationDataset)
+
 from npt.datasets.cifar10 import CIFAR10Dataset
 from npt.datasets.concrete import ConcreteDataset
 from npt.datasets.debug import DebugDataset
@@ -43,7 +46,8 @@ DATASET_NAME_TO_DATASET_MAP = {
     'breast-cancer-debug': BreastCancerDebugClassificationDataset,
     'debug': DebugDataset,
     'cifar10': CIFAR10Dataset,
-    'kick': KickDataset
+    'kick': KickDataset,
+    'ode': OrdinaryDifferentialEquationDataset
 }
 
 # Preprocessed separately for data augmentation
@@ -82,7 +86,7 @@ class ColumnEncodingDataset:
         # Retrieve dataset class and metadata
         try:
             self._dataset = DATASET_NAME_TO_DATASET_MAP[
-                self.c.data_set](self.c)  # type: BaseDataset
+                self.c.data_set](self.c)  # type: #BaseDataset
         except KeyError:
             raise NotImplementedError(
                 f'Have not implemented dataset {self.c.data_set}')
@@ -90,8 +94,10 @@ class ColumnEncodingDataset:
         # Retrieve pathing information
         self.cache_path, self.model_cache_path, self.n_cv_splits = (
             self.init_cache_path_and_splits())
+
         self.metadata_path = os.path.join(
             self.cache_path, 'dataset__metadata.json')
+
         # Generate dataset
         self.reset_cv_splits()
 
@@ -109,6 +115,8 @@ class ColumnEncodingDataset:
                 'Have loaded too many datasets for our n_cv_splits.')
 
         self.cv_dataset = next(self.dataset_gen)
+
+
 
     """Model and Mode Settings"""
 
@@ -209,6 +217,21 @@ class ColumnEncodingDataset:
             key: data_dict[key]
             for key in METADATA_FIELDS}
 
+        '''def convert_ndarray_to_list(d):
+            """
+            Recursively convert numpy arrays in a dictionary to lists.
+            """
+            for k, v in d.items():
+                if isinstance(v, np.ndarray):
+
+                    d[k] = v.tolist()
+                elif isinstance(v, dict):
+                    d[k] = convert_ndarray_to_list(v)
+            return d
+
+        # Assuming metadata_dict is your dictionary containing numpy arrays
+        metadata_dict = convert_ndarray_to_list(metadata_dict)'''
+        #print('metadata', metadata_dict)
         with open(self.metadata_path, 'w') as f:
             json.dump(metadata_dict, fp=f)
 
@@ -231,6 +254,7 @@ class ColumnEncodingDataset:
                     f' GB')
 
             if self.is_torch_model:
+                #print('data dict', data_dict)
                 yield self.load_torch_dataset(data_dict)
             else:
                 data_dict['data_arrs'] = data_dict['data_table']
@@ -238,6 +262,8 @@ class ColumnEncodingDataset:
                 yield data_dict
 
     def load_torch_dataset(self, data_dict):
+        #here
+        print('lead torch dataset NPT')
         mask_torch_data = {}
 
         # Convert all mask and data matrices to torch,
@@ -254,7 +280,6 @@ class ColumnEncodingDataset:
         for mask_matrix_name in TORCH_MASK_MATRICES:
             mask_torch_data[mask_matrix_name] = torch.tensor(
                 data_dict[mask_matrix_name], **mask_matrix_args)
-
         # Convert data table
         data_arrs = []
 
@@ -264,9 +289,8 @@ class ColumnEncodingDataset:
         mask_torch_data['data_arrs'] = data_arrs
 
         # Don't need to convert to tensor -- used in batching
-        mask_torch_data[
-            'new_train_val_test_indices'] = data_dict[
-            'new_train_val_test_indices']
+        mask_torch_data['new_train_val_test_indices'] = data_dict['new_train_val_test_indices']
+        #print('mask torch data', mask_torch_data)
 
         return NPTBatchDataset(
             data_dict=mask_torch_data,
@@ -299,13 +323,15 @@ class ColumnEncodingDataset:
             self.n_cv_splits = 1
 
     """Preprocessing: Data Generation Helper Functions"""
-
+    # Getting data_dict from ODE data
     def get_data_dict(self):
         # Get Data
         data_dict = self._dataset.get_data_dict(
             force_disable_auroc=self.c.data_set in IMAGE_DATASETS)
+
         assert np.intersect1d(
             data_dict['num_features'], data_dict['cat_features']).size == 0
+
         return data_dict
 
     """Preprocessing: Main Functions"""
@@ -349,6 +375,7 @@ class ColumnEncodingDataset:
                 self.update_data_attrs(data=self.metadata)
 
             except FileNotFoundError:
+                print('===== Metadata File not Found =====')
                 pass
 
         tabnet_mode = (self.c.model_class == 'sklearn-baselines' and
@@ -374,6 +401,7 @@ class ColumnEncodingDataset:
 
         # Skip dataset generation and caching if files are available
         if not self.are_datasets_cached():
+            print('Datasets not cached')
             # Load data dict information
             data_dict = self.get_data_dict()
 
@@ -427,6 +455,7 @@ class ColumnEncodingDataset:
         if tabnet_mode:
             return iter(data_dicts)
         else:
+            #here print
             return self.load_datasets()
 
     def generate_classification_regression_dataset(self, data_dict):
@@ -442,6 +471,7 @@ class ColumnEncodingDataset:
         D = data_dict['D']
         cat_features = data_dict['cat_features']
         num_features = data_dict['num_features']
+
         auroc_setting = data_dict['auroc_setting']
         fixed_test_set_index = data_dict['fixed_test_set_index']
         fixed_split_indices = data_dict['fixed_split_indices']
@@ -470,8 +500,8 @@ class ColumnEncodingDataset:
             # generates only one train-test split
             train_val_test_splits = get_class_reg_train_val_test_splits(
                 target_col_arr, c,
-                should_stratify=should_stratify,
-                fixed_test_set_index=fixed_test_set_index)
+                should_stratify=False,
+                fixed_test_set_index = fixed_test_set_index)
 
         for split_idx, (train_val_test_indices) in enumerate(
                 train_val_test_splits):
@@ -492,6 +522,7 @@ class ColumnEncodingDataset:
                 data_table[train_val_test_indices[2]]], axis=0)
 
             lens = np.cumsum([0] + [len(i) for i in train_val_test_indices])
+            print('train val test split: ',lens)
             new_train_val_test_indices = [
                 list(range(lens[i], lens[i + 1]))
                 for i in range(len(lens) - 1)]
@@ -519,6 +550,7 @@ class ColumnEncodingDataset:
             # Build train, val, test bit matrices -- 1's where labels are
             train_mask_matrix, val_mask_matrix, test_mask_matrix = [
                 get_matrix_from_rows(
+                    missing_matrix=missing_matrix,
                     rows=dataset_mode_rows,
                     cols=cat_target_cols + num_target_cols,  # Both lists
                     N=N, D=D)
@@ -527,25 +559,40 @@ class ColumnEncodingDataset:
             # Need to rebuild missing matrix with new index ordering
             new_missing_matrix = missing_matrix[
                 np.concatenate(
-                    [indices for indices in new_train_val_test_indices])]
-
+                    [indices for indices in new_train_val_test_indices if indices])]
+            #here
+            #print('new missing matrix -------------', new_missing_matrix)
+            # Is bert mask required? Can be removed?
             bert_mask_matrix = ~(
                     train_mask_matrix | val_mask_matrix |
-                    test_mask_matrix | missing_matrix)
+                    test_mask_matrix | missing_matrix )
 
             # There should be no overlap between the matrices.
             # Also no entries should be missed. This assert checks for that.
+            '''
             assert np.array_equal(
                 train_mask_matrix ^ val_mask_matrix ^ test_mask_matrix ^
                 new_missing_matrix ^ bert_mask_matrix, np.ones((N, D)))
+            '''
+
+            '''
+            #Same as above without bert mask
+            assert np.array_equal(
+                train_mask_matrix ^ val_mask_matrix ^ test_mask_matrix ^
+                new_missing_matrix, np.zeros((N, D)))
+            '''
             assert not np.array_equal(
                 train_mask_matrix, np.zeros((N, D)))
+            '''
             assert not np.array_equal(
                 val_mask_matrix, np.zeros((N, D)))
+            '''
             assert not np.array_equal(
                 test_mask_matrix, np.zeros((N, D)))
             assert not np.array_equal(
                 bert_mask_matrix, np.zeros((N, D)))
+
+            #print(new_missing_matrix)
 
             data_dict = dict(
                 split_idx=split_idx,
@@ -556,6 +603,7 @@ class ColumnEncodingDataset:
                 num_features=num_features,
                 cat_target_cols=cat_target_cols,
                 num_target_cols=num_target_cols,
+
                 auroc_setting=auroc_setting,
                 missing_matrix=new_missing_matrix,
                 train_mask_matrix=train_mask_matrix,
@@ -567,7 +615,6 @@ class ColumnEncodingDataset:
                 new_train_val_test_indices=new_train_val_test_indices,
                 row_boundaries=row_boundaries,
                 fixed_test_set_index=fixed_test_set_index)
-
             yield data_dict
 
 

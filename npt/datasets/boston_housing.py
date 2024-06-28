@@ -1,5 +1,7 @@
 import numpy as np
-from sklearn.datasets import load_boston
+import pandas as pd
+
+#from sklearn.datasets import load_boston
 
 from npt.datasets.base import BaseDataset
 
@@ -49,8 +51,12 @@ class BostonHousingDataset(BaseDataset):
         give you an MSE of 1.
 
         """
+        data_url = "http://lib.stat.cmu.edu/datasets/boston"
+        raw_df = pd.read_csv(data_url, sep="\s+", skiprows=22, header=None)
+        x = np.hstack([raw_df.values[::2, :], raw_df.values[1::2, :2]])
+        y = raw_df.values[1::2, 2]
 
-        x, y = load_boston(return_X_y=True)
+        #x, y = load_boston(return_X_y=True)
 
         self.data_table = np.concatenate([x, y[:, np.newaxis]], 1)
 

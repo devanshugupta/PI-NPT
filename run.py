@@ -108,11 +108,12 @@ def run_cv(args, wandb_args):
         wandb_run = None
         c = args
     else:
-        wandb_run = wandb.init(**wandb_args)
+        wandb_run = wandb.init(**wandb_args, mode = 'offline')
         args.cv_index = 0
         wandb.config.update(args, allow_val_change=True)
         c = wandb.config
 
+    #print('c.model_class ==' ,c.model_class )
     if c.model_class == 'NPT':
         run_cv_splits(wandb_args, args, c, wandb_run)
     elif c.model_class == 'sklearn-baselines':
@@ -121,7 +122,7 @@ def run_cv(args, wandb_args):
 
 
 def run_cv_splits(wandb_args, args, c, wandb_run):
-
+    #print(c)
     dataset = ColumnEncodingDataset(c)
 
     #######################################################################
@@ -183,12 +184,13 @@ def run_cv_splits(wandb_args, args, c, wandb_run):
         # Initialise Model
         model, optimizer, scaler = init_model_opt_scaler_from_dataset(
             dataset=dataset, c=c, device=c.exp_device)
-
+        #print(model)
         # if not c.exp_azure_sweep:
         #     wandb.watch(model, log="all", log_freq=10)
 
         #######################################################################
         # Run training
+        #print(dataset.get_data_dict())
         trainer = Trainer(
             model=model, optimizer=optimizer, scaler=scaler,
             c=c, wandb_run=wandb_run, cv_index=cv_index, dataset=dataset)

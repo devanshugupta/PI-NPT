@@ -1,0 +1,1 @@
+{"N": 2456, "D": 6, "cat_features": [], "num_features": [0, 1, 2, 3, 4, 5], "cat_target_cols": [], "num_target_cols": [2], "input_feature_dims": [2, 2, 2, 2, 2, 2], "fixed_test_set_index": 1456, "auroc_setting": false}

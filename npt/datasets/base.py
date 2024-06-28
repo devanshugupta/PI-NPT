@@ -33,6 +33,7 @@ class BaseDataset(ABC):
         self.num_features = None
         self.cat_target_cols = None
         self.num_target_cols = None
+
         self.auroc_setting = None
         self.is_data_loaded = False
         self.tmp_file_or_dir_names = []  # Deleted if c.clear_tmp_files=True
@@ -68,6 +69,7 @@ class BaseDataset(ABC):
                     except OSError as e:
                         print("Error: %s - %s." % (e.filename, e.strerror))
 
+        #print(self.__dict__)
         return self.__dict__
 
     @abstractmethod

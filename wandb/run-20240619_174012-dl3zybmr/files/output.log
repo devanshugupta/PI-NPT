@@ -1,0 +1,75 @@
+Loaded metadata for fixed test set. n_cv_splits set to 1.
+CV Splits for this dataset are cached. Loading from file.
+CV Index: 0
+Train-test Split 1/1
+Building NPT.
+All features are either categorical or numerical. Not going to bother doing feature type embeddings.
+Using feature type embedding (unique embedding for categorical and numerical features).
+Using feature index embedding (unique embedding for each column).
+Clipping gradients to value 1.0.
+Model has 31576838 parameters,batch size -1.
+Initialized "lookahead_lamb" optimizer.
+Warming up for 70000.0/100000.0 steps.
+Initialized "flat_and_anneal" learning rate scheduler.
+Initialized "cosine" augmentation/label tradeoff annealer. Annealing to minimum value in 100000 steps.
+Disabled AUROC in loss module.
+end_experiment or self.eval_check(epoch) False False
+Dataset mode -----  train
+Computing PINNs Loss:
+0 tensor(193., grad_fn=<SumBackward0>)
+/Users/devu/anaconda3/envs/npt/lib/python3.8/site-packages/torch/optim/lr_scheduler.py:143: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  warnings.warn("Detected call of `lr_scheduler.step()` before `optimizer.step()`. "
+/Users/devu/PycharmProjects/non-parametric-transformers/npt/mask.py:108: UserWarning: torch.sparse.SparseTensor(indices, values, shape, *, device=) is deprecated.  Please use torch.sparse_coo_tensor(indices, values, shape, dtype=, device=). (Triggered internally at /Users/runner/work/_temp/anaconda/conda-bld/pytorch_1711403207619/work/torch/csrc/utils/tensor_new.cpp:620.)
+  mask = torch.sparse.FloatTensor(
+Traceback (most recent call last):
+  File "run.py", line 204, in <module>
+    main(args)
+  File "run.py", line 23, in main
+    run_cv(args=args, wandb_args=wandb_args)
+  File "run.py", line 117, in run_cv
+    run_cv_splits(wandb_args, args, c, wandb_run)
+  File "run.py", line 195, in run_cv_splits
+    trainer.train_and_eval()
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/train.py", line 216, in train_and_eval
+    if self.per_epoch_train_eval(epoch=epoch):
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/train.py", line 171, in per_epoch_train_eval
+    train_loss = self.run_epoch(dataset_mode='train', epoch=epoch,
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/train.py", line 437, in run_epoch
+    self.run_batch(
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/train.py", line 546, in run_batch
+    self.forward_and_loss(**forward_kwargs)
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/train.py", line 613, in forward_and_loss
+    self.loss.compute(**loss_kwargs)
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/loss.py", line 96, in compute
+    loss_dict = self.compute_loss(*args, **kwargs)
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/loss.py", line 327, in compute_loss
+    physics_loss = self.convection_diffusion_loss(
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/loss.py", line 140, in convection_diffusion_loss
+    u = output[col_mask].requires_grad_(True)
+IndexError: tensors used as indices must be long, int, byte or bool tensors
+Traceback (most recent call last):
+  File "run.py", line 204, in <module>
+    main(args)
+  File "run.py", line 23, in main
+    run_cv(args=args, wandb_args=wandb_args)
+  File "run.py", line 117, in run_cv
+    run_cv_splits(wandb_args, args, c, wandb_run)
+  File "run.py", line 195, in run_cv_splits
+    trainer.train_and_eval()
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/train.py", line 216, in train_and_eval
+    if self.per_epoch_train_eval(epoch=epoch):
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/train.py", line 171, in per_epoch_train_eval
+    train_loss = self.run_epoch(dataset_mode='train', epoch=epoch,
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/train.py", line 437, in run_epoch
+    self.run_batch(
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/train.py", line 546, in run_batch
+    self.forward_and_loss(**forward_kwargs)
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/train.py", line 613, in forward_and_loss
+    self.loss.compute(**loss_kwargs)
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/loss.py", line 96, in compute
+    loss_dict = self.compute_loss(*args, **kwargs)
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/loss.py", line 327, in compute_loss
+    physics_loss = self.convection_diffusion_loss(
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/loss.py", line 140, in convection_diffusion_loss
+    u = output[col_mask].requires_grad_(True)
+IndexError: tensors used as indices must be long, int, byte or bool tensors

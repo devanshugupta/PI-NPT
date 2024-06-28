@@ -142,11 +142,11 @@ class NPTModel(nn.Module):
             if c.model_hidden_dropout_prob else None)
 
         # LayerNorm applied after embedding, before dropout
-        if self.c.embedding_layer_norm and device is None:
+        if self.c.model_embedding_layer_norm and device is None:
             print(
                 'Must provide a device in NPT initialization with embedding '
                 'LayerNorm.')
-        elif self.c.embedding_layer_norm:
+        elif self.c.model_embedding_layer_norm:
             # we batch over rows and columns
             # (i.e. just normalize over E)
             layer_norm_dims = [self.dim_hidden]
@@ -154,9 +154,6 @@ class NPTModel(nn.Module):
                 layer_norm_dims, eps=self.c.model_layer_norm_eps)
         else:
             self.embedding_layer_norm = None
-
-        if True:
-            a = 1
 
         # *** Input In/Out Embeddings ***
         # Don't use for Image Patching - those are handled by the respective
@@ -439,7 +436,6 @@ class NPTModel(nn.Module):
         # dropout before e.g. projecting to logits for sentence classification)
         if self.embedding_dropout is not None:
             X = self.embedding_dropout(X)
-
         if self.image_patcher is None:
             # project back to ragged (dimensions D x {(NxH_j)}_j )
             # Is already split up across D
@@ -447,7 +443,6 @@ class NPTModel(nn.Module):
                 self.out_embedding)]
         else:
             X_ragged = self.image_patcher.decode(X)
-
         return X_ragged
 
 

@@ -1,0 +1,220 @@
+Loaded metadata for fixed test set. n_cv_splits set to 1.
+CV Splits for this dataset are cached. Loading from file.
+CV Index: 0
+Train-test Split 1/1
+Building NPT.
+All features are either categorical or numerical. Not going to bother doing feature type embeddings.
+Using feature type embedding (unique embedding for categorical and numerical features).
+Using feature index embedding (unique embedding for each column).
+Clipping gradients to value 1.0.
+Model has 11860614 parameters,batch size -1.
+Initialized "lookahead_lamb" optimizer.
+Warming up for 70000.0/100000.0 steps.
+Initialized "flat_and_anneal" learning rate scheduler.
+Initialized "cosine" augmentation/label tradeoff annealer. Annealing to minimum value in 100000 steps.
+Disabled AUROC in loss module.
+/Users/devu/anaconda3/envs/npt/lib/python3.8/site-packages/torch/optim/lr_scheduler.py:143: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  warnings.warn("Detected call of `lr_scheduler.step()` before `optimizer.step()`. "
+/Users/devu/PycharmProjects/non-parametric-transformers/npt/mask.py:108: UserWarning: torch.sparse.SparseTensor(indices, values, shape, *, device=) is deprecated.  Please use torch.sparse_coo_tensor(indices, values, shape, dtype=, device=). (Triggered internally at /Users/runner/work/_temp/anaconda/conda-bld/pytorch_1711403207619/work/torch/csrc/utils/tensor_new.cpp:620.)
+  mask = torch.sparse.FloatTensor(
+Validation loss has improved 1 times since last caching the model. Caching now.
+Storing new best performing model.
+Model checkpointing attempts: 0.
+Stored epoch 5 model checkpoint to data/ode/ssl__True/np_seed=42__n_cv_splits=5__exp_num_runs=1/model_checkpoints/model_5.pt.
+Val loss: 1.229548692703247.
+tradeoff 0.4999999980260791 | step 5 | epoch 5 | lr 0.001 | checkpoint_time 18.443 |
+Train Stats
+train_total_loss 0.710 | train_augmentation_total_loss 0.430 | train_augmentation_total_loss_unstd 0.147 | train_augmentation_num_loss 0.430 | train_augmentation_num_mse_loss 0.430 | train_augmentation_num_mse_loss_unstd 0.147 | train_augmentation_num_loss_unstd 0.147 | train_label_total_loss 0.990 | train_label_total_loss_unstd 3.157 | train_label_num_loss 0.990 | train_label_num_mse_loss 0.990 | train_label_num_mse_loss_unstd 3.157 | train_label_num_loss_unstd 3.157 |
+Val Stats
+val_total_loss 0.615 | val_label_total_loss 1.230 | val_label_total_loss_unstd 3.919 | val_label_num_loss 1.230 | val_label_num_mse_loss 1.230 | val_label_num_mse_loss_unstd 3.919 | val_label_num_loss_unstd 3.919 |
+Test Stats
+test_total_loss 0.509 | test_label_total_loss 1.017 | test_label_total_loss_unstd 3.243 | test_label_num_loss 1.017 | test_label_num_mse_loss 1.017 | test_label_num_mse_loss_unstd 3.243 | test_label_num_loss_unstd 3.243 |
+/Users/devu/PycharmProjects/non-parametric-transformers/npt/utils/optim_utils.py:53: UserWarning: This overload of add_ is deprecated:
+	add_(Number alpha, Tensor other)
+Consider using one of the following signatures instead:
+	add_(Tensor other, *, Number alpha) (Triggered internally at /Users/runner/work/_temp/anaconda/conda-bld/pytorch_1711403207619/work/torch/csrc/utils/python_arg_parser.cpp:1630.)
+  slow.add_(group['lookahead_alpha'], fast_p.data - slow)
+Validation loss has improved 1 times since last caching the model. Caching now.
+Storing new best performing model.
+Model checkpointing attempts: 0.
+Stored epoch 10 model checkpoint to data/ode/ssl__True/np_seed=42__n_cv_splits=5__exp_num_runs=1/model_checkpoints/model_10.pt.
+Val loss: 1.1671727895736694.
+tradeoff 0.4999999900070256 | step 10 | epoch 10 | lr 0.001 | checkpoint_time 12.051 |
+Train Stats
+train_total_loss 0.665 | train_augmentation_total_loss 0.398 | train_augmentation_total_loss_unstd 0.123 | train_augmentation_num_loss 0.398 | train_augmentation_num_mse_loss 0.398 | train_augmentation_num_mse_loss_unstd 0.123 | train_augmentation_num_loss_unstd 0.123 | train_label_total_loss 0.932 | train_label_total_loss_unstd 2.969 | train_label_num_loss 0.932 | train_label_num_mse_loss 0.932 | train_label_num_mse_loss_unstd 2.969 | train_label_num_loss_unstd 2.969 |
+Val Stats
+val_total_loss 0.584 | val_label_total_loss 1.167 | val_label_total_loss_unstd 3.720 | val_label_num_loss 1.167 | val_label_num_mse_loss 1.167 | val_label_num_mse_loss_unstd 3.720 | val_label_num_loss_unstd 3.720 |
+Test Stats
+test_total_loss 0.473 | test_label_total_loss 0.947 | test_label_total_loss_unstd 3.017 | test_label_num_loss 0.947 | test_label_num_mse_loss 0.947 | test_label_num_mse_loss_unstd 3.017 | test_label_num_loss_unstd 3.017 |
+Validation loss has improved 1 times since last caching the model. Caching now.
+Storing new best performing model.
+Model checkpointing attempts: 0.
+Stored epoch 15 model checkpoint to data/ode/ssl__True/np_seed=42__n_cv_splits=5__exp_num_runs=1/model_checkpoints/model_15.pt.
+Val loss: 0.8358182311058044.
+tradeoff 0.49999997581946964 | step 15 | epoch 15 | lr 0.001 | checkpoint_time 14.896 |
+Train Stats
+train_total_loss 0.539 | train_augmentation_total_loss 0.421 | train_augmentation_total_loss_unstd 0.127 | train_augmentation_num_loss 0.421 | train_augmentation_num_mse_loss 0.421 | train_augmentation_num_mse_loss_unstd 0.127 | train_augmentation_num_loss_unstd 0.127 | train_label_total_loss 0.657 | train_label_total_loss_unstd 2.095 | train_label_num_loss 0.657 | train_label_num_mse_loss 0.657 | train_label_num_mse_loss_unstd 2.095 | train_label_num_loss_unstd 2.095 |
+Val Stats
+val_total_loss 0.418 | val_label_total_loss 0.836 | val_label_total_loss_unstd 2.664 | val_label_num_loss 0.836 | val_label_num_mse_loss 0.836 | val_label_num_mse_loss_unstd 2.664 | val_label_num_loss_unstd 2.664 |
+Test Stats
+test_total_loss 0.296 | test_label_total_loss 0.592 | test_label_total_loss_unstd 1.888 | test_label_num_loss 0.592 | test_label_num_mse_loss 0.592 | test_label_num_mse_loss_unstd 1.888 | test_label_num_loss_unstd 1.888 |
+Validation loss has improved 1 times since last caching the model. Caching now.
+Storing new best performing model.
+Model checkpointing attempts: 0.
+Stored epoch 20 model checkpoint to data/ode/ssl__True/np_seed=42__n_cv_splits=5__exp_num_runs=1/model_checkpoints/model_20.pt.
+Val loss: 0.3951612710952759.
+tradeoff 0.49999995546341147 | step 20 | epoch 20 | lr 0.001 | checkpoint_time 11.254 |
+Train Stats
+train_total_loss 0.432 | train_augmentation_total_loss 0.400 | train_augmentation_total_loss_unstd 0.133 | train_augmentation_num_loss 0.400 | train_augmentation_num_mse_loss 0.400 | train_augmentation_num_mse_loss_unstd 0.133 | train_augmentation_num_loss_unstd 0.133 | train_label_total_loss 0.463 | train_label_total_loss_unstd 1.475 | train_label_num_loss 0.463 | train_label_num_mse_loss 0.463 | train_label_num_mse_loss_unstd 1.475 | train_label_num_loss_unstd 1.475 |
+Val Stats
+val_total_loss 0.198 | val_label_total_loss 0.395 | val_label_total_loss_unstd 1.260 | val_label_num_loss 0.395 | val_label_num_mse_loss 0.395 | val_label_num_mse_loss_unstd 1.260 | val_label_num_loss_unstd 1.260 |
+Test Stats
+test_total_loss 0.152 | test_label_total_loss 0.304 | test_label_total_loss_unstd 0.969 | test_label_num_loss 0.304 | test_label_num_mse_loss 0.304 | test_label_num_mse_loss_unstd 0.969 | test_label_num_loss_unstd 0.969 |
+Validation loss has improved 1 times since last caching the model. Caching now.
+Storing new best performing model.
+Model checkpointing attempts: 0.
+Stored epoch 25 model checkpoint to data/ode/ssl__True/np_seed=42__n_cv_splits=5__exp_num_runs=1/model_checkpoints/model_25.pt.
+Val loss: 0.3098486065864563.
+tradeoff 0.4999999289388517 | step 25 | epoch 25 | lr 0.001 | checkpoint_time 11.331 |
+Train Stats
+train_total_loss 0.438 | train_augmentation_total_loss 0.424 | train_augmentation_total_loss_unstd 0.131 | train_augmentation_num_loss 0.424 | train_augmentation_num_mse_loss 0.424 | train_augmentation_num_mse_loss_unstd 0.131 | train_augmentation_num_loss_unstd 0.131 | train_label_total_loss 0.453 | train_label_total_loss_unstd 1.443 | train_label_num_loss 0.453 | train_label_num_mse_loss 0.453 | train_label_num_mse_loss_unstd 1.443 | train_label_num_loss_unstd 1.443 |
+Val Stats
+val_total_loss 0.155 | val_label_total_loss 0.310 | val_label_total_loss_unstd 0.988 | val_label_num_loss 0.310 | val_label_num_mse_loss 0.310 | val_label_num_mse_loss_unstd 0.988 | val_label_num_loss_unstd 0.988 |
+Test Stats
+test_total_loss 0.152 | test_label_total_loss 0.304 | test_label_total_loss_unstd 0.969 | test_label_num_loss 0.304 | test_label_num_mse_loss 0.304 | test_label_num_mse_loss_unstd 0.969 | test_label_num_loss_unstd 0.969 |
+tradeoff 0.4999998962457909 | step 30 | epoch 30 | lr 0.001 | checkpoint_time 10.572 |
+Train Stats
+train_total_loss 0.436 | train_augmentation_total_loss 0.390 | train_augmentation_total_loss_unstd 0.123 | train_augmentation_num_loss 0.390 | train_augmentation_num_mse_loss 0.390 | train_augmentation_num_mse_loss_unstd 0.123 | train_augmentation_num_loss_unstd 0.123 | train_label_total_loss 0.483 | train_label_total_loss_unstd 1.539 | train_label_num_loss 0.483 | train_label_num_mse_loss 0.483 | train_label_num_mse_loss_unstd 1.539 | train_label_num_loss_unstd 1.539 |
+Val Stats
+val_total_loss 0.187 | val_label_total_loss 0.373 | val_label_total_loss_unstd 1.190 | val_label_num_loss 0.373 | val_label_num_mse_loss 0.373 | val_label_num_mse_loss_unstd 1.190 | val_label_num_loss_unstd 1.190 |
+Test Stats
+test_total_loss 0.140 | test_label_total_loss 0.280 | test_label_total_loss_unstd 0.894 | test_label_num_loss 0.280 | test_label_num_mse_loss 0.280 | test_label_num_mse_loss_unstd 0.894 | test_label_num_loss_unstd 0.894 |
+tradeoff 0.49999985738423 | step 35 | epoch 35 | lr 0.001 | checkpoint_time 10.989 |
+Train Stats
+train_total_loss 0.442 | train_augmentation_total_loss 0.412 | train_augmentation_total_loss_unstd 0.133 | train_augmentation_num_loss 0.412 | train_augmentation_num_mse_loss 0.412 | train_augmentation_num_mse_loss_unstd 0.133 | train_augmentation_num_loss_unstd 0.133 | train_label_total_loss 0.473 | train_label_total_loss_unstd 1.506 | train_label_num_loss 0.473 | train_label_num_mse_loss 0.473 | train_label_num_mse_loss_unstd 1.506 | train_label_num_loss_unstd 1.506 |
+Val Stats
+val_total_loss 0.165 | val_label_total_loss 0.331 | val_label_total_loss_unstd 1.055 | val_label_num_loss 0.331 | val_label_num_mse_loss 0.331 | val_label_num_mse_loss_unstd 1.055 | val_label_num_loss_unstd 1.055 |
+Test Stats
+test_total_loss 0.150 | test_label_total_loss 0.300 | test_label_total_loss_unstd 0.955 | test_label_num_loss 0.300 | test_label_num_mse_loss 0.300 | test_label_num_mse_loss_unstd 0.955 | test_label_num_loss_unstd 0.955 |
+tradeoff 0.4999998123541698 | step 40 | epoch 40 | lr 0.001 | checkpoint_time 14.385 |
+Train Stats
+train_total_loss 0.417 | train_augmentation_total_loss 0.412 | train_augmentation_total_loss_unstd 0.127 | train_augmentation_num_loss 0.412 | train_augmentation_num_mse_loss 0.412 | train_augmentation_num_mse_loss_unstd 0.127 | train_augmentation_num_loss_unstd 0.127 | train_label_total_loss 0.423 | train_label_total_loss_unstd 1.349 | train_label_num_loss 0.423 | train_label_num_mse_loss 0.423 | train_label_num_mse_loss_unstd 1.349 | train_label_num_loss_unstd 1.349 |
+Val Stats
+val_total_loss 0.186 | val_label_total_loss 0.371 | val_label_total_loss_unstd 1.183 | val_label_num_loss 0.371 | val_label_num_mse_loss 0.371 | val_label_num_mse_loss_unstd 1.183 | val_label_num_loss_unstd 1.183 |
+Test Stats
+test_total_loss 0.160 | test_label_total_loss 0.320 | test_label_total_loss_unstd 1.019 | test_label_num_loss 0.320 | test_label_num_mse_loss 0.320 | test_label_num_mse_loss_unstd 1.019 | test_label_num_loss_unstd 1.019 |
+tradeoff 0.4999997611556115 | step 45 | epoch 45 | lr 0.001 | checkpoint_time 11.183 |
+Train Stats
+train_total_loss 0.418 | train_augmentation_total_loss 0.361 | train_augmentation_total_loss_unstd 0.107 | train_augmentation_num_loss 0.361 | train_augmentation_num_mse_loss 0.361 | train_augmentation_num_mse_loss_unstd 0.107 | train_augmentation_num_loss_unstd 0.107 | train_label_total_loss 0.475 | train_label_total_loss_unstd 1.513 | train_label_num_loss 0.475 | train_label_num_mse_loss 0.475 | train_label_num_mse_loss_unstd 1.513 | train_label_num_loss_unstd 1.513 |
+Val Stats
+val_total_loss 0.222 | val_label_total_loss 0.443 | val_label_total_loss_unstd 1.412 | val_label_num_loss 0.443 | val_label_num_mse_loss 0.443 | val_label_num_mse_loss_unstd 1.412 | val_label_num_loss_unstd 1.412 |
+Test Stats
+test_total_loss 0.158 | test_label_total_loss 0.317 | test_label_total_loss_unstd 1.010 | test_label_num_loss 0.317 | test_label_num_mse_loss 0.317 | test_label_num_mse_loss_unstd 1.010 | test_label_num_loss_unstd 1.010 |
+tradeoff 0.4999997037885564 | step 50 | epoch 50 | lr 0.001 | checkpoint_time 10.390 |
+Train Stats
+train_total_loss 0.410 | train_augmentation_total_loss 0.400 | train_augmentation_total_loss_unstd 0.130 | train_augmentation_num_loss 0.400 | train_augmentation_num_mse_loss 0.400 | train_augmentation_num_mse_loss_unstd 0.130 | train_augmentation_num_loss_unstd 0.130 | train_label_total_loss 0.420 | train_label_total_loss_unstd 1.340 | train_label_num_loss 0.420 | train_label_num_mse_loss 0.420 | train_label_num_mse_loss_unstd 1.340 | train_label_num_loss_unstd 1.340 |
+Val Stats
+val_total_loss 0.173 | val_label_total_loss 0.345 | val_label_total_loss_unstd 1.100 | val_label_num_loss 0.345 | val_label_num_mse_loss 0.345 | val_label_num_mse_loss_unstd 1.100 | val_label_num_loss_unstd 1.100 |
+Test Stats
+test_total_loss 0.149 | test_label_total_loss 0.297 | test_label_total_loss_unstd 0.948 | test_label_num_loss 0.297 | test_label_num_mse_loss 0.297 | test_label_num_mse_loss_unstd 0.948 | test_label_num_loss_unstd 0.948 |
+tradeoff 0.49999964025300586 | step 55 | epoch 55 | lr 0.001 | checkpoint_time 14.719 |
+Train Stats
+train_total_loss 0.436 | train_augmentation_total_loss 0.402 | train_augmentation_total_loss_unstd 0.114 | train_augmentation_num_loss 0.402 | train_augmentation_num_mse_loss 0.402 | train_augmentation_num_mse_loss_unstd 0.114 | train_augmentation_num_loss_unstd 0.114 | train_label_total_loss 0.471 | train_label_total_loss_unstd 1.500 | train_label_num_loss 0.471 | train_label_num_mse_loss 0.471 | train_label_num_mse_loss_unstd 1.500 | train_label_num_loss_unstd 1.500 |
+Val Stats
+val_total_loss 0.205 | val_label_total_loss 0.410 | val_label_total_loss_unstd 1.307 | val_label_num_loss 0.410 | val_label_num_mse_loss 0.410 | val_label_num_mse_loss_unstd 1.307 | val_label_num_loss_unstd 1.307 |
+Test Stats
+test_total_loss 0.197 | test_label_total_loss 0.394 | test_label_total_loss_unstd 1.255 | test_label_num_loss 0.394 | test_label_num_mse_loss 0.394 | test_label_num_mse_loss_unstd 1.255 | test_label_num_loss_unstd 1.255 |
+tradeoff 0.49999957054896144 | step 60 | epoch 60 | lr 0.001 | checkpoint_time 16.493 |
+Train Stats
+train_total_loss 0.386 | train_augmentation_total_loss 0.396 | train_augmentation_total_loss_unstd 0.109 | train_augmentation_num_loss 0.396 | train_augmentation_num_mse_loss 0.396 | train_augmentation_num_mse_loss_unstd 0.109 | train_augmentation_num_loss_unstd 0.109 | train_label_total_loss 0.376 | train_label_total_loss_unstd 1.200 | train_label_num_loss 0.376 | train_label_num_mse_loss 0.376 | train_label_num_mse_loss_unstd 1.200 | train_label_num_loss_unstd 1.200 |
+Val Stats
+val_total_loss 0.182 | val_label_total_loss 0.363 | val_label_total_loss_unstd 1.157 | val_label_num_loss 0.363 | val_label_num_mse_loss 0.363 | val_label_num_mse_loss_unstd 1.157 | val_label_num_loss_unstd 1.157 |
+Test Stats
+test_total_loss 0.163 | test_label_total_loss 0.325 | test_label_total_loss_unstd 1.036 | test_label_num_loss 0.325 | test_label_num_mse_loss 0.325 | test_label_num_mse_loss_unstd 1.036 | test_label_num_loss_unstd 1.036 |
+tradeoff 0.4999994946764249 | step 65 | epoch 65 | lr 0.001 | checkpoint_time 11.509 |
+Train Stats
+train_total_loss 0.445 | train_augmentation_total_loss 0.414 | train_augmentation_total_loss_unstd 0.136 | train_augmentation_num_loss 0.414 | train_augmentation_num_mse_loss 0.414 | train_augmentation_num_mse_loss_unstd 0.136 | train_augmentation_num_loss_unstd 0.136 | train_label_total_loss 0.477 | train_label_total_loss_unstd 1.519 | train_label_num_loss 0.477 | train_label_num_mse_loss 0.477 | train_label_num_mse_loss_unstd 1.519 | train_label_num_loss_unstd 1.519 |
+Val Stats
+val_total_loss 0.191 | val_label_total_loss 0.382 | val_label_total_loss_unstd 1.219 | val_label_num_loss 0.382 | val_label_num_mse_loss 0.382 | val_label_num_mse_loss_unstd 1.219 | val_label_num_loss_unstd 1.219 |
+Test Stats
+test_total_loss 0.162 | test_label_total_loss 0.324 | test_label_total_loss_unstd 1.031 | test_label_num_loss 0.324 | test_label_num_mse_loss 0.324 | test_label_num_mse_loss_unstd 1.031 | test_label_num_loss_unstd 1.031 |
+tradeoff 0.49999941263539804 | step 70 | epoch 70 | lr 0.001 | checkpoint_time 11.858 |
+Train Stats
+train_total_loss 0.407 | train_augmentation_total_loss 0.384 | train_augmentation_total_loss_unstd 0.120 | train_augmentation_num_loss 0.384 | train_augmentation_num_mse_loss 0.384 | train_augmentation_num_mse_loss_unstd 0.120 | train_augmentation_num_loss_unstd 0.120 | train_label_total_loss 0.430 | train_label_total_loss_unstd 1.372 | train_label_num_loss 0.430 | train_label_num_mse_loss 0.430 | train_label_num_mse_loss_unstd 1.372 | train_label_num_loss_unstd 1.372 |
+Val Stats
+val_total_loss 0.174 | val_label_total_loss 0.347 | val_label_total_loss_unstd 1.107 | val_label_num_loss 0.347 | val_label_num_mse_loss 0.347 | val_label_num_mse_loss_unstd 1.107 | val_label_num_loss_unstd 1.107 |
+Test Stats
+test_total_loss 0.138 | test_label_total_loss 0.276 | test_label_total_loss_unstd 0.879 | test_label_num_loss 0.276 | test_label_num_mse_loss 0.276 | test_label_num_mse_loss_unstd 0.879 | test_label_num_loss_unstd 0.879 |
+tradeoff 0.499999324425883 | step 75 | epoch 75 | lr 0.001 | checkpoint_time 12.476 |
+Train Stats
+train_total_loss 0.437 | train_augmentation_total_loss 0.404 | train_augmentation_total_loss_unstd 0.125 | train_augmentation_num_loss 0.404 | train_augmentation_num_mse_loss 0.404 | train_augmentation_num_mse_loss_unstd 0.125 | train_augmentation_num_loss_unstd 0.125 | train_label_total_loss 0.470 | train_label_total_loss_unstd 1.499 | train_label_num_loss 0.470 | train_label_num_mse_loss 0.470 | train_label_num_mse_loss_unstd 1.499 | train_label_num_loss_unstd 1.499 |
+Val Stats
+val_total_loss 0.163 | val_label_total_loss 0.326 | val_label_total_loss_unstd 1.039 | val_label_num_loss 0.326 | val_label_num_mse_loss 0.326 | val_label_num_mse_loss_unstd 1.039 | val_label_num_loss_unstd 1.039 |
+Test Stats
+test_total_loss 0.137 | test_label_total_loss 0.274 | test_label_total_loss_unstd 0.873 | test_label_num_loss 0.274 | test_label_num_mse_loss 0.274 | test_label_num_mse_loss_unstd 0.873 | test_label_num_loss_unstd 0.873 |
+tradeoff 0.4999992300478819 | step 80 | epoch 80 | lr 0.001 | checkpoint_time 10.475 |
+Train Stats
+train_total_loss 0.404 | train_augmentation_total_loss 0.415 | train_augmentation_total_loss_unstd 0.127 | train_augmentation_num_loss 0.415 | train_augmentation_num_mse_loss 0.415 | train_augmentation_num_mse_loss_unstd 0.127 | train_augmentation_num_loss_unstd 0.127 | train_label_total_loss 0.392 | train_label_total_loss_unstd 1.251 | train_label_num_loss 0.392 | train_label_num_mse_loss 0.392 | train_label_num_mse_loss_unstd 1.251 | train_label_num_loss_unstd 1.251 |
+Val Stats
+val_total_loss 0.176 | val_label_total_loss 0.351 | val_label_total_loss_unstd 1.119 | val_label_num_loss 0.351 | val_label_num_mse_loss 0.351 | val_label_num_mse_loss_unstd 1.119 | val_label_num_loss_unstd 1.119 |
+Test Stats
+test_total_loss 0.140 | test_label_total_loss 0.279 | test_label_total_loss_unstd 0.889 | test_label_num_loss 0.279 | test_label_num_mse_loss 0.279 | test_label_num_mse_loss_unstd 0.889 | test_label_num_loss_unstd 0.889 |
+tradeoff 0.499999129501397 | step 85 | epoch 85 | lr 0.001 | checkpoint_time 14.712 |
+Train Stats
+train_total_loss 0.443 | train_augmentation_total_loss 0.427 | train_augmentation_total_loss_unstd 0.134 | train_augmentation_num_loss 0.427 | train_augmentation_num_mse_loss 0.427 | train_augmentation_num_mse_loss_unstd 0.134 | train_augmentation_num_loss_unstd 0.134 | train_label_total_loss 0.459 | train_label_total_loss_unstd 1.464 | train_label_num_loss 0.459 | train_label_num_mse_loss 0.459 | train_label_num_mse_loss_unstd 1.464 | train_label_num_loss_unstd 1.464 |
+Val Stats
+val_total_loss 0.187 | val_label_total_loss 0.373 | val_label_total_loss_unstd 1.190 | val_label_num_loss 0.373 | val_label_num_mse_loss 0.373 | val_label_num_mse_loss_unstd 1.190 | val_label_num_loss_unstd 1.190 |
+Test Stats
+test_total_loss 0.146 | test_label_total_loss 0.291 | test_label_total_loss_unstd 0.928 | test_label_num_loss 0.291 | test_label_num_mse_loss 0.291 | test_label_num_mse_loss_unstd 0.928 | test_label_num_loss_unstd 0.928 |
+Traceback (most recent call last):
+  File "run.py", line 204, in <module>
+    main(args)
+  File "run.py", line 23, in main
+    run_cv(args=args, wandb_args=wandb_args)
+  File "run.py", line 117, in run_cv
+    run_cv_splits(wandb_args, args, c, wandb_run)
+  File "run.py", line 195, in run_cv_splits
+    trainer.train_and_eval()
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/train.py", line 217, in train_and_eval
+    if self.per_epoch_train_eval(epoch=epoch):
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/train.py", line 172, in per_epoch_train_eval
+    train_loss = self.run_epoch(dataset_mode='train', epoch=epoch,
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/train.py", line 437, in run_epoch
+    self.run_batch(
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/train.py", line 546, in run_batch
+    self.forward_and_loss(**forward_kwargs)
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/train.py", line 601, in forward_and_loss
+    output = self.model(masked_tensors, **extra_args)
+  File "/Users/devu/anaconda3/envs/npt/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/Users/devu/anaconda3/envs/npt/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/model/npt.py", line 428, in forward
+    X = self.enc(X)
+  File "/Users/devu/anaconda3/envs/npt/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/Users/devu/anaconda3/envs/npt/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/Users/devu/anaconda3/envs/npt/lib/python3.8/site-packages/torch/nn/modules/container.py", line 217, in forward
+    input = module(input)
+  File "/Users/devu/anaconda3/envs/npt/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/Users/devu/anaconda3/envs/npt/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/model/npt_modules.py", line 237, in forward
+    return self.mab(X, X)
+  File "/Users/devu/anaconda3/envs/npt/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/Users/devu/anaconda3/envs/npt/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/model/npt_modules.py", line 165, in forward
+    A = self.att_scores_dropout(A)
+  File "/Users/devu/anaconda3/envs/npt/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/Users/devu/anaconda3/envs/npt/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/Users/devu/anaconda3/envs/npt/lib/python3.8/site-packages/torch/nn/modules/dropout.py", line 59, in forward
+    return F.dropout(input, self.p, self.training, self.inplace)
+  File "/Users/devu/anaconda3/envs/npt/lib/python3.8/site-packages/torch/nn/functional.py", line 1268, in dropout
+    return _VF.dropout_(input, p, training) if inplace else _VF.dropout(input, p, training)
+KeyboardInterrupt

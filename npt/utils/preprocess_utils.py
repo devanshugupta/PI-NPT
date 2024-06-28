@@ -22,18 +22,37 @@ def get_dense_from_dok(dok_matrix):
         [list(key) for key in dok_matrix.keys()])
 
 
-def get_matrix_from_rows(rows, cols, N, D):
+'''def get_matrix_from_rows(missing_matrix,rows, cols, N, D):
+    """
+    Constructs dense matrix with True in all locations where a label is.
+
+    Labels occur in the specified rows, for each col in cols.
+    """
+
+    matrix = np.zeros((N, D), dtype=np.bool_)
+    for col in cols:
+        matrix[rows, col] = True
+
+    return matrix
+'''
+
+def get_matrix_from_rows(missing_matrix, rows, cols, N, D):
     """
     Constructs dense matrix with True in all locations where a label is.
 
     Labels occur in the specified rows, for each col in cols.
     """
     matrix = np.zeros((N, D), dtype=np.bool_)
+
+    # Filter rows based on missing_matrix and specified cols
+    filtered_rows = [row for row in rows if any(missing_matrix[row, col] for col in cols)]
+
+    # Set the corresponding positions in the matrix to True
     for col in cols:
-        matrix[rows, col] = True
+        matrix[filtered_rows, col] = True
+        #matrix[:, col] = True
 
     return matrix
-
 
 def get_entries_from_rows(rows, col, D):
     """

@@ -1,0 +1,129 @@
+Loaded metadata for fixed test set. n_cv_splits set to 1.
+CV Splits for this dataset are cached. Loading from file.
+CV Index: 0
+Train-test Split 1/1
+Building NPT.
+All features are either categorical or numerical. Not going to bother doing feature type embeddings.
+Using feature type embedding (unique embedding for categorical and numerical features).
+Using feature index embedding (unique embedding for each column).
+Clipping gradients to value 1.0.
+Model has 7907718 parameters,batch size -1.
+Initialized "lookahead_lamb" optimizer.
+Warming up for 70000.0/100000.0 steps.
+Initialized "flat_and_anneal" learning rate scheduler.
+Initialized "cosine" augmentation/label tradeoff annealer. Annealing to minimum value in 100000 steps.
+Disabled AUROC in loss module.
+/Users/devu/anaconda3/envs/npt/lib/python3.8/site-packages/torch/optim/lr_scheduler.py:143: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  warnings.warn("Detected call of `lr_scheduler.step()` before `optimizer.step()`. "
+/Users/devu/PycharmProjects/non-parametric-transformers/npt/mask.py:108: UserWarning: torch.sparse.SparseTensor(indices, values, shape, *, device=) is deprecated.  Please use torch.sparse_coo_tensor(indices, values, shape, dtype=, device=). (Triggered internally at /Users/runner/work/_temp/anaconda/conda-bld/pytorch_1711403207619/work/torch/csrc/utils/tensor_new.cpp:620.)
+  mask = torch.sparse.FloatTensor(
+Validation loss has improved 1 times since last caching the model. Caching now.
+Storing new best performing model.
+Model checkpointing attempts: 0.
+Stored epoch 5 model checkpoint to data/ode/ssl__True/np_seed=42__n_cv_splits=5__exp_num_runs=1/model_checkpoints/model_5.pt.
+Val loss: 1.1671782732009888.
+tradeoff 0.4999999980260791 | step 5 | epoch 5 | lr 0.001 | checkpoint_time 7.701 |
+Train Stats
+train_total_loss 0.677 | train_augmentation_total_loss 0.411 | train_augmentation_total_loss_unstd 0.132 | train_augmentation_num_loss 0.411 | train_augmentation_num_mse_loss 0.411 | train_augmentation_num_mse_loss_unstd 0.132 | train_augmentation_num_loss_unstd 0.132 | train_label_total_loss 0.942 | train_label_total_loss_unstd 3.002 | train_label_num_loss 0.942 | train_label_num_mse_loss 0.942 | train_label_num_mse_loss_unstd 3.002 | train_label_num_loss_unstd 3.002 |
+Val Stats
+val_total_loss 0.584 | val_label_total_loss 1.167 | val_label_total_loss_unstd 3.720 | val_label_num_loss 1.167 | val_label_num_mse_loss 1.167 | val_label_num_mse_loss_unstd 3.720 | val_label_num_loss_unstd 3.720 |
+Test Stats
+test_total_loss 0.478 | test_label_total_loss 0.956 | test_label_total_loss_unstd 3.046 | test_label_num_loss 0.956 | test_label_num_mse_loss 0.956 | test_label_num_mse_loss_unstd 3.046 | test_label_num_loss_unstd 3.046 |
+/Users/devu/PycharmProjects/non-parametric-transformers/npt/utils/optim_utils.py:53: UserWarning: This overload of add_ is deprecated:
+	add_(Number alpha, Tensor other)
+Consider using one of the following signatures instead:
+	add_(Tensor other, *, Number alpha) (Triggered internally at /Users/runner/work/_temp/anaconda/conda-bld/pytorch_1711403207619/work/torch/csrc/utils/python_arg_parser.cpp:1630.)
+  slow.add_(group['lookahead_alpha'], fast_p.data - slow)
+Validation loss has improved 1 times since last caching the model. Caching now.
+Storing new best performing model.
+Model checkpointing attempts: 0.
+Stored epoch 10 model checkpoint to data/ode/ssl__True/np_seed=42__n_cv_splits=5__exp_num_runs=1/model_checkpoints/model_10.pt.
+Val loss: 0.8861967921257019.
+tradeoff 0.4999999900070256 | step 10 | epoch 10 | lr 0.001 | checkpoint_time 7.007 |
+Train Stats
+train_total_loss 0.553 | train_augmentation_total_loss 0.393 | train_augmentation_total_loss_unstd 0.118 | train_augmentation_num_loss 0.393 | train_augmentation_num_mse_loss 0.393 | train_augmentation_num_mse_loss_unstd 0.118 | train_augmentation_num_loss_unstd 0.118 | train_label_total_loss 0.713 | train_label_total_loss_unstd 2.273 | train_label_num_loss 0.713 | train_label_num_mse_loss 0.713 | train_label_num_mse_loss_unstd 2.273 | train_label_num_loss_unstd 2.273 |
+Val Stats
+val_total_loss 0.443 | val_label_total_loss 0.886 | val_label_total_loss_unstd 2.825 | val_label_num_loss 0.886 | val_label_num_mse_loss 0.886 | val_label_num_mse_loss_unstd 2.825 | val_label_num_loss_unstd 2.825 |
+Test Stats
+test_total_loss 0.339 | test_label_total_loss 0.677 | test_label_total_loss_unstd 2.158 | test_label_num_loss 0.677 | test_label_num_mse_loss 0.677 | test_label_num_mse_loss_unstd 2.158 | test_label_num_loss_unstd 2.158 |
+Validation loss has improved 1 times since last caching the model. Caching now.
+Storing new best performing model.
+Model checkpointing attempts: 0.
+Stored epoch 15 model checkpoint to data/ode/ssl__True/np_seed=42__n_cv_splits=5__exp_num_runs=1/model_checkpoints/model_15.pt.
+Val loss: 0.48207855224609375.
+tradeoff 0.49999997581946964 | step 15 | epoch 15 | lr 0.001 | checkpoint_time 6.608 |
+Train Stats
+train_total_loss 0.439 | train_augmentation_total_loss 0.414 | train_augmentation_total_loss_unstd 0.125 | train_augmentation_num_loss 0.414 | train_augmentation_num_mse_loss 0.414 | train_augmentation_num_mse_loss_unstd 0.125 | train_augmentation_num_loss_unstd 0.125 | train_label_total_loss 0.464 | train_label_total_loss_unstd 1.480 | train_label_num_loss 0.464 | train_label_num_mse_loss 0.464 | train_label_num_mse_loss_unstd 1.480 | train_label_num_loss_unstd 1.480 |
+Val Stats
+val_total_loss 0.241 | val_label_total_loss 0.482 | val_label_total_loss_unstd 1.537 | val_label_num_loss 0.482 | val_label_num_mse_loss 0.482 | val_label_num_mse_loss_unstd 1.537 | val_label_num_loss_unstd 1.537 |
+Test Stats
+test_total_loss 0.188 | test_label_total_loss 0.376 | test_label_total_loss_unstd 1.199 | test_label_num_loss 0.376 | test_label_num_mse_loss 0.376 | test_label_num_mse_loss_unstd 1.199 | test_label_num_loss_unstd 1.199 |
+Validation loss has improved 1 times since last caching the model. Caching now.
+Storing new best performing model.
+Model checkpointing attempts: 0.
+Stored epoch 20 model checkpoint to data/ode/ssl__True/np_seed=42__n_cv_splits=5__exp_num_runs=1/model_checkpoints/model_20.pt.
+Val loss: 0.369043231010437.
+tradeoff 0.49999995546341147 | step 20 | epoch 20 | lr 0.001 | checkpoint_time 7.211 |
+Train Stats
+train_total_loss 0.469 | train_augmentation_total_loss 0.402 | train_augmentation_total_loss_unstd 0.134 | train_augmentation_num_loss 0.402 | train_augmentation_num_mse_loss 0.402 | train_augmentation_num_mse_loss_unstd 0.134 | train_augmentation_num_loss_unstd 0.134 | train_label_total_loss 0.535 | train_label_total_loss_unstd 1.706 | train_label_num_loss 0.535 | train_label_num_mse_loss 0.535 | train_label_num_mse_loss_unstd 1.706 | train_label_num_loss_unstd 1.706 |
+Val Stats
+val_total_loss 0.185 | val_label_total_loss 0.369 | val_label_total_loss_unstd 1.176 | val_label_num_loss 0.369 | val_label_num_mse_loss 0.369 | val_label_num_mse_loss_unstd 1.176 | val_label_num_loss_unstd 1.176 |
+Test Stats
+test_total_loss 0.186 | test_label_total_loss 0.373 | test_label_total_loss_unstd 1.188 | test_label_num_loss 0.373 | test_label_num_mse_loss 0.373 | test_label_num_mse_loss_unstd 1.188 | test_label_num_loss_unstd 1.188 |
+tradeoff 0.4999999289388517 | step 25 | epoch 25 | lr 0.001 | checkpoint_time 7.557 |
+Train Stats
+train_total_loss 0.458 | train_augmentation_total_loss 0.427 | train_augmentation_total_loss_unstd 0.133 | train_augmentation_num_loss 0.427 | train_augmentation_num_mse_loss 0.427 | train_augmentation_num_mse_loss_unstd 0.133 | train_augmentation_num_loss_unstd 0.133 | train_label_total_loss 0.489 | train_label_total_loss_unstd 1.558 | train_label_num_loss 0.489 | train_label_num_mse_loss 0.489 | train_label_num_mse_loss_unstd 1.558 | train_label_num_loss_unstd 1.558 |
+Val Stats
+val_total_loss 0.196 | val_label_total_loss 0.393 | val_label_total_loss_unstd 1.251 | val_label_num_loss 0.393 | val_label_num_mse_loss 0.393 | val_label_num_mse_loss_unstd 1.251 | val_label_num_loss_unstd 1.251 |
+Test Stats
+test_total_loss 0.197 | test_label_total_loss 0.394 | test_label_total_loss_unstd 1.255 | test_label_num_loss 0.394 | test_label_num_mse_loss 0.394 | test_label_num_mse_loss_unstd 1.255 | test_label_num_loss_unstd 1.255 |
+Validation loss has improved 1 times since last caching the model. Caching now.
+Storing new best performing model.
+Model checkpointing attempts: 0.
+Stored epoch 30 model checkpoint to data/ode/ssl__True/np_seed=42__n_cv_splits=5__exp_num_runs=1/model_checkpoints/model_30.pt.
+Val loss: 0.35856711864471436.
+tradeoff 0.4999998962457909 | step 30 | epoch 30 | lr 0.001 | checkpoint_time 7.150 |
+Train Stats
+train_total_loss 0.408 | train_augmentation_total_loss 0.386 | train_augmentation_total_loss_unstd 0.122 | train_augmentation_num_loss 0.386 | train_augmentation_num_mse_loss 0.386 | train_augmentation_num_mse_loss_unstd 0.122 | train_augmentation_num_loss_unstd 0.122 | train_label_total_loss 0.429 | train_label_total_loss_unstd 1.367 | train_label_num_loss 0.429 | train_label_num_mse_loss 0.429 | train_label_num_mse_loss_unstd 1.367 | train_label_num_loss_unstd 1.367 |
+Val Stats
+val_total_loss 0.179 | val_label_total_loss 0.359 | val_label_total_loss_unstd 1.143 | val_label_num_loss 0.359 | val_label_num_mse_loss 0.359 | val_label_num_mse_loss_unstd 1.143 | val_label_num_loss_unstd 1.143 |
+Test Stats
+test_total_loss 0.152 | test_label_total_loss 0.304 | test_label_total_loss_unstd 0.968 | test_label_num_loss 0.304 | test_label_num_mse_loss 0.304 | test_label_num_mse_loss_unstd 0.968 | test_label_num_loss_unstd 0.968 |
+tradeoff 0.49999985738423 | step 35 | epoch 35 | lr 0.001 | checkpoint_time 6.530 |
+Train Stats
+train_total_loss 0.419 | train_augmentation_total_loss 0.413 | train_augmentation_total_loss_unstd 0.133 | train_augmentation_num_loss 0.413 | train_augmentation_num_mse_loss 0.413 | train_augmentation_num_mse_loss_unstd 0.133 | train_augmentation_num_loss_unstd 0.133 | train_label_total_loss 0.425 | train_label_total_loss_unstd 1.355 | train_label_num_loss 0.425 | train_label_num_mse_loss 0.425 | train_label_num_mse_loss_unstd 1.355 | train_label_num_loss_unstd 1.355 |
+Val Stats
+val_total_loss 0.181 | val_label_total_loss 0.362 | val_label_total_loss_unstd 1.155 | val_label_num_loss 0.362 | val_label_num_mse_loss 0.362 | val_label_num_mse_loss_unstd 1.155 | val_label_num_loss_unstd 1.155 |
+Test Stats
+test_total_loss 0.148 | test_label_total_loss 0.296 | test_label_total_loss_unstd 0.943 | test_label_num_loss 0.296 | test_label_num_mse_loss 0.296 | test_label_num_mse_loss_unstd 0.943 | test_label_num_loss_unstd 0.943 |
+Validation loss has improved 1 times since last caching the model. Caching now.
+Storing new best performing model.
+Model checkpointing attempts: 0.
+Stored epoch 40 model checkpoint to data/ode/ssl__True/np_seed=42__n_cv_splits=5__exp_num_runs=1/model_checkpoints/model_40.pt.
+Val loss: 0.3530650734901428.
+tradeoff 0.4999998123541698 | step 40 | epoch 40 | lr 0.001 | checkpoint_time 6.508 |
+Train Stats
+train_total_loss 0.404 | train_augmentation_total_loss 0.413 | train_augmentation_total_loss_unstd 0.126 | train_augmentation_num_loss 0.413 | train_augmentation_num_mse_loss 0.413 | train_augmentation_num_mse_loss_unstd 0.126 | train_augmentation_num_loss_unstd 0.126 | train_label_total_loss 0.395 | train_label_total_loss_unstd 1.260 | train_label_num_loss 0.395 | train_label_num_mse_loss 0.395 | train_label_num_mse_loss_unstd 1.260 | train_label_num_loss_unstd 1.260 |
+Val Stats
+val_total_loss 0.177 | val_label_total_loss 0.353 | val_label_total_loss_unstd 1.125 | val_label_num_loss 0.353 | val_label_num_mse_loss 0.353 | val_label_num_mse_loss_unstd 1.125 | val_label_num_loss_unstd 1.125 |
+Test Stats
+test_total_loss 0.144 | test_label_total_loss 0.289 | test_label_total_loss_unstd 0.920 | test_label_num_loss 0.289 | test_label_num_mse_loss 0.289 | test_label_num_mse_loss_unstd 0.920 | test_label_num_loss_unstd 0.920 |
+tradeoff 0.4999997611556115 | step 45 | epoch 45 | lr 0.001 | checkpoint_time 6.370 |
+Train Stats
+train_total_loss 0.408 | train_augmentation_total_loss 0.360 | train_augmentation_total_loss_unstd 0.107 | train_augmentation_num_loss 0.360 | train_augmentation_num_mse_loss 0.360 | train_augmentation_num_mse_loss_unstd 0.107 | train_augmentation_num_loss_unstd 0.107 | train_label_total_loss 0.456 | train_label_total_loss_unstd 1.454 | train_label_num_loss 0.456 | train_label_num_mse_loss 0.456 | train_label_num_mse_loss_unstd 1.454 | train_label_num_loss_unstd 1.454 |
+Val Stats
+val_total_loss 0.184 | val_label_total_loss 0.368 | val_label_total_loss_unstd 1.172 | val_label_num_loss 0.368 | val_label_num_mse_loss 0.368 | val_label_num_mse_loss_unstd 1.172 | val_label_num_loss_unstd 1.172 |
+Test Stats
+test_total_loss 0.153 | test_label_total_loss 0.307 | test_label_total_loss_unstd 0.977 | test_label_num_loss 0.307 | test_label_num_mse_loss 0.307 | test_label_num_mse_loss_unstd 0.977 | test_label_num_loss_unstd 0.977 |
+Validation loss has improved 1 times since last caching the model. Caching now.
+Storing new best performing model.
+Model checkpointing attempts: 0.
+Stored epoch 50 model checkpoint to data/ode/ssl__True/np_seed=42__n_cv_splits=5__exp_num_runs=1/model_checkpoints/model_50.pt.
+Val loss: 0.342519074678421.
+tradeoff 0.4999997037885564 | step 50 | epoch 50 | lr 0.001 | checkpoint_time 6.680 |
+Train Stats
+train_total_loss 0.398 | train_augmentation_total_loss 0.396 | train_augmentation_total_loss_unstd 0.128 | train_augmentation_num_loss 0.396 | train_augmentation_num_mse_loss 0.396 | train_augmentation_num_mse_loss_unstd 0.128 | train_augmentation_num_loss_unstd 0.128 | train_label_total_loss 0.401 | train_label_total_loss_unstd 1.278 | train_label_num_loss 0.401 | train_label_num_mse_loss 0.401 | train_label_num_mse_loss_unstd 1.278 | train_label_num_loss_unstd 1.278 |
+Val Stats
+val_total_loss 0.171 | val_label_total_loss 0.343 | val_label_total_loss_unstd 1.092 | val_label_num_loss 0.343 | val_label_num_mse_loss 0.343 | val_label_num_mse_loss_unstd 1.092 | val_label_num_loss_unstd 1.092 |
+Test Stats
+test_total_loss 0.143 | test_label_total_loss 0.286 | test_label_total_loss_unstd 0.912 | test_label_num_loss 0.286 | test_label_num_mse_loss 0.286 | test_label_num_mse_loss_unstd 0.912 | test_label_num_loss_unstd 0.912 |

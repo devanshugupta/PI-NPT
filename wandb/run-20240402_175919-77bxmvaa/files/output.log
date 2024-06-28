@@ -1,0 +1,388 @@
+CV Splits for this dataset are cached. Loading from file.
+CV Index: 0
+Train-test Split 1/5
+c.exp_n_runs = 1. Stopping at 1 splits.
+Building NPT.
+Using feature type embedding (unique embedding for categorical and numerical features).
+Using feature index embedding (unique embedding for each column).
+Clipping gradients to value 1.0.
+Model has 205023200 parameters,batch size -1.
+Initialized "lookahead_lamb" optimizer.
+Warming up for 70000.0/100000.0 steps.
+Initialized "flat_and_anneal" learning rate scheduler.
+Initialized "cosine" augmentation/label tradeoff annealer. Annealing to minimum value in 100000 steps.
+Using AUROC in loss module.
+/Users/devu/anaconda3/envs/npt/lib/python3.8/site-packages/torch/optim/lr_scheduler.py:143: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  warnings.warn("Detected call of `lr_scheduler.step()` before `optimizer.step()`. "
+/Users/devu/PycharmProjects/non-parametric-transformers/npt/mask.py:108: UserWarning: torch.sparse.SparseTensor(indices, values, shape, *, device=) is deprecated.  Please use torch.sparse_coo_tensor(indices, values, shape, dtype=, device=). (Triggered internally at /Users/runner/work/_temp/anaconda/conda-bld/pytorch_1711403207619/work/torch/csrc/utils/tensor_new.cpp:620.)
+  mask = torch.sparse.FloatTensor(
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+Validation loss has improved 1 times since last caching the model. Caching now.
+Storing new best performing model.
+Model checkpointing attempts: 0.
+Stored epoch 5 model checkpoint to data/breast-cancer/ssl__True/np_seed=42__n_cv_splits=5__exp_num_runs=1/model_checkpoints/model_5.pt.
+Val loss: 0.47249871492385864.
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+tradeoff 0.4999999980260791 | step 5 | epoch 5 | lr 0.001 | checkpoint_time 36.128 |
+Train Stats
+train_total_loss 0.687 | train_augmentation_total_loss 0.859 | train_augmentation_total_loss_unstd 15231.071 | train_augmentation_num_loss 0.859 | train_augmentation_num_mse_loss 0.859 | train_augmentation_num_mse_loss_unstd 15231.071 | train_augmentation_num_loss_unstd 15231.071 | train_label_total_loss 0.516 | train_label_total_loss_unstd 0.516 | train_label_cat_loss 0.516 | train_label_cat_accuracy 0.817 | train_label_auroc 0.000 |
+Val Stats
+val_total_loss 0.236 | val_label_total_loss 0.472 | val_label_total_loss_unstd 0.472 | val_label_cat_loss 0.472 | val_label_cat_accuracy 0.912 | val_label_auroc 0.000 |
+Test Stats
+test_total_loss 0.251 | test_label_total_loss 0.502 | test_label_total_loss_unstd 0.502 | test_label_cat_loss 0.502 | test_label_cat_accuracy 0.877 | test_label_auroc 0.000 |
+/Users/devu/PycharmProjects/non-parametric-transformers/npt/utils/optim_utils.py:53: UserWarning: This overload of add_ is deprecated:
+	add_(Number alpha, Tensor other)
+Consider using one of the following signatures instead:
+	add_(Tensor other, *, Number alpha) (Triggered internally at /Users/runner/work/_temp/anaconda/conda-bld/pytorch_1711403207619/work/torch/csrc/utils/python_arg_parser.cpp:1630.)
+  slow.add_(group['lookahead_alpha'], fast_p.data - slow)
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+Validation loss has improved 1 times since last caching the model. Caching now.
+Storing new best performing model.
+Model checkpointing attempts: 0.
+Stored epoch 10 model checkpoint to data/breast-cancer/ssl__True/np_seed=42__n_cv_splits=5__exp_num_runs=1/model_checkpoints/model_10.pt.
+Val loss: 0.2580074071884155.
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+tradeoff 0.4999999900070256 | step 10 | epoch 10 | lr 0.001 | checkpoint_time 43.090 |
+Train Stats
+train_total_loss 0.589 | train_augmentation_total_loss 0.872 | train_augmentation_total_loss_unstd 13776.917 | train_augmentation_num_loss 0.872 | train_augmentation_num_mse_loss 0.872 | train_augmentation_num_mse_loss_unstd 13776.917 | train_augmentation_num_loss_unstd 13776.917 | train_label_total_loss 0.307 | train_label_total_loss_unstd 0.307 | train_label_cat_loss 0.307 | train_label_cat_accuracy 0.932 | train_label_auroc 0.000 |
+Val Stats
+val_total_loss 0.129 | val_label_total_loss 0.258 | val_label_total_loss_unstd 0.258 | val_label_cat_loss 0.258 | val_label_cat_accuracy 0.930 | val_label_auroc 0.000 |
+Test Stats
+test_total_loss 0.132 | test_label_total_loss 0.263 | test_label_total_loss_unstd 0.263 | test_label_cat_loss 0.263 | test_label_cat_accuracy 0.965 | test_label_auroc 0.000 |
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+Validation loss has improved 1 times since last caching the model. Caching now.
+Storing new best performing model.
+Model checkpointing attempts: 0.
+Stored epoch 15 model checkpoint to data/breast-cancer/ssl__True/np_seed=42__n_cv_splits=5__exp_num_runs=1/model_checkpoints/model_15.pt.
+Val loss: 0.18050165474414825.
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+tradeoff 0.49999997581946964 | step 15 | epoch 15 | lr 0.001 | checkpoint_time 30.314 |
+Train Stats
+train_total_loss 0.510 | train_augmentation_total_loss 0.751 | train_augmentation_total_loss_unstd 11027.068 | train_augmentation_num_loss 0.751 | train_augmentation_num_mse_loss 0.751 | train_augmentation_num_mse_loss_unstd 11027.068 | train_augmentation_num_loss_unstd 11027.068 | train_label_total_loss 0.269 | train_label_total_loss_unstd 0.269 | train_label_cat_loss 0.269 | train_label_cat_accuracy 0.915 | train_label_auroc 0.000 |
+Val Stats
+val_total_loss 0.090 | val_label_total_loss 0.181 | val_label_total_loss_unstd 0.181 | val_label_cat_loss 0.181 | val_label_cat_accuracy 0.965 | val_label_auroc 0.000 |
+Test Stats
+test_total_loss 0.092 | test_label_total_loss 0.185 | test_label_total_loss_unstd 0.185 | test_label_cat_loss 0.185 | test_label_cat_accuracy 0.974 | test_label_auroc 0.000 |
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+Validation loss has improved 1 times since last caching the model. Caching now.
+Storing new best performing model.
+Model checkpointing attempts: 0.
+Stored epoch 20 model checkpoint to data/breast-cancer/ssl__True/np_seed=42__n_cv_splits=5__exp_num_runs=1/model_checkpoints/model_20.pt.
+Val loss: 0.1717456579208374.
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+tradeoff 0.49999995546341147 | step 20 | epoch 20 | lr 0.001 | checkpoint_time 37.611 |
+Train Stats
+train_total_loss 0.440 | train_augmentation_total_loss 0.681 | train_augmentation_total_loss_unstd 9582.857 | train_augmentation_num_loss 0.681 | train_augmentation_num_mse_loss 0.681 | train_augmentation_num_mse_loss_unstd 9582.857 | train_augmentation_num_loss_unstd 9582.857 | train_label_total_loss 0.199 | train_label_total_loss_unstd 0.199 | train_label_cat_loss 0.199 | train_label_cat_accuracy 0.942 | train_label_auroc 0.000 |
+Val Stats
+val_total_loss 0.086 | val_label_total_loss 0.172 | val_label_total_loss_unstd 0.172 | val_label_cat_loss 0.172 | val_label_cat_accuracy 0.947 | val_label_auroc 0.000 |
+Test Stats
+test_total_loss 0.077 | test_label_total_loss 0.154 | test_label_total_loss_unstd 0.154 | test_label_cat_loss 0.154 | test_label_cat_accuracy 0.974 | test_label_auroc 0.000 |
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+tradeoff 0.4999999289388517 | step 25 | epoch 25 | lr 0.001 | checkpoint_time 25.897 |
+Train Stats
+train_total_loss 0.462 | train_augmentation_total_loss 0.686 | train_augmentation_total_loss_unstd 7706.603 | train_augmentation_num_loss 0.686 | train_augmentation_num_mse_loss 0.686 | train_augmentation_num_mse_loss_unstd 7706.603 | train_augmentation_num_loss_unstd 7706.603 | train_label_total_loss 0.237 | train_label_total_loss_unstd 0.237 | train_label_cat_loss 0.237 | train_label_cat_accuracy 0.907 | train_label_auroc 0.000 |
+Val Stats
+val_total_loss 0.102 | val_label_total_loss 0.204 | val_label_total_loss_unstd 0.204 | val_label_cat_loss 0.204 | val_label_cat_accuracy 0.930 | val_label_auroc 0.000 |
+Test Stats
+test_total_loss 0.106 | test_label_total_loss 0.213 | test_label_total_loss_unstd 0.213 | test_label_cat_loss 0.213 | test_label_cat_accuracy 0.912 | test_label_auroc 0.000 |
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+Validation loss has improved 1 times since last caching the model. Caching now.
+Storing new best performing model.
+Model checkpointing attempts: 0.
+Stored epoch 30 model checkpoint to data/breast-cancer/ssl__True/np_seed=42__n_cv_splits=5__exp_num_runs=1/model_checkpoints/model_30.pt.
+Val loss: 0.12502849102020264.
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+tradeoff 0.4999998962457909 | step 30 | epoch 30 | lr 0.001 | checkpoint_time 29.031 |
+Train Stats
+train_total_loss 0.401 | train_augmentation_total_loss 0.656 | train_augmentation_total_loss_unstd 6623.615 | train_augmentation_num_loss 0.656 | train_augmentation_num_mse_loss 0.656 | train_augmentation_num_mse_loss_unstd 6623.615 | train_augmentation_num_loss_unstd 6623.615 | train_label_total_loss 0.147 | train_label_total_loss_unstd 0.147 | train_label_cat_loss 0.147 | train_label_cat_accuracy 0.957 | train_label_auroc 0.000 |
+Val Stats
+val_total_loss 0.063 | val_label_total_loss 0.125 | val_label_total_loss_unstd 0.125 | val_label_cat_loss 0.125 | val_label_cat_accuracy 0.965 | val_label_auroc 0.000 |
+Test Stats
+test_total_loss 0.054 | test_label_total_loss 0.108 | test_label_total_loss_unstd 0.108 | test_label_cat_loss 0.108 | test_label_cat_accuracy 0.974 | test_label_auroc 0.000 |
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+Validation loss has improved 1 times since last caching the model. Caching now.
+Storing new best performing model.
+Model checkpointing attempts: 0.
+Stored epoch 35 model checkpoint to data/breast-cancer/ssl__True/np_seed=42__n_cv_splits=5__exp_num_runs=1/model_checkpoints/model_35.pt.
+Val loss: 0.07055577635765076.
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+tradeoff 0.49999985738423 | step 35 | epoch 35 | lr 0.001 | checkpoint_time 32.231 |
+Train Stats
+train_total_loss 0.464 | train_augmentation_total_loss 0.752 | train_augmentation_total_loss_unstd 4620.437 | train_augmentation_num_loss 0.752 | train_augmentation_num_mse_loss 0.752 | train_augmentation_num_mse_loss_unstd 4620.437 | train_augmentation_num_loss_unstd 4620.437 | train_label_total_loss 0.175 | train_label_total_loss_unstd 0.175 | train_label_cat_loss 0.175 | train_label_cat_accuracy 0.940 | train_label_auroc 0.000 |
+Val Stats
+val_total_loss 0.035 | val_label_total_loss 0.071 | val_label_total_loss_unstd 0.071 | val_label_cat_loss 0.071 | val_label_cat_accuracy 0.982 | val_label_auroc 0.000 |
+Test Stats
+test_total_loss 0.041 | test_label_total_loss 0.082 | test_label_total_loss_unstd 0.082 | test_label_cat_loss 0.082 | test_label_cat_accuracy 0.974 | test_label_auroc 0.000 |
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+Validation loss has improved 1 times since last caching the model. Caching now.
+Storing new best performing model.
+Model checkpointing attempts: 0.
+Stored epoch 40 model checkpoint to data/breast-cancer/ssl__True/np_seed=42__n_cv_splits=5__exp_num_runs=1/model_checkpoints/model_40.pt.
+Val loss: 0.0692862719297409.
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+tradeoff 0.4999998123541698 | step 40 | epoch 40 | lr 0.001 | checkpoint_time 48.174 |
+Train Stats
+train_total_loss 0.327 | train_augmentation_total_loss 0.539 | train_augmentation_total_loss_unstd 5927.593 | train_augmentation_num_loss 0.539 | train_augmentation_num_mse_loss 0.539 | train_augmentation_num_mse_loss_unstd 5927.593 | train_augmentation_num_loss_unstd 5927.593 | train_label_total_loss 0.115 | train_label_total_loss_unstd 0.115 | train_label_cat_loss 0.115 | train_label_cat_accuracy 0.967 | train_label_auroc 0.000 |
+Val Stats
+val_total_loss 0.035 | val_label_total_loss 0.069 | val_label_total_loss_unstd 0.069 | val_label_cat_loss 0.069 | val_label_cat_accuracy 0.965 | val_label_auroc 0.000 |
+Test Stats
+test_total_loss 0.035 | test_label_total_loss 0.071 | test_label_total_loss_unstd 0.071 | test_label_cat_loss 0.071 | test_label_cat_accuracy 0.982 | test_label_auroc 0.000 |
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+tradeoff 0.4999997611556115 | step 45 | epoch 45 | lr 0.001 | checkpoint_time 29.196 |
+Train Stats
+train_total_loss 0.351 | train_augmentation_total_loss 0.565 | train_augmentation_total_loss_unstd 3497.558 | train_augmentation_num_loss 0.565 | train_augmentation_num_mse_loss 0.565 | train_augmentation_num_mse_loss_unstd 3497.558 | train_augmentation_num_loss_unstd 3497.558 | train_label_total_loss 0.137 | train_label_total_loss_unstd 0.137 | train_label_cat_loss 0.137 | train_label_cat_accuracy 0.947 | train_label_auroc 0.000 |
+Val Stats
+val_total_loss 0.055 | val_label_total_loss 0.111 | val_label_total_loss_unstd 0.111 | val_label_cat_loss 0.111 | val_label_cat_accuracy 0.965 | val_label_auroc 0.000 |
+Test Stats
+test_total_loss 0.072 | test_label_total_loss 0.143 | test_label_total_loss_unstd 0.143 | test_label_cat_loss 0.143 | test_label_cat_accuracy 0.930 | test_label_auroc 0.000 |
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+Validation loss has improved 1 times since last caching the model. Caching now.
+Storing new best performing model.
+Model checkpointing attempts: 0.
+Stored epoch 50 model checkpoint to data/breast-cancer/ssl__True/np_seed=42__n_cv_splits=5__exp_num_runs=1/model_checkpoints/model_50.pt.
+Val loss: 0.05320611223578453.
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+tradeoff 0.4999997037885564 | step 50 | epoch 50 | lr 0.001 | checkpoint_time 29.711 |
+Train Stats
+train_total_loss 0.293 | train_augmentation_total_loss 0.501 | train_augmentation_total_loss_unstd 4129.284 | train_augmentation_num_loss 0.501 | train_augmentation_num_mse_loss 0.501 | train_augmentation_num_mse_loss_unstd 4129.284 | train_augmentation_num_loss_unstd 4129.284 | train_label_total_loss 0.084 | train_label_total_loss_unstd 0.084 | train_label_cat_loss 0.084 | train_label_cat_accuracy 0.977 | train_label_auroc 0.000 |
+Val Stats
+val_total_loss 0.027 | val_label_total_loss 0.053 | val_label_total_loss_unstd 0.053 | val_label_cat_loss 0.053 | val_label_cat_accuracy 0.965 | val_label_auroc 0.000 |
+Test Stats
+test_total_loss 0.033 | test_label_total_loss 0.067 | test_label_total_loss_unstd 0.067 | test_label_cat_loss 0.067 | test_label_cat_accuracy 0.974 | test_label_auroc 0.000 |
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+Validation loss has improved 1 times since last caching the model. Caching now.
+Storing new best performing model.
+Model checkpointing attempts: 0.
+Stored epoch 55 model checkpoint to data/breast-cancer/ssl__True/np_seed=42__n_cv_splits=5__exp_num_runs=1/model_checkpoints/model_55.pt.
+Val loss: 0.03211412578821182.
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+tradeoff 0.49999964025300586 | step 55 | epoch 55 | lr 0.001 | checkpoint_time 29.549 |
+Train Stats
+train_total_loss 0.301 | train_augmentation_total_loss 0.514 | train_augmentation_total_loss_unstd 5236.104 | train_augmentation_num_loss 0.514 | train_augmentation_num_mse_loss 0.514 | train_augmentation_num_mse_loss_unstd 5236.104 | train_augmentation_num_loss_unstd 5236.104 | train_label_total_loss 0.088 | train_label_total_loss_unstd 0.088 | train_label_cat_loss 0.088 | train_label_cat_accuracy 0.972 | train_label_auroc 0.000 |
+Val Stats
+val_total_loss 0.016 | val_label_total_loss 0.032 | val_label_total_loss_unstd 0.032 | val_label_cat_loss 0.032 | val_label_cat_accuracy 1.000 | val_label_auroc 0.000 |
+Test Stats
+test_total_loss 0.027 | test_label_total_loss 0.054 | test_label_total_loss_unstd 0.054 | test_label_cat_loss 0.054 | test_label_cat_accuracy 0.982 | test_label_auroc 0.000 |
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+Validation loss has improved 1 times since last caching the model. Caching now.
+Storing new best performing model.
+Model checkpointing attempts: 0.
+Stored epoch 60 model checkpoint to data/breast-cancer/ssl__True/np_seed=42__n_cv_splits=5__exp_num_runs=1/model_checkpoints/model_60.pt.
+Val loss: 0.028595544397830963.
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+tradeoff 0.49999957054896144 | step 60 | epoch 60 | lr 0.001 | checkpoint_time 32.903 |
+Train Stats
+train_total_loss 0.266 | train_augmentation_total_loss 0.433 | train_augmentation_total_loss_unstd 6066.091 | train_augmentation_num_loss 0.433 | train_augmentation_num_mse_loss 0.433 | train_augmentation_num_mse_loss_unstd 6066.091 | train_augmentation_num_loss_unstd 6066.091 | train_label_total_loss 0.100 | train_label_total_loss_unstd 0.100 | train_label_cat_loss 0.100 | train_label_cat_accuracy 0.967 | train_label_auroc 0.000 |
+Val Stats
+val_total_loss 0.014 | val_label_total_loss 0.029 | val_label_total_loss_unstd 0.029 | val_label_cat_loss 0.029 | val_label_cat_accuracy 1.000 | val_label_auroc 0.000 |
+Test Stats
+test_total_loss 0.029 | test_label_total_loss 0.057 | test_label_total_loss_unstd 0.057 | test_label_cat_loss 0.057 | test_label_cat_accuracy 0.982 | test_label_auroc 0.000 |
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+tradeoff 0.4999994946764249 | step 65 | epoch 65 | lr 0.001 | checkpoint_time 24.668 |
+Train Stats
+train_total_loss 0.292 | train_augmentation_total_loss 0.481 | train_augmentation_total_loss_unstd 1685.435 | train_augmentation_num_loss 0.481 | train_augmentation_num_mse_loss 0.481 | train_augmentation_num_mse_loss_unstd 1685.435 | train_augmentation_num_loss_unstd 1685.435 | train_label_total_loss 0.102 | train_label_total_loss_unstd 0.102 | train_label_cat_loss 0.102 | train_label_cat_accuracy 0.965 | train_label_auroc 0.000 |
+Val Stats
+val_total_loss 0.015 | val_label_total_loss 0.030 | val_label_total_loss_unstd 0.030 | val_label_cat_loss 0.030 | val_label_cat_accuracy 1.000 | val_label_auroc 0.000 |
+Test Stats
+test_total_loss 0.038 | test_label_total_loss 0.076 | test_label_total_loss_unstd 0.076 | test_label_cat_loss 0.076 | test_label_cat_accuracy 0.965 | test_label_auroc 0.000 |
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+tradeoff 0.49999941263539804 | step 70 | epoch 70 | lr 0.001 | checkpoint_time 24.990 |
+Train Stats
+train_total_loss 0.239 | train_augmentation_total_loss 0.382 | train_augmentation_total_loss_unstd 1821.775 | train_augmentation_num_loss 0.382 | train_augmentation_num_mse_loss 0.382 | train_augmentation_num_mse_loss_unstd 1821.775 | train_augmentation_num_loss_unstd 1821.775 | train_label_total_loss 0.096 | train_label_total_loss_unstd 0.096 | train_label_cat_loss 0.096 | train_label_cat_accuracy 0.977 | train_label_auroc 0.000 |
+Val Stats
+val_total_loss 0.016 | val_label_total_loss 0.032 | val_label_total_loss_unstd 0.032 | val_label_cat_loss 0.032 | val_label_cat_accuracy 0.982 | val_label_auroc 0.000 |
+Test Stats
+test_total_loss 0.026 | test_label_total_loss 0.052 | test_label_total_loss_unstd 0.052 | test_label_cat_loss 0.052 | test_label_cat_accuracy 0.974 | test_label_auroc 0.000 |
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+Validation loss has improved 1 times since last caching the model. Caching now.
+Storing new best performing model.
+Model checkpointing attempts: 0.
+Stored epoch 75 model checkpoint to data/breast-cancer/ssl__True/np_seed=42__n_cv_splits=5__exp_num_runs=1/model_checkpoints/model_75.pt.
+Val loss: 0.027795961126685143.
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+tradeoff 0.499999324425883 | step 75 | epoch 75 | lr 0.001 | checkpoint_time 28.806 |
+Train Stats
+train_total_loss 0.277 | train_augmentation_total_loss 0.449 | train_augmentation_total_loss_unstd 2121.145 | train_augmentation_num_loss 0.449 | train_augmentation_num_mse_loss 0.449 | train_augmentation_num_mse_loss_unstd 2121.145 | train_augmentation_num_loss_unstd 2121.145 | train_label_total_loss 0.105 | train_label_total_loss_unstd 0.105 | train_label_cat_loss 0.105 | train_label_cat_accuracy 0.962 | train_label_auroc 0.000 |
+Val Stats
+val_total_loss 0.014 | val_label_total_loss 0.028 | val_label_total_loss_unstd 0.028 | val_label_cat_loss 0.028 | val_label_cat_accuracy 0.982 | val_label_auroc 0.000 |
+Test Stats
+test_total_loss 0.024 | test_label_total_loss 0.047 | test_label_total_loss_unstd 0.047 | test_label_cat_loss 0.047 | test_label_cat_accuracy 0.982 | test_label_auroc 0.000 |
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+tradeoff 0.4999992300478819 | step 80 | epoch 80 | lr 0.001 | checkpoint_time 27.976 |
+Train Stats
+train_total_loss 0.249 | train_augmentation_total_loss 0.399 | train_augmentation_total_loss_unstd 2617.080 | train_augmentation_num_loss 0.399 | train_augmentation_num_mse_loss 0.399 | train_augmentation_num_mse_loss_unstd 2617.080 | train_augmentation_num_loss_unstd 2617.080 | train_label_total_loss 0.098 | train_label_total_loss_unstd 0.098 | train_label_cat_loss 0.098 | train_label_cat_accuracy 0.960 | train_label_auroc 0.000 |
+Val Stats
+val_total_loss 0.020 | val_label_total_loss 0.039 | val_label_total_loss_unstd 0.039 | val_label_cat_loss 0.039 | val_label_cat_accuracy 0.982 | val_label_auroc 0.000 |
+Test Stats
+test_total_loss 0.039 | test_label_total_loss 0.078 | test_label_total_loss_unstd 0.078 | test_label_cat_loss 0.078 | test_label_cat_accuracy 0.965 | test_label_auroc 0.000 |
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+tradeoff 0.499999129501397 | step 85 | epoch 85 | lr 0.001 | checkpoint_time 23.776 |
+Train Stats
+train_total_loss 0.217 | train_augmentation_total_loss 0.353 | train_augmentation_total_loss_unstd 2884.519 | train_augmentation_num_loss 0.353 | train_augmentation_num_mse_loss 0.353 | train_augmentation_num_mse_loss_unstd 2884.519 | train_augmentation_num_loss_unstd 2884.519 | train_label_total_loss 0.081 | train_label_total_loss_unstd 0.081 | train_label_cat_loss 0.081 | train_label_cat_accuracy 0.967 | train_label_auroc 0.000 |
+Val Stats
+val_total_loss 0.022 | val_label_total_loss 0.044 | val_label_total_loss_unstd 0.044 | val_label_cat_loss 0.044 | val_label_cat_accuracy 0.982 | val_label_auroc 0.000 |
+Test Stats
+test_total_loss 0.029 | test_label_total_loss 0.058 | test_label_total_loss_unstd 0.058 | test_label_cat_loss 0.058 | test_label_cat_accuracy 0.982 | test_label_auroc 0.000 |
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+tradeoff 0.4999990227864309 | step 90 | epoch 90 | lr 0.001 | checkpoint_time 23.776 |
+Train Stats
+Val Stats
+val_total_loss 0.021 | val_label_total_loss 0.041 | val_label_total_loss_unstd 0.041 | val_label_cat_loss 0.041 | val_label_cat_accuracy 0.982 | val_label_auroc 0.000 |
+Test Stats
+test_total_loss 0.037 | test_label_total_loss 0.075 | test_label_total_loss_unstd 0.075 | test_label_cat_loss 0.075 | test_label_cat_accuracy 0.965 | test_label_auroc 0.000 |
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+tradeoff 0.4999989099029861 | step 95 | epoch 95 | lr 0.001 | checkpoint_time 24.237 |
+Train Stats
+train_total_loss 0.196 | train_augmentation_total_loss 0.320 | train_augmentation_total_loss_unstd 2176.476 | train_augmentation_num_loss 0.320 | train_augmentation_num_mse_loss 0.320 | train_augmentation_num_mse_loss_unstd 2176.476 | train_augmentation_num_loss_unstd 2176.476 | train_label_total_loss 0.073 | train_label_total_loss_unstd 0.073 | train_label_cat_loss 0.073 | train_label_cat_accuracy 0.975 | train_label_auroc 0.000 |
+Val Stats
+val_total_loss 0.015 | val_label_total_loss 0.030 | val_label_total_loss_unstd 0.030 | val_label_cat_loss 0.030 | val_label_cat_accuracy 0.982 | val_label_auroc 0.000 |
+Test Stats
+test_total_loss 0.040 | test_label_total_loss 0.080 | test_label_total_loss_unstd 0.080 | test_label_cat_loss 0.080 | test_label_cat_accuracy 0.956 | test_label_auroc 0.000 |
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+tradeoff 0.49999879085106547 | step 100 | epoch 100 | lr 0.001 | checkpoint_time 23.593 |
+Train Stats
+train_total_loss 0.203 | train_augmentation_total_loss 0.321 | train_augmentation_total_loss_unstd 3090.009 | train_augmentation_num_loss 0.321 | train_augmentation_num_mse_loss 0.321 | train_augmentation_num_mse_loss_unstd 3090.009 | train_augmentation_num_loss_unstd 3090.009 | train_label_total_loss 0.084 | train_label_total_loss_unstd 0.084 | train_label_cat_loss 0.084 | train_label_cat_accuracy 0.967 | train_label_auroc 0.000 |
+Val Stats
+val_total_loss 0.029 | val_label_total_loss 0.059 | val_label_total_loss_unstd 0.059 | val_label_cat_loss 0.059 | val_label_cat_accuracy 0.965 | val_label_auroc 0.000 |
+Test Stats
+test_total_loss 0.026 | test_label_total_loss 0.053 | test_label_total_loss_unstd 0.053 | test_label_cat_loss 0.053 | test_label_cat_accuracy 0.982 | test_label_auroc 0.000 |
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+tradeoff 0.49999866563067197 | step 105 | epoch 105 | lr 0.001 | checkpoint_time 24.686 |
+Train Stats
+train_total_loss 0.184 | train_augmentation_total_loss 0.288 | train_augmentation_total_loss_unstd 2241.870 | train_augmentation_num_loss 0.288 | train_augmentation_num_mse_loss 0.288 | train_augmentation_num_mse_loss_unstd 2241.870 | train_augmentation_num_loss_unstd 2241.870 | train_label_total_loss 0.079 | train_label_total_loss_unstd 0.079 | train_label_cat_loss 0.079 | train_label_cat_accuracy 0.970 | train_label_auroc 0.000 |
+Val Stats
+val_total_loss 0.019 | val_label_total_loss 0.037 | val_label_total_loss_unstd 0.037 | val_label_cat_loss 0.037 | val_label_cat_accuracy 0.982 | val_label_auroc 0.000 |
+Test Stats
+test_total_loss 0.035 | test_label_total_loss 0.071 | test_label_total_loss_unstd 0.071 | test_label_cat_loss 0.071 | test_label_cat_accuracy 0.965 | test_label_auroc 0.000 |
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+tradeoff 0.4999985342418087 | step 110 | epoch 110 | lr 0.001 | checkpoint_time 26.311 |
+Train Stats
+train_total_loss 0.186 | train_augmentation_total_loss 0.293 | train_augmentation_total_loss_unstd 3142.136 | train_augmentation_num_loss 0.293 | train_augmentation_num_mse_loss 0.293 | train_augmentation_num_mse_loss_unstd 3142.136 | train_augmentation_num_loss_unstd 3142.136 | train_label_total_loss 0.080 | train_label_total_loss_unstd 0.080 | train_label_cat_loss 0.080 | train_label_cat_accuracy 0.977 | train_label_auroc 0.000 |
+Val Stats
+val_total_loss 0.024 | val_label_total_loss 0.047 | val_label_total_loss_unstd 0.047 | val_label_cat_loss 0.047 | val_label_cat_accuracy 0.965 | val_label_auroc 0.000 |
+Test Stats
+test_total_loss 0.023 | test_label_total_loss 0.046 | test_label_total_loss_unstd 0.046 | test_label_cat_loss 0.046 | test_label_cat_accuracy 0.982 | test_label_auroc 0.000 |
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+tradeoff 0.49999839668447876 | step 115 | epoch 115 | lr 0.001 | checkpoint_time 29.783 |
+Train Stats
+train_total_loss 0.206 | train_augmentation_total_loss 0.344 | train_augmentation_total_loss_unstd 1564.612 | train_augmentation_num_loss 0.344 | train_augmentation_num_mse_loss 0.344 | train_augmentation_num_mse_loss_unstd 1564.612 | train_augmentation_num_loss_unstd 1564.612 | train_label_total_loss 0.067 | train_label_total_loss_unstd 0.067 | train_label_cat_loss 0.067 | train_label_cat_accuracy 0.982 | train_label_auroc 0.000 |
+Val Stats
+val_total_loss 0.015 | val_label_total_loss 0.030 | val_label_total_loss_unstd 0.030 | val_label_cat_loss 0.030 | val_label_cat_accuracy 0.982 | val_label_auroc 0.000 |
+Test Stats
+test_total_loss 0.030 | test_label_total_loss 0.061 | test_label_total_loss_unstd 0.061 | test_label_cat_loss 0.061 | test_label_cat_accuracy 0.974 | test_label_auroc 0.000 |
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+AUROC computation failure.
+`num_classes` is expected to be `int` but `<class 'NoneType'> was passed.`
+tradeoff 0.4999982529586857 | step 120 | epoch 120 | lr 0.001 | checkpoint_time 25.542 |
+Train Stats
+train_total_loss 0.220 | train_augmentation_total_loss 0.372 | train_augmentation_total_loss_unstd 2298.053 | train_augmentation_num_loss 0.372 | train_augmentation_num_mse_loss 0.372 | train_augmentation_num_mse_loss_unstd 2298.053 | train_augmentation_num_loss_unstd 2298.053 | train_label_total_loss 0.067 | train_label_total_loss_unstd 0.067 | train_label_cat_loss 0.067 | train_label_cat_accuracy 0.972 | train_label_auroc 0.000 |
+Val Stats
+val_total_loss 0.018 | val_label_total_loss 0.036 | val_label_total_loss_unstd 0.036 | val_label_cat_loss 0.036 | val_label_cat_accuracy 0.982 | val_label_auroc 0.000 |
+Test Stats

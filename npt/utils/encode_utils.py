@@ -52,7 +52,6 @@ def get_compute_statistics_and_non_missing_matrix(data_dict, c):
     # Matrix with a 1 entry for all non-missing elements (i.e. those
     # we should transform)
     non_missing_matrix = ~missing_matrix
-
     return compute_statistics_matrix, non_missing_matrix, missing_matrix
 
 

@@ -50,7 +50,7 @@ def apply_mask(
         mask_candidates = mask_candidates[:num_examples]
 
     # Mask features
-    feature_mask_indices_arrs = []  # For each feature, list of masked rows
+    #feature_mask_indices_arrs = []  # For each feature, list of masked rows
 
     # Shortcut for deterministic masking
     if mask_prob == 1:

@@ -53,7 +53,7 @@ def get_dataloaders(dataset, batch, dataroot, c, split=0.15, split_idx=0):
 
     data_loader_nprocs = c.data_loader_nprocs
     trainloader = torch.utils.data.DataLoader(
-        total_trainset, batch_size=batch, shuffle=True if train_sampler is None else False, num_workers=data_loader_nprocs, pin_memory=True,
+        total_trainset, batch_size=batch, shuffle=False if train_sampler is None else False, num_workers=data_loader_nprocs, pin_memory=True,
         sampler=train_sampler, drop_last=False)
     validloader = torch.utils.data.DataLoader(
         total_trainset, batch_size=batch, shuffle=False, num_workers=data_loader_nprocs, pin_memory=True,

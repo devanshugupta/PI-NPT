@@ -1,0 +1,70 @@
+Traceback (most recent call last):
+  File "/Users/devu/anaconda3/envs/npt/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 3653, in get_loc
+    return self._engine.get_loc(casted_key)
+  File "pandas/_libs/index.pyx", line 147, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 176, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7080, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7088, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'u'
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "run.py", line 204, in <module>
+    main(args)
+  File "run.py", line 23, in main
+    run_cv(args=args, wandb_args=wandb_args)
+  File "run.py", line 117, in run_cv
+    run_cv_splits(wandb_args, args, c, wandb_run)
+  File "run.py", line 125, in run_cv_splits
+    dataset = ColumnEncodingDataset(c)
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/column_encoding_dataset.py", line 100, in __init__
+    self.reset_cv_splits()
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/column_encoding_dataset.py", line 105, in reset_cv_splits
+    self.dataset_gen = self.run_preprocessing_and_caching()
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/column_encoding_dataset.py", line 382, in run_preprocessing_and_caching
+    data_dict = self.get_data_dict()
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/column_encoding_dataset.py", line 309, in get_data_dict
+    data_dict = self._dataset.get_data_dict(
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/datasets/base.py", line 48, in get_data_dict
+    self.load()
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/datasets/ODE.py", line 110, in load
+    self.missing_matrix) = self.load_and_preprocess_ode_dataset(
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/datasets/ODE.py", line 34, in load_and_preprocess_ode_dataset
+    missing_matrix_test[:, test.columns.get_loc('u')] = True
+  File "/Users/devu/anaconda3/envs/npt/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 3655, in get_loc
+    raise KeyError(key) from err
+KeyError: 'u'
+Traceback (most recent call last):
+  File "/Users/devu/anaconda3/envs/npt/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 3653, in get_loc
+    return self._engine.get_loc(casted_key)
+  File "pandas/_libs/index.pyx", line 147, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 176, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7080, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7088, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'u'
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "run.py", line 204, in <module>
+    main(args)
+  File "run.py", line 23, in main
+    run_cv(args=args, wandb_args=wandb_args)
+  File "run.py", line 117, in run_cv
+    run_cv_splits(wandb_args, args, c, wandb_run)
+  File "run.py", line 125, in run_cv_splits
+    dataset = ColumnEncodingDataset(c)
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/column_encoding_dataset.py", line 100, in __init__
+    self.reset_cv_splits()
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/column_encoding_dataset.py", line 105, in reset_cv_splits
+    self.dataset_gen = self.run_preprocessing_and_caching()
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/column_encoding_dataset.py", line 382, in run_preprocessing_and_caching
+    data_dict = self.get_data_dict()
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/column_encoding_dataset.py", line 309, in get_data_dict
+    data_dict = self._dataset.get_data_dict(
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/datasets/base.py", line 48, in get_data_dict
+    self.load()
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/datasets/ODE.py", line 110, in load
+    self.missing_matrix) = self.load_and_preprocess_ode_dataset(
+  File "/Users/devu/PycharmProjects/non-parametric-transformers/npt/datasets/ODE.py", line 34, in load_and_preprocess_ode_dataset
+    missing_matrix_test[:, test.columns.get_loc('u')] = True
+  File "/Users/devu/anaconda3/envs/npt/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 3655, in get_loc
+    raise KeyError(key) from err
+KeyError: 'u'

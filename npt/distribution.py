@@ -39,7 +39,7 @@ def distributed_train_wrapper(gpu, args):
         'world_size': world_size,
         'rank': rank,
         'gpu': gpu}
-
+    print('Distributed .py-----------------------------------')
     trainer = Trainer(
         model=model, optimizer=optimizer, scaler=scaler, c=c,
         cv_index=0, wandb_run=None,
