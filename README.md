@@ -50,18 +50,10 @@ We use [wandb](http://wandb.com/) to log experimental results.
 Wandb allows us to conveniently track run progress online.
 If you do not want wandb enabled, you can run `wandb off` in the shell where you execute NPT.
 
-For example, run this to explore NPT with default configuration on Breast Cancer
+For example, run this to explore NPT with default configuration on ODE dataset
 
 ```
-python run.py --data_set breast-cancer
-```
-
-Another example: A run on the poker-hand dataset may look like this
-
-```
-python run.py --data_set poker-hand \
---exp_batch_size 4096 \
---exp_print_every_nth_forward 100
+python run.py --data_set ode
 ```
 
 You can find all possible config arguments and descriptions in `NPT/configs.py` or using `python run.py --help`.
