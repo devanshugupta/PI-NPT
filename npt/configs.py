@@ -32,13 +32,13 @@ def build_parser():
     # #### Dataset Config ########################################################
     ###########################################################################
     parser.add_argument('--dataset_path', type=str, default='./dataset', help='Path to the dataset')
-    parser.add_argument('--start_coeff_1', type=int, default=0, help='start point of beta range')
-    parser.add_argument('--start_coeff_2', type=int, default=0, help='start point of nu range')
-    parser.add_argument('--start_coeff_3', type=int, default=0, help='start point of rho range')
+    parser.add_argument('--start_coeff_1', type=int, default=1, help='start point of beta range')
+    parser.add_argument('--start_coeff_2', type=int, default=1, help='start point of nu range')
+    parser.add_argument('--start_coeff_3', type=int, default=1, help='start point of rho range')
 
-    parser.add_argument('--end_coeff_1', type=int, default=0, help='end point of beta range')
-    parser.add_argument('--end_coeff_2', type=int, default=0, help='end point of nu range')
-    parser.add_argument('--end_coeff_3', type=int, default=0, help='end point of rho range')
+    parser.add_argument('--end_coeff_1', type=int, default=40, help='end point of beta range')
+    parser.add_argument('--end_coeff_2', type=int, default=40, help='end point of nu range')
+    parser.add_argument('--end_coeff_3', type=int, default=40, help='end point of rho range')
 
     parser.add_argument('--init_cond', type=str, default='sin_1')
     parser.add_argument('--pde_type', type=str, default='convection')
@@ -558,7 +558,7 @@ def build_parser():
     ###########################################################################
 
     parser.add_argument(
-        '--model_dim_hidden', type=int, default=128,
+        '--model_dim_hidden', type=int, default=64,
         help='Intermediate feature dimension.')
     parser.add_argument(
         '--model_num_heads', type=int, default=8,

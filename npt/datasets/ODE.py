@@ -50,11 +50,14 @@ class OrdinaryDifferentialEquationDataset(BaseDataset):
         train_data_bd = pd.concat([data_lb, data_ub], ignore_index=True)
         # u_data for boundary is None values for now
         '''
+        train_data_f['beta'] = train_data_f['beta'].apply(lambda x: 1.0)
+
         # Combine train and test datasets and remove columns
         data_table = pd.concat([train_data_f,train_data_u,test_data], ignore_index=True)
 
         # Get number of rows for each dataset
         len_train_f,len_train_u,len_train_bd,len_test = train_data_f.shape[0],train_data_u.shape[0],train_data_bd.shape[0],test_data.shape[0]
+        print(len_train_f,len_train_u,len_train_bd, len_test)
         test_index = data_table.shape[0] - len_test
         self.fixed_test_set_index = test_index
         # Convert data table to numpy
@@ -62,6 +65,7 @@ class OrdinaryDifferentialEquationDataset(BaseDataset):
         N = data_table.shape[0]
         D = data_table.shape[1]
 
+        print(f'ODE Dataset has {N} rows')
         # Create missing matrix for combined data
         missing_matrix = np.zeros((N, D), dtype=bool)
 
