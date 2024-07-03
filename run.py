@@ -108,7 +108,7 @@ def run_cv(args, wandb_args):
         wandb_run = None
         c = args
     else:
-        wandb_run = wandb.init(**wandb_args, mode = 'offline')
+        wandb_run = wandb.init(**wandb_args)
         args.cv_index = 0
         wandb.config.update(args, allow_val_change=True)
         c = wandb.config
