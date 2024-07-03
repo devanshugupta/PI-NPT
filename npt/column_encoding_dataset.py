@@ -555,6 +555,10 @@ class ColumnEncodingDataset:
                     cols=cat_target_cols + num_target_cols,  # Both lists
                     N=N, D=D)
                 for dataset_mode_rows in new_train_val_test_indices]
+            '''print('mask matrices --------------------')
+            print(train_mask_matrix, val_mask_matrix, test_mask_matrix)
+            print('----------------------------------')
+'''
 
             # Need to rebuild missing matrix with new index ordering
             new_missing_matrix = missing_matrix[
@@ -585,15 +589,12 @@ class ColumnEncodingDataset:
                 train_mask_matrix, np.zeros((N, D)))
             '''
             assert not np.array_equal(
-                val_mask_matrix, np.zeros((N, D)))
-            '''
+                val_mask_matrix, np.zeros((N, D)))'''
             assert not np.array_equal(
                 test_mask_matrix, np.zeros((N, D)))
             assert not np.array_equal(
                 bert_mask_matrix, np.zeros((N, D)))
-
             #print(new_missing_matrix)
-
             data_dict = dict(
                 split_idx=split_idx,
                 N=N,

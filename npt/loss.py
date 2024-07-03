@@ -68,6 +68,7 @@ class Loss:
         # Add physics loss to stats
         self.loss_stats.append('physics_loss')
 
+        self.fixed_test_set_index = metadata['fixed_test_set_index']
         self.setup_auroc(metadata)
 
     def setup_auroc(self, metadata):
@@ -130,43 +131,7 @@ class Loss:
                     self.epoch_loss[mode][key] = (
                         self.epoch_loss[mode][key] +
                         self.batch_loss[mode][key])
-    def convection_diffusion_loss(self, col, is_cat, output, masked_tensors, col_mask, num_preds):
-        """Compute the PINNs loss for the convection diffusion equation."""
-        # Add the extra column to
-        col_mask = col_mask.reshape(-1,1)
-        x = [col_mask for i in range(masked_tensors[0].shape[1])]
 
-        col_mask = torch.cat(x, 1)
-
-        u = output.requires_grad_(True)
-        #x, t = ground_truth_data[0].requires_grad_(True), ground_truth_data[1].requires_grad_(True)
-        #x,t = data_dict['data_arrs'][0], data_dict['data_arrs'][1]
-        x, t = masked_tensors[0], masked_tensors[1]
-
-        '''
-        print(f'u_pred requires_grad, grad_fn------: {u.requires_grad},{u.grad_fn}')
-        print(f'x requires_grad, grad_fn---------: {x.requires_grad},{x.grad_fn}')
-        print(f't requires_grad, grad_fn--------: {t.requires_grad},{t.grad_fn}')
-        print('u_sum--------', u.sum())
-        '''
-        beta = 1.0
-        rho = 0
-        nu = 0
-
-        # Compute gradients
-        u_t = torch.autograd.grad(u.sum(), t, create_graph=True)[0]
-        u_x = torch.autograd.grad(u.sum(), x, create_graph=True)[0]
-        u_xx = torch.autograd.grad(u_x.sum(), x, create_graph=True)[0]
-
-        # Compute the PDE residual
-        #print('Gradients shape -------',u_t.shape, u_xx.shape)
-        residual = u_t + (beta * u_x) - (nu * u_xx) - (rho * u * (1-u))
-
-        residual = col_mask * residual
-
-        # Physics loss is the mean squared residual
-        physics_loss = torch.mean(residual**2)
-        return physics_loss
 
     # @profile
     def compute_loss(
@@ -206,22 +171,7 @@ class Loss:
         #here print
         #print(self.c)
         #print('data dict | loss.py compute_loss() --------', data_dict)
-
-        '''
-        n_cv_splits = 1
-        ssl_str = f'ssl__{self.c.model_is_semi_supervised}'
-        cache_path = os.path.join(
-            self.c.data_path, self.c.data_set, ssl_str,
-            f'np_seed={self.c.np_seed}__n_cv_splits={n_cv_splits}'
-            f'__exp_num_runs={self.c.exp_n_runs}')
-        cv_split = 0
-        
-        dataset_path = os.path.join(
-                cache_path, f"dataset__split={cv_split}.pkl")
-        with open(dataset_path, 'rb') as f:
-            data_dict1 = pickle.load(file=f)
-        data_dict[f'{dataset_mode}_mask_matrix'] = data_dict1[f'{dataset_mode}_mask_matrix']
-        '''
+        #print('data dict',data_dict)
 
         self.dataset_mode = dataset_mode
 
@@ -303,17 +253,12 @@ class Loss:
                 # Compute label and augmentation losses separately
 
                 # Short-circuit if mode is label and col is not a label col
-                '''
-                if mode == 'label' and col not in data_dict['target_cols']:
-                    continue
-                '''
 
                 if col not in data_dict['target_cols']:
                     continue
                 # Necessary e.g. when aug masking is disabled for val/test
                 if mode_loss_indices is None:
                     continue
-                print('Mode ------------> ', mode, col)
 
                 # Get row indices for which we want to compute loss in this col
                 col_loss_indices = mode_loss_indices[:, col]
@@ -321,6 +266,14 @@ class Loss:
                 # Keep track of number of predicted values in this column
                 # for loss normalisation purposes.
                 num_preds = col_loss_indices.sum()
+
+                # Compute PINNs loss for train collocation in col
+                if not eval_model and dataset_mode=='train': # Train loss
+                    physics_loss = self.convection_diffusion_loss(
+                        col=col, is_cat=is_cat, output=out, masked_tensors=masked_tensors,
+                        col_mask=col_loss_indices, num_preds=num_preds)
+                else:
+                    physics_loss = 0
 
                 # Compute loss for selected row entries in col
                 loss, extra_out = self.compute_column_loss(
@@ -349,19 +302,10 @@ class Loss:
                         if extra_loss := extra_out.get(extra, False):
                             loss_dict[mode][extra] += extra_loss
 
-                if not eval_model:
-                    # Compute PINNs loss
-                    physics_loss = self.convection_diffusion_loss(
-                        col=col, is_cat=is_cat, output=out, masked_tensors=masked_tensors,
-                        col_mask=col_loss_indices, num_preds=num_preds)
-                else:
-                    physics_loss = 0  # Eval Mode (no gradients)
+                loss_dict[mode]['physics_loss'] = physics_loss
 
-                print('Physics Loss: ', physics_loss)
-                loss_dict['label']['physics_loss'] = physics_loss
-
-                # Add PINNs loss to num_loss (assuming main loss is 'num_loss' because 'loss' is added to it only)
-                loss_dict['label']['num_loss'] += physics_loss
+                # Add PINNs loss to num_loss (assuming loss is 'num_loss' because 'loss' is added to it only)
+                loss_dict[mode]['num_loss'] += physics_loss
 
         return loss_dict
 
@@ -416,6 +360,7 @@ class Loss:
         # Compute total loss. This is used for backpropagation
         # Trade-off loss on target columns and loss from augmentation masking.
         std_dict['total_loss'] = self.balance_self_supervision(raw_dict)
+        std_dict['PINNs_loss'] = raw_dict['label']['physics_loss']
 
         if not eval_model and not self.c.exp_print_every_nth_forward:
             return std_dict
@@ -444,6 +389,7 @@ class Loss:
                 for out_loss, in_loss in zip(out_names, in_names):
                     std_dict[mode][out_loss] = (
                         raw_dict[mode][in_loss] / cat_preds)
+
 
         return std_dict
 
@@ -506,6 +452,33 @@ class Loss:
             total_loss = tradeoff * aug_loss + (1 - tradeoff) * label_loss
             return total_loss
 
+    def convection_diffusion_loss(self, col, is_cat, output, masked_tensors, col_mask, num_preds):
+        """Compute the PINNs loss for the convection diffusion equation."""
+
+        # Add the extra column to mask
+        col_mask = col_mask.reshape(-1,1)
+        x = [col_mask for i in range(masked_tensors[0].shape[1])]
+
+        col_mask = torch.cat(x, 1)
+        u = output
+        x, t = masked_tensors[0], masked_tensors[1]
+
+        beta, nu, rho = masked_tensors[3], masked_tensors[4],masked_tensors[5]
+
+        # Compute gradients
+        u_t = torch.autograd.grad(u.sum(), t, create_graph=True)[0]
+        u_x = torch.autograd.grad(u.sum(), x, create_graph=True)[0]
+        u_xx = torch.autograd.grad(u_x.sum(), x, create_graph=True)[0]
+
+        # Compute the PDE residual
+        residual = u_t + (beta * u_x) - (nu * u_xx) - (rho * u * (1-u))
+
+        residual = col_mask * residual
+
+        # Physics loss is the mean squared residual
+        physics_loss = torch.mean(residual**2)
+        return physics_loss
+
     def compute_column_loss(
             self, col, is_cat, output, data, eval_model, col_mask, num_preds,
             sigma=None):
@@ -530,7 +503,11 @@ class Loss:
             cat_correct_preds (torch.Tensor): Number of correct predictions for
                 accuracy calculation. None for regression.
         """
-        extra_out = dict()
+        extra_out = {}
+        if not eval_model and self.dataset_mode == 'train':
+            # For train data, we calculate MSE for only initial points so we invert the mask
+            col_mask[:self.fixed_test_set_index] =  ~col_mask[:self.fixed_test_set_index]
+
 
         if is_cat:
             # Cross-entropy loss does not expect one-hot encoding.
@@ -573,8 +550,9 @@ class Loss:
             # Apply the invalid entries multiplicatively, so we only
             # tabulate an MSE for the entries which were masked
             #col_mask = torch.tensor(col_mask)
-            output = col_mask * output.squeeze()
-            data = col_mask * data.squeeze()
+
+            output = col_mask * output[:, :-1].squeeze()
+            data = col_mask * data[:, :-1].squeeze()
 
             loss = torch.sum(torch.square((output - data)))
             extra_out['num_mse_loss'] = loss.detach()

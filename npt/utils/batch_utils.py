@@ -38,9 +38,7 @@ def collate_with_pre_batching(batch):
     if isinstance(elem, container_abcs.Mapping):
         # Set requires_grad=True for the relevant tensors in the dictionary
         for key, value in elem.items():
-            if isinstance(value, torch.Tensor):
-                elem[key] = value.float().requires_grad_()
-            elif key == 'masked_tensors':
+            if key == 'masked_tensors':
                 elem[key] = [v.float().requires_grad_(True) if isinstance(v, torch.Tensor) else v for v in value]
         return elem  # Just return the dict, as there will only be one in NPT
 

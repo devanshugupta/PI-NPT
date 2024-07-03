@@ -2,7 +2,7 @@
 import argparse
 
 DEFAULT_AUGMENTATION_BERT_MASK_PROB = {
-    'train': 0.15,
+    'train': 0,
     'val': 0.,
     'test': 0.
 }
@@ -143,7 +143,7 @@ def build_parser():
              'batches.')
     parser.add_argument(
         '--exp_full_batch_gd', dest='exp_minibatch_sgd',
-        default=True, action='store_false',
+        default=False, action='store_false',
         help='Full batch gradient descent (as opposed to mini-batch GD)')
     parser.add_argument(
         '--exp_val_perc', type=float, default=0,
@@ -470,7 +470,7 @@ def build_parser():
     # #### Masking and Stochastic Forward Passes ##############################
 
     parser.add_argument(
-        '--model_bert_augmentation', type='bool', default=True,
+        '--model_bert_augmentation', type='bool', default=False,
         help='When True, use BERT style augmentation. This introduces a mask '
              'column for each data entry, which can also be used to track '
              'values that are truly missing (i.e., for which there is no '

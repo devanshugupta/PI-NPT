@@ -107,13 +107,13 @@ class Logger:
             line += f'{key} {loss_dict[key]} | '
         line += f'\nTrain Stats\n'
         for key in train_keys:
-            line += f'{key} {loss_dict[key]:.3f} | '
+            line += f'{key} {loss_dict[key]:.6f} | '
         line += f'\nVal Stats\n'
         for key in val_keys:
-            line += f'{key} {loss_dict[key]:.3f} | '
+            line += f'{key} {loss_dict[key]:.6f} | '
         line += f'\nTest Stats\n'
         for key in test_keys:
-            line += f'{key} {loss_dict[key]:.3f} | '
+            line += f'{key} {loss_dict[key]:.6f} | '
         line += '\n'
         print(line)
 

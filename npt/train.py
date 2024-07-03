@@ -160,6 +160,7 @@ class Trainer:
             self.c.debug_eval_row_interactions and epoch == 2)
 
         eval_model = end_experiment or self.eval_check(epoch)
+        print('eval model', eval_model)
         if self.c.debug_eval_row_interactions:
             train_loss = None
         else:
@@ -168,6 +169,7 @@ class Trainer:
             # perform an additional forward pass over all train entries
             train_loss = self.run_epoch(dataset_mode='train', epoch=epoch,
                                         eval_model=False)
+            print('DOne train loss')
 
         if eval_model:
             early_stop = self.eval_model(
@@ -254,7 +256,7 @@ class Trainer:
                 # update val loss
                 val_loss = self.run_epoch(dataset_mode='val', **kwargs)
                 '''
-
+        print('inside eval_model() epoch', epoch)
         if train_loss is None and not self.c.debug_eval_row_interactions:
             # Train and compute loss over masked features in train rows
             train_loss = self.run_epoch(dataset_mode='train', **kwargs)
@@ -269,6 +271,7 @@ class Trainer:
             test_loss = self.run_epoch(dataset_mode='test', **kwargs)
         else:
             test_loss = None
+        #removed val here
         val_loss = {}
         loss_dict = self.logger.log(
             train_loss, val_loss, test_loss, self.scheduler.num_steps, epoch)
@@ -600,10 +603,8 @@ class Trainer:
         """Run forward pass and evaluate model loss."""
         extra_args = {}
         #print('masked tensor (input to model) ------------', masked_tensors)
-        print('Dataset mode ----- ', dataset_mode)
         if eval_model:
             with torch.no_grad():
-                #print('Using torch no grad, eval model=', eval_model)
                 output = self.model(masked_tensors, **extra_args)
         else:
             output = self.model(masked_tensors, **extra_args)
@@ -617,7 +618,6 @@ class Trainer:
             eval_model=eval_model)
 
         self.loss.compute(**loss_kwargs)
-        print('Done -------------------------epoch ', epoch)
 
     def eval_check(self, epoch):
         """Check if it's time to evaluate val and test errors."""

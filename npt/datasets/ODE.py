@@ -35,7 +35,7 @@ class OrdinaryDifferentialEquationDataset(BaseDataset):
             train_data_u = pd.concat([train_data_u, u_sample], ignore_index=True)
             train_data_bd = pd.concat([train_data_bd, bd_sample], ignore_index=True)
             test_data = pd.concat([test_data, test_sample], ignore_index=True)
-
+        '''
         # Create separate dataframes for lb and ub data with same coefficients
         data_ub = train_data_bd[['x_data_ub', 't_data_ub', 'beta', 'nu', 'rho']].copy()
         data_ub.columns = ['x_data', 't_data', 'beta', 'nu', 'rho']
@@ -44,15 +44,14 @@ class OrdinaryDifferentialEquationDataset(BaseDataset):
         data_lb.columns = ['x_data', 't_data', 'beta', 'nu', 'rho']
 
         # There is no u_data for boundary condition and to get u_data observing the initial conditions,
-        # the at each time step around 0.24 increment can be seen through which a linear equation can be taken
-        # and calculate the u_data column for the boundary conditions
+        # we might use dritchlet equation 
 
         # Concat both dataframes
         train_data_bd = pd.concat([data_lb, data_ub], ignore_index=True)
         # u_data for boundary is None values for now
-
+        '''
         # Combine train and test datasets and remove columns
-        data_table = pd.concat([train_data_f,train_data_bd,train_data_u,test_data], ignore_index=True)
+        data_table = pd.concat([train_data_f,train_data_u,test_data], ignore_index=True)
 
         # Get number of rows for each dataset
         len_train_f,len_train_u,len_train_bd,len_test = train_data_f.shape[0],train_data_u.shape[0],train_data_bd.shape[0],test_data.shape[0]

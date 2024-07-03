@@ -39,7 +39,6 @@ def apply_mask(
         device = 'cpu'
 
     num_examples = data_arrs[0].shape[0]
-
     # Relevant for production setting only
     if not c.model_is_semi_supervised:
         # Filter out all mask_candidates which are not present in data_arrs.
