@@ -13,7 +13,7 @@ def t2n(t):
     return t.detach().cpu().numpy()
 
 
-def get_c_and_wandb_from_cfg_string(string, offline=True):
+def get_c_and_wandb_from_cfg_string(string, offline=False):
     """Make sure string only has whitespaces between arguments."""
     parser = build_parser()
     args = parser.parse_args(args=string.replace('"', '').split(' '))
