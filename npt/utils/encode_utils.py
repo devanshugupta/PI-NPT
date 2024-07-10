@@ -109,7 +109,7 @@ def encode_data(
         non_missing_filter = non_missing_matrix[:, col_index]
         non_missing_col = data_table[
             non_missing_filter, col_index].reshape(-1, 1)
-
+        encoded_col = data_table[:,col_index].reshape(-1, 1)
         # Fit on stat_col, transform non_missing_col
         is_cat = False
         if col_index in cat_features:
@@ -134,7 +134,9 @@ def encode_data(
 
         elif col_index in num_features:
             fitted_encoder = StandardScaler().fit(stat_col)
-            encoded_col = fitted_encoder.transform(non_missing_col)
+            # Removed Scaling to original data
+            encoded_col1 = fitted_encoder.transform(non_missing_col)
+
             standardisation[col_index, 0] = fitted_encoder.mean_[0]
             standardisation[col_index, 1] = fitted_encoder.scale_[0]
             sigmas.append(fitted_encoder.scale_[0])
@@ -143,9 +145,7 @@ def encode_data(
 
         # Construct encoded column
         # (we have only encoded non-missing entries! need to fill in missing)
-        encoded_col = construct_encoded_col(
-            non_missing_col_filter=non_missing_filter,
-            encoded_non_missing_col_values=encoded_col)
+        #encoded_col = construct_encoded_col(non_missing_col_filter=non_missing_filter, encoded_non_missing_col_values=encoded_col)
 
         if use_bert_masking:
             # Add mask tokens to numerical and categorical data
@@ -169,7 +169,6 @@ def encode_data(
                 encoded_col = encoded_col.astype(np.bool_)
             else:
                 encoded_col = encoded_col.astype(data_dtype)
-
         encoded_dataset.append(encoded_col)
         input_feature_dims.append(encoded_col.shape[1])
 

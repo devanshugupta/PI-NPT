@@ -17,7 +17,8 @@ from npt.utils.batch_utils import collate_with_pre_batching
 from npt.utils.encode_utils import torch_cast_to_dtype
 from npt.utils.eval_checkpoint_utils import EarlyStopCounter, EarlyStopSignal
 from npt.utils.logging_utils import Logger
-
+import matplotlib.pyplot as plt
+import os
 
 class Trainer:
     def __init__(
@@ -218,10 +219,10 @@ class Trainer:
         """Obtain val and test losses."""
         kwargs = dict(epoch=epoch, eval_model=True)
         counter = EarlyStopSignal.END
-        '''
         # Evaluate over val rows
-        val_loss = self.run_epoch(dataset_mode='val', **kwargs)
-
+        #val_loss = self.run_epoch(dataset_mode='val', **kwargs)
+        '''
+        #checkpoint over val loss
         if not (self.c.debug_eval_row_interactions and epoch == 2):
             # Early stopping check -- TODO: consider loss other than label?
             counter, best_model_and_opt = self.early_stop_counter.update(
@@ -253,14 +254,45 @@ class Trainer:
 
                 # update val loss
                 val_loss = self.run_epoch(dataset_mode='val', **kwargs)
-                '''
-        print('inside eval_model() epoch', epoch)
+        '''
+
         if train_loss is None and not self.c.debug_eval_row_interactions:
             # Train and compute loss over masked features in train rows
             train_loss = self.run_epoch(dataset_mode='train', **kwargs)
         elif self.c.debug_eval_row_interactions:
             train_loss = {}
+        # Checkpoint model over trian loss
+        if not (self.c.debug_eval_row_interactions and epoch == 2):
+            # Early stopping check -- TODO: consider loss other than label?
+            counter, best_model_and_opt = self.early_stop_counter.update(
+                val_loss=train_loss['total_loss'],
+                model=self.model,
+                optimizer=self.optimizer,
+                scaler=self.scaler,
+                epoch=epoch,
+                end_experiment=end_experiment,
+                tradeoff_annealer=self.tradeoff_annealer)
+        else:
+            counter = EarlyStopSignal.END
 
+        if not self.c.debug_eval_row_interactions:
+            if (counter == EarlyStopSignal.STOP) or end_experiment:
+                if best_model_and_opt is not None:
+                    print('Loaded best performing model for last evaluation.')
+                    self.model, self.optimizer, self.scaler, num_steps = (
+                        best_model_and_opt)
+
+                    # Initialize tradeoff annealer, fast forward to number of steps
+                    # recorded in checkpoint.
+                    if self.tradeoff_annealer is not None:
+                        self.tradeoff_annealer = TradeoffAnnealer(
+                            c=self.c, num_steps=num_steps)
+
+                        # Update the tradeoff annealer reference in the logger
+                        self.logger.tradeoff_annealer = self.tradeoff_annealer
+
+                # update val loss
+                #val_loss = self.run_epoch(dataset_mode='val', **kwargs)
         # Check if we need to eval test
         if ((counter == EarlyStopSignal.STOP)
             or (not self.c.exp_eval_test_at_end_only)
@@ -334,7 +366,6 @@ class Trainer:
             #print('self.dataset.load_torch_dataset ------------------- ', next(self.dataset.load_datasets()).mode_mask_matrix)
             if not self.c.data_set_on_cuda:
                 extra_args['pin_memory'] = True
-
             batch_iter = torch.utils.data.DataLoader(
                 dataset=batch_dataset,
                 batch_size=1,  # The dataset is already batched.
@@ -459,6 +490,7 @@ class Trainer:
         if (not eval_model) and batch_GD:
             # Backpropagate on the epoch loss
             train_loss = loss_dict['total_loss']
+
             self.scaler.scale(train_loss).backward()
             self.scaler.step(self.optimizer)
             self.scaler.update()
@@ -496,7 +528,6 @@ class Trainer:
             debug.leakage(
                 self.c, batch_dict, masked_tensors, label_mask_matrix,
                 dataset_mode)
-
         # Construct ground truth tensors
         ground_truth_tensors = batch_dict['data_arrs']
 
@@ -600,12 +631,36 @@ class Trainer:
             augmentation_mask_matrix,):
         """Run forward pass and evaluate model loss."""
         extra_args = {}
-        #print('masked tensor (input to model) ------------', masked_tensors)
         if eval_model:
             with torch.no_grad():
                 output = self.model(masked_tensors, **extra_args)
+                x = ground_truth_tensors[0][1256:].view(-1)
+                t = ground_truth_tensors[1][1256:].view(-1)
+                u = ground_truth_tensors[2][1256:].view(-1)
+                u_pred = output[2][1256:].view(-1)
+                mask = t>=0.8
+                x, t, u, u_pred = x[mask].detach().numpy(), t[mask].detach().numpy(), u[mask].detach().numpy(), u_pred[mask].detach().numpy()
+                sorted_indices = np.argsort(x)
+                x, t, u, u_pred = x[sorted_indices], t[sorted_indices], u[sorted_indices], u_pred[sorted_indices]
+
+                # Plot the original data
+                plt.plot(x, u, color='blue', label='Original Data (u)',linestyle='-')
+
+                # Plot the predicted data
+                plt.plot(x, u_pred, color='red', label='Predicted Data (u_pred)',linestyle='-')
+
+                # Add title and labels
+                plt.title('Original vs Predicted Data')
+                plt.xlabel('x')
+                plt.ylabel('u')
+
+                # Add legend
+                plt.legend()
+                plt.savefig(f'plots/test_{epoch//5}.png')
+                plt.close()
         else:
             output = self.model(masked_tensors, **extra_args)
+
 
         loss_kwargs = dict(
             output=output, ground_truth_data=ground_truth_tensors,

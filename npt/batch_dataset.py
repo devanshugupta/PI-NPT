@@ -47,7 +47,7 @@ class NPTBatchDataset(torch.utils.data.IterableDataset):
         self.sigmas = sigmas
 
         self.valid_modes = ['train', 'val', 'test']
-        self.valid_modes = ['train', 'test']
+        #self.valid_modes = ['train', 'test']
 
         self.device = device
 
@@ -359,14 +359,13 @@ class NPTBatchDataset(torch.utils.data.IterableDataset):
             # We construct the mask matrix for this mode by iterating through
             # the batch modes.
             starting_mode = DATASET_ENUM_TO_MODE[batch_modes[0]]
-            mode_mask_matrix = self.data_dict[f'{starting_mode}_mask_matrix']
-            #print('construct_mode_matrices mode mask matrix',mode_mask_matrix)
+            print('starting_mode',starting_mode)
+            mode_mask_matrix = self.data_dict[f'{dataset_mode}_mask_matrix']
 
             if len(batch_modes) > 1:
                 for batch_mode in batch_modes[1:]:
                     next_mode = DATASET_ENUM_TO_MODE[batch_mode]
-                    #mode_mask_matrix = (mode_mask_matrix | self.data_dict[f'{next_mode}_mask_matrix'])
-                #print('yooo construct_mode_matrices mode mask matrix', mode_mask_matrix)
+                    mode_mask_matrix = (mode_mask_matrix | self.data_dict[f'{next_mode}_mask_matrix'])
 
             # Determine the bert_mask_matrix.
             bert_mask_matrix = ~(mode_mask_matrix | missing_matrix)
@@ -418,9 +417,8 @@ class NPTBatchDataset(torch.utils.data.IterableDataset):
         # Construct tensor copies with the specified row index order
         mode_mask_matrix, mode_bert_mask_matrix = self.mode_masks[
             self.dataset_mode]
-
         # Specifies all the labels we must mask out in this mode
-        self.mode_mask_matrix = mode_mask_matrix[row_index_order, :]
+        self.mode_mask_matrix = mode_mask_matrix
 
         # Specifies all the places at which we may use BERT masking, and
         # compute an augmentation loss
@@ -432,6 +430,7 @@ class NPTBatchDataset(torch.utils.data.IterableDataset):
             row_index_order, :]
 
 
+
         # Stochastic label masking
         dataset_mode_mask_matrices = None
         if self.c.model_label_bert_mask_prob[self.dataset_mode] < 1:
@@ -441,10 +440,7 @@ class NPTBatchDataset(torch.utils.data.IterableDataset):
                 dataset_mode_mask_matrices[dataset_mode] = self.data_dict[
                     mode_mask_matrix_str][row_index_order, :]
 
-        self.data_arrs = [
-            col[row_index_order, :]
-            for col in self.data_dict['data_arrs']]
-        #print('data_dict at batch_dataset', self.data_dict)
+        self.data_arrs = self.data_dict['data_arrs']
         (self.masked_tensors, self.label_mask_matrix,
             self.augmentation_mask_matrix) = (
                 mask_data_for_dataset_mode(

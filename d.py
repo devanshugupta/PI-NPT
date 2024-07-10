@@ -2,23 +2,48 @@ import pandas as pd
 import numpy as np
 import torch
 import pickle
-file_train = 'npt/datasets/train_u_0_convection.csv'
-file_test = 'npt/datasets/test_0_convection.csv'
+import wandb
+from npt.configs import build_parser
+import json
+from npt.utils.model_init_utils import (
+    init_model_opt_scaler, setup_ddp_model)
+metadata_path = '/Users/devu/PycharmProjects/PI-NPT/data/ode/ssl__True/np_seed=42__n_cv_splits=1__exp_num_runs=1/dataset__metadata.json'
+with open(metadata_path, 'r') as f:
+    metadata = json.load(f)
+print(metadata)
+parser = build_parser()
+args = parser.parse_args()
+wandb_args = dict(
+        project=args.project,
+        entity=args.entity,
+        dir=args.wandb_dir,
+        reinit=True,
+        name=args.exp_name,
+        group=args.exp_group)
+wandb_run = wandb.init(**wandb_args, mode='offline')
+args.cv_index = 0
+wandb.config.update(args, allow_val_change=True)
+c = wandb.config
+model, optimizer, scaler = init_model_opt_scaler(
+            c, metadata=metadata,
+            device='cpu')
 
-train = pd.read_csv(file_train, header=0)
-test = pd.read_csv(file_test, header=0)
-
-data_table = pd.concat([train,test]).drop(['beta','nu','rho'], axis = 1).to_numpy()
-N = data_table.shape[0]
-D = data_table.shape[1]
-
-missing_matrix = np.ones((N, D))
-missing_matrix = torch.tensor(missing_matrix.astype(dtype=np.bool_))
-
-cat_features = []
-num_features = list(range(D))
-dataset_path = 'data/ode/ssl__True/np_seed=42__n_cv_splits=1__exp_num_runs=1/dataset__split=0.pkl'
-with open(dataset_path, 'rb') as f:
+# Distribute model, if in distributed setting
+if c.mp_distributed:
+    model = setup_ddp_model(model=model, c=c, device='cpu')
+best_model_path = '/Users/devu/PycharmProjects/PI-NPT/data/ode/ssl__True/np_seed=42__n_cv_splits=1__exp_num_runs=1/model_checkpoints/model_540.pt'
+# Load from checkpoint, populate state dicts
+checkpoint = torch.load(best_model_path, map_location='cpu')
+# Strict setting -- allows us to load saved attention maps
+# when we wish to visualize them
+model.load_state_dict(checkpoint['model_state_dict'],
+                      strict=(not c.viz_att_maps))
+path = '/Users/devu/PycharmProjects/PI-NPT/data/ode/ssl__True/np_seed=42__n_cv_splits=1__exp_num_runs=1/dataset__split=0.pkl'
+with open(path, 'rb') as f:
     data_dict = pickle.load(file=f)
-print(data_dict)
-#print(data_table, N, D, num_features, missing_matrix.shape)
+masked_tensors = data_dict['masked_tensors']
+extra_args = {}
+#print('masked tensor (input to model) ------------', masked_tensors)
+with torch.no_grad():
+    output = model(masked_tensors, **extra_args)
+print(output)

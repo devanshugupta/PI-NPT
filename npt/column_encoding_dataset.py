@@ -413,12 +413,6 @@ class ColumnEncodingDataset:
                 print('Fixed test set provided. n_cv_splits set to 1.')
                 self.n_cv_splits = 1
 
-            # Override number of CV splits if dataset has fully fixed indices
-            if data_dict['fixed_split_indices'] is not None:
-                print('Fixed train/val/test indices provided. '
-                      'n_cv_splits set to 1.')
-                self.n_cv_splits = 1
-
             self.dataset_gen = (
                 self.generate_classification_regression_dataset(data_dict))
 
@@ -555,10 +549,6 @@ class ColumnEncodingDataset:
                     cols=cat_target_cols + num_target_cols,  # Both lists
                     N=N, D=D)
                 for dataset_mode_rows in new_train_val_test_indices]
-            '''print('mask matrices --------------------')
-            print(train_mask_matrix, val_mask_matrix, test_mask_matrix)
-            print('----------------------------------')
-'''
 
             # Need to rebuild missing matrix with new index ordering
             new_missing_matrix = missing_matrix[
@@ -594,7 +584,6 @@ class ColumnEncodingDataset:
                 test_mask_matrix, np.zeros((N, D)))
             assert not np.array_equal(
                 bert_mask_matrix, np.zeros((N, D)))
-            #print(new_missing_matrix)
             data_dict = dict(
                 split_idx=split_idx,
                 N=N,
@@ -604,7 +593,6 @@ class ColumnEncodingDataset:
                 num_features=num_features,
                 cat_target_cols=cat_target_cols,
                 num_target_cols=num_target_cols,
-
                 auroc_setting=auroc_setting,
                 missing_matrix=new_missing_matrix,
                 train_mask_matrix=train_mask_matrix,

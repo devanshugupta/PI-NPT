@@ -269,6 +269,7 @@ class Loss:
 
                 # Compute PINNs loss for train collocation in col
                 if not eval_model and dataset_mode=='train': # Train loss
+
                     physics_loss = self.convection_diffusion_loss(
                         col=col, is_cat=is_cat, output=out, masked_tensors=masked_tensors,
                         col_mask=col_loss_indices, num_preds=num_preds)
@@ -454,7 +455,6 @@ class Loss:
 
     def convection_diffusion_loss(self, col, is_cat, output, masked_tensors, col_mask, num_preds):
         """Compute the PINNs loss for the convection diffusion equation."""
-
         # Add the extra column to mask
         col_mask = col_mask.reshape(-1,1)
         x = [col_mask for i in range(masked_tensors[0].shape[1])]
@@ -463,7 +463,9 @@ class Loss:
         u = output
         x, t = masked_tensors[0], masked_tensors[1]
 
-        beta, nu, rho = masked_tensors[3], masked_tensors[4],masked_tensors[5]
+        #beta, nu, rho = masked_tensors[3], masked_tensors[4],masked_tensors[5]
+        beta = masked_tensors[3]
+        nu, rho = 0, 0
 
         # Compute gradients
         u_t = torch.autograd.grad(u.sum(), t, create_graph=True)[0]
@@ -476,7 +478,7 @@ class Loss:
         residual = col_mask * residual
 
         # Physics loss is the mean squared residual
-        physics_loss = torch.mean(residual**2)
+        physics_loss = torch.mean(residual**2).unsqueeze(0)
         return physics_loss
 
     def compute_column_loss(
@@ -550,9 +552,8 @@ class Loss:
             # Apply the invalid entries multiplicatively, so we only
             # tabulate an MSE for the entries which were masked
             #col_mask = torch.tensor(col_mask)
-
-            output = col_mask * output[:, :-1].squeeze()
-            data = col_mask * data[:, :-1].squeeze()
+            output = col_mask * output.squeeze()
+            data = col_mask * data.squeeze()
 
             loss = torch.sum(torch.square((output - data)))
             extra_out['num_mse_loss'] = loss.detach()

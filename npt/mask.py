@@ -65,6 +65,7 @@ def apply_mask(
         # mask_entries has shape (Nm, 2).
         mask_entries = torch.nonzero(mask_candidates, as_tuple=False)
         Nm = len(mask_entries)  # number of mask candidates
+        print('number of mask candidates',Nm)
 
         # Simulate bernoulli sampling of masks:
         # Performing Nm bernoulli samples with probability mask_prob

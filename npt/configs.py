@@ -32,13 +32,13 @@ def build_parser():
     # #### Dataset Config ########################################################
     ###########################################################################
     parser.add_argument('--dataset_path', type=str, default='./dataset', help='Path to the dataset')
-    parser.add_argument('--start_coeff_1', type=int, default=1, help='start point of beta range')
-    parser.add_argument('--start_coeff_2', type=int, default=1, help='start point of nu range')
-    parser.add_argument('--start_coeff_3', type=int, default=1, help='start point of rho range')
+    parser.add_argument('--start_coeff_1', type=int, default=0, help='start point of beta range')
+    parser.add_argument('--start_coeff_2', type=int, default=0, help='start point of nu range')
+    parser.add_argument('--start_coeff_3', type=int, default=0, help='start point of rho range')
 
-    parser.add_argument('--end_coeff_1', type=int, default=40, help='end point of beta range')
-    parser.add_argument('--end_coeff_2', type=int, default=40, help='end point of nu range')
-    parser.add_argument('--end_coeff_3', type=int, default=40, help='end point of rho range')
+    parser.add_argument('--end_coeff_1', type=int, default=0, help='end point of beta range')
+    parser.add_argument('--end_coeff_2', type=int, default=0, help='end point of nu range')
+    parser.add_argument('--end_coeff_3', type=int, default=0, help='end point of rho range')
 
     parser.add_argument('--init_cond', type=str, default='sin_1')
     parser.add_argument('--pde_type', type=str, default='convection')
@@ -72,7 +72,7 @@ def build_parser():
         help='Place the entire dataset and metadata necessary per epoch on '
              'the CUDA device. Appropriate for smaller datasets.')
     parser.add_argument(
-        '--data_force_reload', default=False, type='bool',
+        '--data_force_reload', default=True, type='bool',
         help='If True, reload CV splits, ignoring cached files.')
     parser.add_argument(
         '--data_log_mem_usage', default=False, action='store_true',
@@ -123,7 +123,7 @@ def build_parser():
         '--baseline_seed', type=int, default=42,
         help='Random seed for baselines. Set to -1 to choose at random.')
     parser.add_argument(
-        '--exp_disable_cuda', dest='exp_use_cuda', default=True,
+        '--exp_disable_cuda', dest='exp_use_cuda', default=False,
         action='store_false', help='Disable GPU acceleration')
     parser.add_argument(
         '--exp_n_runs', type=int, default=1,
@@ -175,7 +175,7 @@ def build_parser():
              'times that the validation loss improves since the last cache. '
              'Set this value to -1 to disable caching.')
     parser.add_argument(
-        '--exp_load_from_checkpoint', default=False, type='bool',
+        '--exp_load_from_checkpoint', default=True, type='bool',
         help='If True, attempt to load from checkpoint and continue training.')
     parser.add_argument(
         '--exp_print_every_nth_forward', dest='exp_print_every_nth_forward',
@@ -203,7 +203,7 @@ def build_parser():
     # Optimization
     # -------------
     parser.add_argument(
-        '--exp_optimizer', type=str, default='lookahead_lamb',
+        '--exp_optimizer', type=str, default='default',
         help='Model optimizer: see npt/optim.py for options.')
     parser.add_argument(
         '--exp_lookahead_update_cadence', type=int, default=6,
@@ -230,7 +230,7 @@ def build_parser():
         '--exp_scheduler', type=str, default='flat_and_anneal',
         help='Learning rate scheduler: see npt/optim.py for options.')
     parser.add_argument(
-        '--exp_gradient_clipping', type=float, default=1.,
+        '--exp_gradient_clipping', type=float, default=0,
         help='If > 0, clip gradients.')
     parser.add_argument(
         '--exp_weight_decay', type=float, default=0,
@@ -558,7 +558,7 @@ def build_parser():
     ###########################################################################
 
     parser.add_argument(
-        '--model_dim_hidden', type=int, default=64,
+        '--model_dim_hidden', type=int, default=32,
         help='Intermediate feature dimension.')
     parser.add_argument(
         '--model_num_heads', type=int, default=8,
@@ -577,7 +577,7 @@ def build_parser():
         '--model_stacking_depth',
         dest='model_stacking_depth',
         type=int,
-        default=8,
+        default=4,
         help=f'Number of layers to stack.')
     parser.add_argument(
         '--model_mix_heads',

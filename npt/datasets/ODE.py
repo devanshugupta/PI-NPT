@@ -53,7 +53,8 @@ class OrdinaryDifferentialEquationDataset(BaseDataset):
         train_data_f['beta'] = train_data_f['beta'].apply(lambda x: 1.0)
 
         # Combine train and test datasets and remove columns
-        data_table = pd.concat([train_data_f,train_data_u,test_data], ignore_index=True)
+        data_table = pd.concat([train_data_f,train_data_u,test_data], ignore_index=True).drop(['nu', 'rho'], axis = 1)
+
 
         # Get number of rows for each dataset
         len_train_f,len_train_u,len_train_bd,len_test = train_data_f.shape[0],train_data_u.shape[0],train_data_bd.shape[0],test_data.shape[0]
