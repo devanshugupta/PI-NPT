@@ -359,7 +359,6 @@ class NPTBatchDataset(torch.utils.data.IterableDataset):
             # We construct the mask matrix for this mode by iterating through
             # the batch modes.
             starting_mode = DATASET_ENUM_TO_MODE[batch_modes[0]]
-            print('starting_mode',starting_mode)
             mode_mask_matrix = self.data_dict[f'{dataset_mode}_mask_matrix']
 
             if len(batch_modes) > 1:
@@ -408,7 +407,6 @@ class NPTBatchDataset(torch.utils.data.IterableDataset):
         # Avoid stratifying when we have a super small batch size
         # TODO Should ideally check against number of classes (in classification)
         if stratified_sampler and self.batch_size > 10:
-            print('Inside stratified sampler -')
             row_index_order, batch_sizes = (
                 stratified_sampler.get_stratified_test_array(row_index_order))
             self.batch_sizes = batch_sizes

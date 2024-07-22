@@ -122,6 +122,7 @@ class EarlyStopCounter:
 
         # Disallow early stopping with patience == -1
         if end_experiment:
+            print('end_experiment ------------')
             del model
             return EarlyStopSignal.END, self.load_cached_model()
         elif self.patience == -1:

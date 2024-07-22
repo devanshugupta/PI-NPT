@@ -18,6 +18,7 @@ from npt.utils.encode_utils import torch_cast_to_dtype
 from npt.utils.eval_checkpoint_utils import EarlyStopCounter, EarlyStopSignal
 from npt.utils.logging_utils import Logger
 import matplotlib.pyplot as plt
+import pandas as pd
 import os
 
 class Trainer:
@@ -213,6 +214,7 @@ class Trainer:
         else:
             for epoch in range(1, self.max_epochs + 1):
                 if self.per_epoch_train_eval(epoch=epoch):
+                    print('breaking', )
                     break
 
     def eval_model(self, train_loss, epoch, end_experiment):
@@ -529,6 +531,7 @@ class Trainer:
                 self.c, batch_dict, masked_tensors, label_mask_matrix,
                 dataset_mode)
         # Construct ground truth tensors
+        # These values are not scaled and are the orginal values
         ground_truth_tensors = batch_dict['data_arrs']
 
         if not self.c.data_set_on_cuda:
@@ -555,6 +558,7 @@ class Trainer:
             masked_tensors = [
                 data.to(device=device, non_blocking=True)
                 for data in masked_tensors]
+
 
             # Send everything else used in loss compute to the device
             batch_dict[f'{dataset_mode}_mask_matrix'] = (
@@ -634,20 +638,21 @@ class Trainer:
         if eval_model:
             with torch.no_grad():
                 output = self.model(masked_tensors, **extra_args)
+
                 x = ground_truth_tensors[0][1256:].view(-1)
                 t = ground_truth_tensors[1][1256:].view(-1)
                 u = ground_truth_tensors[2][1256:].view(-1)
                 u_pred = output[2][1256:].view(-1)
-                mask = t>=0.8
-                x, t, u, u_pred = x[mask].detach().numpy(), t[mask].detach().numpy(), u[mask].detach().numpy(), u_pred[mask].detach().numpy()
+                mask = t>=0.1
+                x, t, u, u_pred = x.detach().numpy(), t.detach().numpy(), u.detach().numpy(), u_pred.detach().numpy()
                 sorted_indices = np.argsort(x)
                 x, t, u, u_pred = x[sorted_indices], t[sorted_indices], u[sorted_indices], u_pred[sorted_indices]
 
                 # Plot the original data
-                plt.plot(x, u, color='blue', label='Original Data (u)',linestyle='-')
+                #plt.plot(x, u, color='blue', label='Original Data (u)')
 
                 # Plot the predicted data
-                plt.plot(x, u_pred, color='red', label='Predicted Data (u_pred)',linestyle='-')
+                plt.plot(x, u_pred, color='red', label='Predicted Data (u_pred)')
 
                 # Add title and labels
                 plt.title('Original vs Predicted Data')
@@ -656,8 +661,7 @@ class Trainer:
 
                 # Add legend
                 plt.legend()
-                plt.savefig(f'plots/test_{epoch//5}.png')
-                plt.close()
+                plt.show()
         else:
             output = self.model(masked_tensors, **extra_args)
 

@@ -2,6 +2,8 @@ from collections import defaultdict
 
 import torch
 import torch.nn as nn
+from torch.autograd import Variable
+
 from torchmetrics.functional import auroc as lightning_auroc
 import tensorflow as tf
 from npt.utils.encode_utils import torch_cast_to_dtype
@@ -269,7 +271,6 @@ class Loss:
 
                 # Compute PINNs loss for train collocation in col
                 if not eval_model and dataset_mode=='train': # Train loss
-
                     physics_loss = self.convection_diffusion_loss(
                         col=col, is_cat=is_cat, output=out, masked_tensors=masked_tensors,
                         col_mask=col_loss_indices, num_preds=num_preds)
@@ -463,9 +464,9 @@ class Loss:
         u = output
         x, t = masked_tensors[0], masked_tensors[1]
 
-        #beta, nu, rho = masked_tensors[3], masked_tensors[4],masked_tensors[5]
-        beta = masked_tensors[3]
-        nu, rho = 0, 0
+        beta, nu, rho = masked_tensors[3], masked_tensors[4],masked_tensors[5]
+        #beta = masked_tensors[3]
+        #nu, rho = 0, 0
 
         # Compute gradients
         u_t = torch.autograd.grad(u.sum(), t, create_graph=True)[0]
@@ -476,9 +477,11 @@ class Loss:
         residual = u_t + (beta * u_x) - (nu * u_xx) - (rho * u * (1-u))
 
         residual = col_mask * residual
-
         # Physics loss is the mean squared residual
+        s = residual**2
+
         physics_loss = torch.mean(residual**2).unsqueeze(0)
+
         return physics_loss
 
     def compute_column_loss(
@@ -509,7 +512,6 @@ class Loss:
         if not eval_model and self.dataset_mode == 'train':
             # For train data, we calculate MSE for only initial points so we invert the mask
             col_mask[:self.fixed_test_set_index] =  ~col_mask[:self.fixed_test_set_index]
-
 
         if is_cat:
             # Cross-entropy loss does not expect one-hot encoding.
@@ -551,12 +553,14 @@ class Loss:
         else:
             # Apply the invalid entries multiplicatively, so we only
             # tabulate an MSE for the entries which were masked
-            #col_mask = torch.tensor(col_mask)
-            output = col_mask * output.squeeze()
-            data = col_mask * data.squeeze()
+            col_mask = col_mask.clone()
+
+            output = output*col_mask
+            data = data*col_mask
+
 
             loss = torch.sum(torch.square((output - data)))
-            extra_out['num_mse_loss'] = loss.detach()
+            extra_out['num_mse_loss'] = loss
 
             if eval_model and self.c.data_set not in ['cifar10']:
                 # also record unnormalised MSE values at evaluation time

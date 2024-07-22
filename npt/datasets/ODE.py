@@ -7,6 +7,7 @@ import torch
 
 from npt.datasets.base import BaseDataset
 from npt.utils.data_loading_utils import download
+import random
 
 class OrdinaryDifferentialEquationDataset(BaseDataset):
     def __init__(self, c):
@@ -53,8 +54,7 @@ class OrdinaryDifferentialEquationDataset(BaseDataset):
         train_data_f['beta'] = train_data_f['beta'].apply(lambda x: 1.0)
 
         # Combine train and test datasets and remove columns
-        data_table = pd.concat([train_data_f,train_data_u,test_data], ignore_index=True).drop(['nu', 'rho'], axis = 1)
-
+        data_table = pd.concat([train_data_f,train_data_u,test_data], ignore_index=True)
 
         # Get number of rows for each dataset
         len_train_f,len_train_u,len_train_bd,len_test = train_data_f.shape[0],train_data_u.shape[0],train_data_bd.shape[0],test_data.shape[0]
@@ -66,6 +66,10 @@ class OrdinaryDifferentialEquationDataset(BaseDataset):
         N = data_table.shape[0]
         D = data_table.shape[1]
 
+        indexes_train_u = [i for i in range(len_train_f, len_train_u+len_train_f)]
+        k = int(0.1*len_train_u)
+        k_indexes_train_u = random.choices(indexes_train_u, k=k)
+
         print(f'ODE Dataset has {N} rows')
         # Create missing matrix for combined data
         missing_matrix = np.zeros((N, D), dtype=bool)
@@ -73,6 +77,9 @@ class OrdinaryDifferentialEquationDataset(BaseDataset):
         # Create the masks
         missing_matrix[test_index: , 2] = True
         missing_matrix[:len_train_f, 2] = True
+        missing_matrix[k_indexes_train_u, 2] = True
+
+        print(missing_matrix[k_indexes_train_u, 2])
 
         # Prepare feature indices
         cat_features = []

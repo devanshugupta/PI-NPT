@@ -69,11 +69,11 @@ def plot_attention_layer(attention_probs, axes):
     return axes
 
 
-def viz_att_maps(c, dataset):
-    early_stop_counter = EarlyStopCounter(
-        c=c, data_cache_prefix=dataset.model_cache_path,
+def viz_att_maps(c, dataset, wandb_run, cv_index):
+    early_stop_counter = EarlyStopCounter(c=c, data_cache_prefix=dataset.model_cache_path,
         metadata=dataset.metadata,
-        device=c.exp_device)
+        device=c.exp_device, wandb_run=wandb_run, cv_index=cv_index,
+        n_splits=1)
 
     # Initialize from checkpoint, if available
     num_steps = 0

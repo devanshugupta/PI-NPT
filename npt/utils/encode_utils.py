@@ -42,8 +42,7 @@ def get_compute_statistics_and_non_missing_matrix(data_dict, c):
     # Matrix with a 1 entry for all elements at which we
     # should compute a statistic / encode over
     compute_statistics_matrix = (
-            1 - missing_matrix - val_mask_matrix -
-            test_mask_matrix).astype(np.bool_)
+            1 - missing_matrix).astype(np.bool_)
 
     # If production, don't compute statistics using val/test
     if not c.model_is_semi_supervised:
@@ -99,12 +98,10 @@ def encode_data(
     sigmas = []
     if tabnet_mode:
         cat_col_dims = []
-
     for col_index in range(D):
         # The column over which we compute statistics
         stat_filter = compute_statistics_matrix[:, col_index]
         stat_col = data_table[stat_filter, col_index].reshape(-1, 1)
-
         # Non-missing entries, which we transform
         non_missing_filter = non_missing_matrix[:, col_index]
         non_missing_col = data_table[
@@ -134,8 +131,9 @@ def encode_data(
 
         elif col_index in num_features:
             fitted_encoder = StandardScaler().fit(stat_col)
+
             # Removed Scaling to original data
-            encoded_col1 = fitted_encoder.transform(non_missing_col)
+            #encoded_col = fitted_encoder.transform(non_missing_col)
 
             standardisation[col_index, 0] = fitted_encoder.mean_[0]
             standardisation[col_index, 1] = fitted_encoder.scale_[0]

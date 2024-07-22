@@ -20,7 +20,7 @@ wandb_args = dict(
         reinit=True,
         name=args.exp_name,
         group=args.exp_group)
-wandb_run = wandb.init(**wandb_args, mode='offline')
+wandb_run = wandb.init(**wandb_args)
 args.cv_index = 0
 wandb.config.update(args, allow_val_change=True)
 c = wandb.config

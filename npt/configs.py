@@ -3,8 +3,8 @@ import argparse
 
 DEFAULT_AUGMENTATION_BERT_MASK_PROB = {
     'train': 0,
-    'val': 0.,
-    'test': 0.
+    'val': 0,
+    'test': 0
 }
 DEFAULT_LABEL_BERT_MASK_PROB = {
     'train': 1,
@@ -78,7 +78,7 @@ def build_parser():
         '--data_log_mem_usage', default=False, action='store_true',
         help='If True, report mem size of full dataset, as loaded from cache.')
     parser.add_argument(
-        '--data_clear_tmp_files', type='bool', default=False,
+        '--data_clear_tmp_files', type='bool', default=True,
         help=f'If True, deletes all downloaded/unzipped files in the dataset '
              f'folder while the CV split is being materialized and cached '
              f'(e.g. necessary to keep Higgs footprint under 30GB on Azure).')
@@ -179,7 +179,7 @@ def build_parser():
         help='If True, attempt to load from checkpoint and continue training.')
     parser.add_argument(
         '--exp_print_every_nth_forward', dest='exp_print_every_nth_forward',
-        default=False, type=int,
+        default=True, type=int,
         help='Print during mini-batch as well for large epochs.')
     parser.add_argument(
         '--exp_eval_every_n', type=int, default=5,
@@ -230,7 +230,7 @@ def build_parser():
         '--exp_scheduler', type=str, default='flat_and_anneal',
         help='Learning rate scheduler: see npt/optim.py for options.')
     parser.add_argument(
-        '--exp_gradient_clipping', type=float, default=0,
+        '--exp_gradient_clipping', type=float, default=1.,
         help='If > 0, clip gradients.')
     parser.add_argument(
         '--exp_weight_decay', type=float, default=0,
@@ -238,7 +238,7 @@ def build_parser():
              'section because it is set in the optimizer. '
              'HuggingFace default: 1e-5')
     parser.add_argument(
-        '--exp_tradeoff', type=float, default=0.5,
+        '--exp_tradeoff', type=float, default=0,
         help='Tradeoff augmentation and label losses. If there is annealing '
              '(see below), this value specifies the maximum weight assigned '
              'to augmentation (i.e. exp_tradeoff = 1 will start by completely '
@@ -451,12 +451,12 @@ def build_parser():
                        'used for model.')
     parser.add_argument(
         '--model_amp',
-        default=False,
+        default=True,
         type='bool', help='If True, use automatic mixed precision (AMP), '
                           'which can provide significant speedups on V100/'
                           'A100 GPUs.')
     parser.add_argument(
-        '--model_feature_type_embedding', type='bool', default=True,
+        '--model_feature_type_embedding', type='bool', default=False,
         help='When True, learn an embedding on whether each feature is '
              'numerical or categorical. Similar to the "token type" '
              'embeddings canonical in NLP. See https://github.com/huggingface/'

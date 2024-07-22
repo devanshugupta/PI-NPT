@@ -108,7 +108,7 @@ def run_cv(args, wandb_args):
         wandb_run = None
         c = args
     else:
-        wandb_run = wandb.init(**wandb_args,mode='offline')
+        wandb_run = wandb.init(**wandb_args)
         args.cv_index = 0
         wandb.config.update(args, allow_val_change=True)
         c = wandb.config
@@ -173,7 +173,7 @@ def run_cv_splits(wandb_args, args, c, wandb_run):
 
         if c.viz_att_maps:
             print('Attempting to visualize attention maps.')
-            return viz_att_maps(c, dataset)
+            return viz_att_maps(c, dataset, wandb_run, cv_index)
 
         if c.model_class == 'DKL':
             print(f'Running DKL on dataset {c.data_set}.')
