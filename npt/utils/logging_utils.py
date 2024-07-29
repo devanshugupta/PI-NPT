@@ -47,9 +47,6 @@ class Logger:
         return wandb_loss_dict
 
     def summary_log(self, loss_dict, new_min):
-        # No summary metrics written
-        if self.c.mp_distributed:
-            return 0
 
         # Do not update summary metrics if not min (min already updated)
         if not new_min:

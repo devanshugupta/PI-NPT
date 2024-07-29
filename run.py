@@ -11,7 +11,6 @@ import wandb
 from baselines.sklearn_tune import run_sklearn_hypertuning
 from npt.column_encoding_dataset import ColumnEncodingDataset
 from npt.configs import build_parser
-from npt.distribution import distributed_train_wrapper
 from npt.train import Trainer
 from npt.utils.model_init_utils import init_model_opt_scaler_from_dataset
 from npt.utils.viz_att_maps import viz_att_maps
@@ -97,21 +96,19 @@ def setup_args(args):
         dir=args.wandb_dir,
         reinit=True,
         name=args.exp_name,
-        group=args.exp_group)
+        group=args.exp_group,
+        mode = 'offline')
 
     return args, wandb_args
 
 
 def run_cv(args, wandb_args):
 
-    if args.mp_distributed:
-        wandb_run = None
-        c = args
-    else:
-        wandb_run = wandb.init(**wandb_args)
-        args.cv_index = 0
-        wandb.config.update(args, allow_val_change=True)
-        c = wandb.config
+
+    wandb_run = wandb.init(**wandb_args)
+    args.cv_index = 0
+    wandb.config.update(args, allow_val_change=True)
+    c = wandb.config
 
     #print('c.model_class ==' ,c.model_class )
     if c.model_class == 'NPT':
@@ -124,26 +121,6 @@ def run_cv(args, wandb_args):
 def run_cv_splits(wandb_args, args, c, wandb_run):
     #print(c)
     dataset = ColumnEncodingDataset(c)
-
-    #######################################################################
-    # Distributed Setting
-    if c.mp_distributed:
-        torch.manual_seed(c.torch_seed)
-
-        # Fix from
-        # https://github.com/facebookresearch/maskrcnn-benchmark/issues/103
-        # torch.multiprocessing.set_sharing_strategy('file_system')
-
-        dataset.load_next_cv_split()
-        dataset.dataset_gen = None
-        args = {'dataset': dataset, 'c': c, 'wandb_args': wandb_args}
-        os.environ['MASTER_ADDR'] = 'localhost'
-        os.environ['MASTER_PORT'] = '8888'
-        mp.spawn(
-            distributed_train_wrapper, nprocs=c.mp_gpus, args=(args,),
-            join=True)
-        mp.set_start_method('fork')
-        return
 
     starting_cv_index = 0
     total_n_cv_splits = min(dataset.n_cv_splits, c.exp_n_runs)

@@ -75,10 +75,7 @@ class NPTModel(nn.Module):
 
         # *** Extract Configs ***
         # cannot deepcopy wandb config.
-        if c.mp_distributed:
-            self.c = Args(c.__dict__)
-        else:
-            self.c = Args(c)
+        self.c = Args(c)
 
         # * Main model configuration *
         self.device = device
@@ -185,11 +182,6 @@ class NPTModel(nn.Module):
                     'NPT initialization if you aim to compute feature type'
                     ' embeddings.')
 
-            if c.mp_distributed and device is None:
-                raise Exception(
-                    'Must provide device to NPT initialization: in '
-                    'distributed setting, and aim to do feature type '
-                    'embedding.')
 
             # If all features are either categorical or numerical,
             # don't bother.
@@ -224,12 +216,6 @@ class NPTModel(nn.Module):
         # Allows us to explicitly encode column identity, as opposed to
         # producing this indirectly through the per-column feature embeddings.
         if self.use_feature_index_embedding:
-            if c.mp_distributed and device is None:
-                raise Exception(
-                    'Must provide device to NPT initialization: in '
-                    'distributed setting, and aim to do feature index '
-                    'embedding.')
-
             self.feature_indices = torch_cast_to_dtype(
                 torch.arange(self.num_input_features, device=device), 'long')
 

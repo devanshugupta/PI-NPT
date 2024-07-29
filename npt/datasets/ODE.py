@@ -79,8 +79,6 @@ class OrdinaryDifferentialEquationDataset(BaseDataset):
         missing_matrix[:len_train_f, 2] = True
         missing_matrix[k_indexes_train_u, 2] = True
 
-        print(missing_matrix[k_indexes_train_u, 2])
-
         # Prepare feature indices
         cat_features = []
         num_features = list(range(D))

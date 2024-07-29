@@ -62,12 +62,6 @@ def build_parser():
         f'higgs, epsilon, forest-cover, boston-housing, mnist, yacht, '
         f'concrete, income, protein, cifar10.')
     parser.add_argument(
-        '--data_loader_nprocs', type=int, default=0,
-        help='Number of processes to use in data loading. Specify -1 to use '
-             'all CPUs for data loading. 0 (default) means only the main  '
-             'process is used in data loading. Applies for serial and '
-             'distributed training.')
-    parser.add_argument(
         '--data_set_on_cuda', type='bool', default=False,
         help='Place the entire dataset and metadata necessary per epoch on '
              'the CUDA device. Appropriate for smaller datasets.')
@@ -130,7 +124,7 @@ def build_parser():
         help=f'Maximum number of CV runs. This upper bounds the number of '
              f'cross validation folds that are being executed.')
     parser.add_argument(
-        '--exp_batch_size', type=int, default=-1,
+        '--exp_batch_size', type=int, default=300,
         help='Number of instances (rows) in each batch '
              'taken as input by the model. -1 corresponds to no '
              'minibatching.')
@@ -182,7 +176,7 @@ def build_parser():
         default=True, type=int,
         help='Print during mini-batch as well for large epochs.')
     parser.add_argument(
-        '--exp_eval_every_n', type=int, default=5,
+        '--exp_eval_every_n', type=int, default=10,
         help='Evaluate the model every n steps/epochs. (See below).')
     parser.add_argument(
         '--exp_eval_every_epoch_or_steps', type=str, default='epochs',
@@ -203,7 +197,7 @@ def build_parser():
     # Optimization
     # -------------
     parser.add_argument(
-        '--exp_optimizer', type=str, default='default',
+        '--exp_optimizer', type=str, default='lookahead_lamb',
         help='Model optimizer: see npt/optim.py for options.')
     parser.add_argument(
         '--exp_lookahead_update_cadence', type=int, default=6,
@@ -233,7 +227,7 @@ def build_parser():
         '--exp_gradient_clipping', type=float, default=1.,
         help='If > 0, clip gradients.')
     parser.add_argument(
-        '--exp_weight_decay', type=float, default=0,
+        '--exp_weight_decay', type=float, default=1e-4,
         help='Weight decay / L2 regularization penalty. Included in this '
              'section because it is set in the optimizer. '
              'HuggingFace default: 1e-5')
@@ -256,38 +250,6 @@ def build_parser():
              'exp_optimizer_warmup_proportion argument. If that argument '
              'is not set, we default to annealing over the total '
              'number of steps (which can be explicitly set with value 1).')
-
-    ###########################################################################
-    # #### Multiprocess Config ################################################
-    ###########################################################################
-
-    parser.add_argument(
-        '--mp_distributed', dest='mp_distributed', default=False, type='bool',
-        help='If True, run data-parallel distributed training with Torch DDP.')
-    parser.add_argument(
-        '--mp_nodes', dest='mp_nodes', default=1, type=int,
-        help='number of data loading workers')
-    parser.add_argument(
-        '--mp_gpus', dest='mp_gpus', default=1, type=int,
-        help='number of gpus per node')
-    parser.add_argument(
-        '--mp_nr', dest='mp_nr', default=0, type=int,
-        help='ranking within the nodes')
-    parser.add_argument(
-        '--mp_no_sync', dest='mp_no_sync', default=-1, type=int,
-        help='Number of forward pass iterations for which gradients are not '
-             'synchronized. Increasing this number will result in a lower '
-             'amortized cost of distribution (and hence, a closer-to-linear '
-             'scaling of per-epoch time with respect to number of GPUs), '
-             'at the cost of convergence stability.')
-    parser.add_argument(
-        '--mp_bucket_cap_mb', dest='mp_bucket_cap_mb', default=25, type=int,
-        help='Larger values denote a larger gradient bucketing size for DDP. '
-             'This reduces the amortized overhead of communication, but means '
-             'that there is a longer lead time before reduction (i.e. '
-             'AllReduce aggregating gradient buckets across GPUs). Larger '
-             'models (e.g. BERT ~ 110M parameters) will likely benefit '
-             'from mp_bucket_cap_mb in excess of 50 MB.')
 
     ###########################################################################
     # #### Debug Config #######################################################
@@ -558,7 +520,7 @@ def build_parser():
     ###########################################################################
 
     parser.add_argument(
-        '--model_dim_hidden', type=int, default=32,
+        '--model_dim_hidden', type=int, default=64,
         help='Intermediate feature dimension.')
     parser.add_argument(
         '--model_num_heads', type=int, default=8,

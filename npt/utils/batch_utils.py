@@ -21,8 +21,7 @@ collate_with_pre_batching_err_msg_format = (
 
 def collate_with_pre_batching(batch):
     r"""
-    Collate function used by our PyTorch dataloader (in both distributed and
-    serial settings).
+    Collate function used by our PyTorch dataloader (serial settings).
 
     We avoid adding a batch dimension, as for NPT we have pre-batched data,
     where each element of the dataset is a map.

@@ -133,7 +133,7 @@ def encode_data(
             fitted_encoder = StandardScaler().fit(stat_col)
 
             # Removed Scaling to original data
-            #encoded_col = fitted_encoder.transform(non_missing_col)
+            encoded_col = fitted_encoder.transform(non_missing_col)
 
             standardisation[col_index, 0] = fitted_encoder.mean_[0]
             standardisation[col_index, 1] = fitted_encoder.scale_[0]
@@ -143,7 +143,7 @@ def encode_data(
 
         # Construct encoded column
         # (we have only encoded non-missing entries! need to fill in missing)
-        #encoded_col = construct_encoded_col(non_missing_col_filter=non_missing_filter, encoded_non_missing_col_values=encoded_col)
+        encoded_col = construct_encoded_col(non_missing_col_filter=non_missing_filter, encoded_non_missing_col_values=encoded_col)
 
         if use_bert_masking:
             # Add mask tokens to numerical and categorical data
@@ -159,8 +159,8 @@ def encode_data(
             encoded_col[missing_filter, :] = 0
 
             # Set their mask token to 1
-            encoded_col[missing_filter, -1] = 1
-
+            #encoded_col[missing_filter, -1] = 1
+            print(np.where(encoded_col[1000:1256]))
         if not tabnet_mode:
             # If categorical column, convert to bool
             if is_cat:

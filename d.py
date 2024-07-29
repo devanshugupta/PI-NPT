@@ -6,7 +6,7 @@ import wandb
 from npt.configs import build_parser
 import json
 from npt.utils.model_init_utils import (
-    init_model_opt_scaler, setup_ddp_model)
+    init_model_opt_scaler)
 metadata_path = '/Users/devu/PycharmProjects/PI-NPT/data/ode/ssl__True/np_seed=42__n_cv_splits=1__exp_num_runs=1/dataset__metadata.json'
 with open(metadata_path, 'r') as f:
     metadata = json.load(f)
@@ -27,10 +27,6 @@ c = wandb.config
 model, optimizer, scaler = init_model_opt_scaler(
             c, metadata=metadata,
             device='cpu')
-
-# Distribute model, if in distributed setting
-if c.mp_distributed:
-    model = setup_ddp_model(model=model, c=c, device='cpu')
 best_model_path = '/Users/devu/PycharmProjects/PI-NPT/data/ode/ssl__True/np_seed=42__n_cv_splits=1__exp_num_runs=1/model_checkpoints/model_540.pt'
 # Load from checkpoint, populate state dicts
 checkpoint = torch.load(best_model_path, map_location='cpu')

@@ -46,7 +46,6 @@ class Loss:
         :param c:
         :param metadata:
         :param is_minibatch_sgd
-        :param device: Must be set for distributed setting.
         :param tradeoff_annealer: Provided when there is annealing specified
             between augmentation and label loss (see config: exp_tradeoff).
         :param sigmas: Standard deviation values of training set (one per col).
@@ -304,11 +303,7 @@ class Loss:
                         if extra_loss := extra_out.get(extra, False):
                             loss_dict[mode][extra] += extra_loss
 
-                loss_dict[mode]['physics_loss'] = physics_loss
-
-                # Add PINNs loss to num_loss (assuming loss is 'num_loss' because 'loss' is added to it only)
-                loss_dict[mode]['num_loss'] += physics_loss
-
+                loss_dict[mode]['physics_loss'] += physics_loss
         return loss_dict
 
     def finalize_batch_losses(self):
@@ -358,12 +353,11 @@ class Loss:
         if eval_model:
             self.detach_all(raw_dict)
 
+        std_dict['PINNs_loss'] = raw_dict['label']['physics_loss']
         # *** Total Loss ***
         # Compute total loss. This is used for backpropagation
         # Trade-off loss on target columns and loss from augmentation masking.
-        std_dict['total_loss'] = self.balance_self_supervision(raw_dict)
-        std_dict['PINNs_loss'] = raw_dict['label']['physics_loss']
-
+        std_dict['total_loss'] = self.balance_self_supervision(raw_dict) +  raw_dict['label']['physics_loss']
         if not eval_model and not self.c.exp_print_every_nth_forward:
             return std_dict
 
@@ -391,7 +385,6 @@ class Loss:
                 for out_loss, in_loss in zip(out_names, in_names):
                     std_dict[mode][out_loss] = (
                         raw_dict[mode][in_loss] / cat_preds)
-
 
         return std_dict
 

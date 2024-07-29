@@ -25,8 +25,7 @@ class Trainer:
     def __init__(
             self, model, optimizer, scaler, c, wandb_run, cv_index,
             dataset: ColumnEncodingDataset = None,
-            torch_dataset: NPTDataset = None,
-            distributed_args=None):
+            torch_dataset: NPTDataset = None):
         self.model = model
         self.optimizer = optimizer
         self.scaler = scaler
@@ -34,30 +33,10 @@ class Trainer:
             c=c, name=c.exp_scheduler, optimizer=optimizer)
         self.c = c
         self.wandb_run = wandb_run
-        self.is_distributed = False
         self.dataset = dataset
         self.torch_dataset = torch_dataset
         self.max_epochs = self.get_max_epochs()
-        # Data Loading
-        self.data_loader_nprocs = (
-            cpu_count() if c.data_loader_nprocs == -1
-            else c.data_loader_nprocs)
-
-        if self.data_loader_nprocs > 0:
-            print(
-                f'Distributed data loading with {self.data_loader_nprocs} '
-                f'processes.')
-
-        # Only needs to be set in distributed setting; otherwise, submodules
-        # such as Loss and EarlyStopCounter use c.exp_device for tensor ops.
         self.gpu = None
-
-        if distributed_args is not None:
-            print('Loaded in DistributedDataset.')
-            self.is_distributed = True
-            self.world_size = distributed_args['world_size']
-            self.rank = distributed_args['rank']
-            self.gpu = distributed_args['gpu']
 
         if c.exp_checkpoint_setting is None and c.exp_eval_test_at_end_only:
             raise Exception(
@@ -101,32 +80,6 @@ class Trainer:
         if self.c.exp_eval_every_epoch_or_steps == 'steps':
             self.last_eval = 0
 
-    def get_distributed_dataloader(self, epoch):
-        if not self.is_distributed:
-            raise Exception
-
-        sampler = torch.utils.data.distributed.DistributedSampler(
-            self.torch_dataset,
-            num_replicas=self.world_size,
-            rank=self.rank)
-
-        dataloader = torch.utils.data.DataLoader(
-            dataset=self.torch_dataset,
-            batch_size=1,  # The dataset is already batched.
-            shuffle=False,
-            num_workers=self.data_loader_nprocs,
-            pin_memory=True,
-            collate_fn=collate_with_pre_batching,
-            sampler=sampler)
-
-        dataloader.sampler.set_epoch(epoch=epoch)
-        total_steps = len(dataloader)
-
-        if self.c.verbose:
-            print('Successfully loaded distributed batch dataloader.')
-
-        return dataloader, total_steps
-
     def get_num_steps_per_epoch(self):
         if self.c.exp_batch_size == -1:
             return 1
@@ -168,6 +121,7 @@ class Trainer:
             # The returned train loss is used for logging at eval time
             # It is None if minibatch_sgd is enabled, in which case we
             # perform an additional forward pass over all train entries
+
             train_loss = self.run_epoch(dataset_mode='train', epoch=epoch,
                                         eval_model=False)
 
@@ -184,38 +138,10 @@ class Trainer:
         """Main training and evaluation loop."""
         self.logger.start_counting()
 
-        if self.is_distributed and self.c.mp_no_sync != -1:
-            curr_epoch = 1
-
-            while curr_epoch <= self.max_epochs:
-                with self.model.no_sync():
-                    print(f'No DDP synchronization for the next '
-                          f'{self.c.mp_no_sync} epochs.')
-
-                    for epoch in range(
-                            curr_epoch, curr_epoch + self.c.mp_no_sync):
-                        if self.per_epoch_train_eval(epoch=epoch):
-                            return
-
-                        if epoch >= self.max_epochs:
-                            return
-
-                curr_epoch += self.c.mp_no_sync
-
-                if epoch >= self.max_epochs:
-                    return
-
-                print(f'Synchronizing DDP gradients in this epoch '
-                      f'(epoch {curr_epoch}).')
-                if self.per_epoch_train_eval(epoch=curr_epoch):
-                    return
-
-                curr_epoch += 1
-        else:
-            for epoch in range(1, self.max_epochs + 1):
-                if self.per_epoch_train_eval(epoch=epoch):
-                    print('breaking', )
-                    break
+        for epoch in range(1, self.max_epochs + 1):
+            if self.per_epoch_train_eval(epoch=epoch):
+                print('breaking', )
+                break
 
     def eval_model(self, train_loss, epoch, end_experiment):
         """Obtain val and test losses."""
@@ -354,30 +280,22 @@ class Trainer:
         # at train, train/val at val and train/val/test at test.
         self.dataset.set_mode(mode=dataset_mode, epoch=epoch)
 
-        # Initialize data loaders (serial / distributed, pinned memory)
-        if self.is_distributed:
-            # TODO: parallel DDP loading?
-            self.torch_dataset.materialize(cv_dataset=self.dataset.cv_dataset)
-            batch_iter, num_batches = self.get_distributed_dataloader(epoch)
-        else:
-            # TODO: can be beneficial to test > cpu_count() procs if our
-            # loading is I/O bound (which it probably is)
-            batch_dataset = self.dataset.cv_dataset
-            extra_args = {}
-            #here print
-            #print('self.dataset.load_torch_dataset ------------------- ', next(self.dataset.load_datasets()).mode_mask_matrix)
-            if not self.c.data_set_on_cuda:
-                extra_args['pin_memory'] = True
-            batch_iter = torch.utils.data.DataLoader(
-                dataset=batch_dataset,
-                batch_size=1,  # The dataset is already batched.
-                shuffle=False,  # Already shuffled
-                num_workers=self.data_loader_nprocs,
-                collate_fn=collate_with_pre_batching,
-                **extra_args)
-            batch_iter = tqdm(
-                batch_iter, desc='Batch') if self.c.verbose else batch_iter
-
+        # TODO: can be beneficial to test > cpu_count() procs if our
+        # loading is I/O bound (which it probably is)
+        batch_dataset = self.dataset.cv_dataset
+        extra_args = {}
+        #here print
+        #print('self.dataset.load_torch_dataset ------------------- ', next(self.dataset.load_datasets()).mode_mask_matrix)
+        if not self.c.data_set_on_cuda:
+            extra_args['pin_memory'] = True
+        batch_iter = torch.utils.data.DataLoader(
+            dataset=batch_dataset,
+            batch_size=1,  # The dataset is already batched.
+            shuffle=False,  # Already shuffled,
+            collate_fn=collate_with_pre_batching,
+            **extra_args)
+        batch_iter = tqdm(
+            batch_iter, desc='Batch') if self.c.verbose else batch_iter
 
         if (eval_model and self.c.debug_eval_row_interactions
                 and epoch == 2 and dataset_mode in {'test'}):
@@ -535,13 +453,9 @@ class Trainer:
         ground_truth_tensors = batch_dict['data_arrs']
 
         if not self.c.data_set_on_cuda:
-            if self.is_distributed:
-                device = self.gpu
-            else:
-                device = self.c.exp_device
+            device = self.c.exp_device
 
             # non_blocking flag is appropriate when we are pinning memory
-            # and when we use Distributed Data Parallelism
 
             # If we are fitting the full dataset on GPU, the following
             # tensors are already on the remote device. Otherwise, we can
@@ -634,11 +548,26 @@ class Trainer:
             dataset_mode, eval_model, epoch, label_mask_matrix,
             augmentation_mask_matrix,):
         """Run forward pass and evaluate model loss."""
+
+
         extra_args = {}
         if eval_model:
             with torch.no_grad():
+                ground_truth_values = ground_truth_tensors[2].numpy().flatten()
+                masked_values = masked_tensors[2].numpy().flatten()
+                df = pd.DataFrame(ground_truth_values)
+                print('ground truth tensors')
+                print(df.describe())
+                print('masked tensor')
+                df = pd.DataFrame(masked_values)
+                print(df.describe())
                 output = self.model(masked_tensors, **extra_args)
+                output_values = output[2].numpy().flatten()
+                df = pd.DataFrame(output_values)
+                print('output')
+                print(df.describe())
 
+                '''
                 x = ground_truth_tensors[0][1256:].view(-1)
                 t = ground_truth_tensors[1][1256:].view(-1)
                 u = ground_truth_tensors[2][1256:].view(-1)
@@ -662,9 +591,10 @@ class Trainer:
                 # Add legend
                 plt.legend()
                 plt.show()
+                '''
+
         else:
             output = self.model(masked_tensors, **extra_args)
-
 
         loss_kwargs = dict(
             output=output, ground_truth_data=ground_truth_tensors,

@@ -5,9 +5,7 @@ from pathlib import Path
 import torch
 import wandb
 from time import sleep
-from npt.utils.model_init_utils import (
-    init_model_opt_scaler, setup_ddp_model)
-
+from npt.utils.model_init_utils import init_model_opt_scaler
 
 class EarlyStopSignal(Enum):
     CONTINUE = 0
@@ -23,8 +21,7 @@ class EarlyStopCounter:
         :param data_cache_prefix: str; cache path for the dataset. Used for
             model checkpoints
         :param metadata: Dict, used for model initialization
-        :param device: str; set in the distributed setting, otherwise uses
-            config option c.exp_device.
+        :param device: uses config option c.exp_device.
         """
         # The number of contiguous epochs for which validation
         # loss has not improved (early stopping)
@@ -101,7 +98,7 @@ class EarlyStopCounter:
 
             # Only cache:
             #   * If not performing a row corr experiment
-            #   * If in serial mode, or distributed mode with the GPU0 process
+            #   * If in serial mode with the GPU0 process
             #   * AND when the validation loss has improved self.cache_cadence
             #       times since the last model caching
             if not self.c.debug_eval_row_interactions:
@@ -140,10 +137,6 @@ class EarlyStopCounter:
         model, optimizer, scaler = init_model_opt_scaler(
             self.c, metadata=self.metadata,
             device=self.device)
-
-        # Distribute model, if in distributed setting
-        if self.c.mp_distributed:
-            model = setup_ddp_model(model=model, c=self.c, device=self.device)
 
         # Load from checkpoint, populate state dicts
         checkpoint = torch.load(self.best_model_path, map_location=self.device)

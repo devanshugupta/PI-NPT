@@ -608,11 +608,6 @@ class ColumnEncodingDataset:
 
 
 class NPTDataset(torch.utils.data.Dataset):
-    """
-    Distributed data loading doesn't play well with IterableDatasets --
-    we must explicitly materialize the batch_iter from our BatchDataset
-    (see batch_dataset.py).
-    """
     def __init__(self, dataset: ColumnEncodingDataset):
         super(NPTDataset).__init__()
         self.cache_path = dataset.cache_path
