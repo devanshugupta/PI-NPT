@@ -117,7 +117,6 @@ class ColumnEncodingDataset:
         self.cv_dataset = next(self.dataset_gen)
 
 
-
     """Model and Mode Settings"""
 
     def get_model_details(self, c):
@@ -287,7 +286,7 @@ class ColumnEncodingDataset:
             data_arrs.append(torch.tensor(col, **data_table_args))
 
         mask_torch_data['data_arrs'] = data_arrs
-
+        mask_torch_data['scalers'] = data_dict['scalers']
         # Don't need to convert to tensor -- used in batching
         mask_torch_data['new_train_val_test_indices'] = data_dict['new_train_val_test_indices']
         #print('mask torch data', mask_torch_data)
@@ -428,7 +427,7 @@ class ColumnEncodingDataset:
                     (data_dict['data_table'],
                      data_dict['input_feature_dims'],
                      data_dict['standardisation'],  # Include mean and std
-                     data_dict['sigmas']) = encoded_data
+                     data_dict['sigmas'], data_dict['scalers']) = encoded_data
 
                 # For first index, cache metadata (generic to all CV splits)
                 if split_idx == 0:

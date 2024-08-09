@@ -85,7 +85,7 @@ def encode_data(
     cat_features = data_dict['cat_features']
     num_features = data_dict['num_features']
     cat_target_cols = data_dict['cat_target_cols']
-
+    scalers = [None]*D
     encoded_dataset = []
     input_feature_dims = []
 
@@ -107,6 +107,7 @@ def encode_data(
         non_missing_col = data_table[
             non_missing_filter, col_index].reshape(-1, 1)
         encoded_col = data_table[:,col_index].reshape(-1, 1)
+
         # Fit on stat_col, transform non_missing_col
         is_cat = False
         if col_index in cat_features:
@@ -134,7 +135,7 @@ def encode_data(
 
             # Removed Scaling to original data
             encoded_col = fitted_encoder.transform(non_missing_col)
-
+            scalers[col_index] = fitted_encoder
             standardisation[col_index, 0] = fitted_encoder.mean_[0]
             standardisation[col_index, 1] = fitted_encoder.scale_[0]
             sigmas.append(fitted_encoder.scale_[0])
@@ -159,7 +160,7 @@ def encode_data(
             encoded_col[missing_filter, :] = 0
 
             # Set their mask token to 1
-            #encoded_col[missing_filter, -1] = 1
+            encoded_col[missing_filter, -1] = 1
             print(np.where(encoded_col[1000:1256]))
         if not tabnet_mode:
             # If categorical column, convert to bool
@@ -175,7 +176,7 @@ def encode_data(
             encoded_dataset, input_feature_dims, standardisation,
             sigmas, cat_col_dims)
     else:
-        return encoded_dataset, input_feature_dims, standardisation, sigmas
+        return encoded_dataset, input_feature_dims, standardisation, sigmas, scalers
 
 
 def encode_data_dict(data_dict, c):

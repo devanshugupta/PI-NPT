@@ -428,7 +428,6 @@ class NPTBatchDataset(torch.utils.data.IterableDataset):
             row_index_order, :]
 
 
-
         # Stochastic label masking
         dataset_mode_mask_matrices = None
         if self.c.model_label_bert_mask_prob[self.dataset_mode] < 1:
@@ -439,6 +438,7 @@ class NPTBatchDataset(torch.utils.data.IterableDataset):
                     mode_mask_matrix_str][row_index_order, :]
 
         self.data_arrs = self.data_dict['data_arrs']
+        self.scalers = self.data_dict['scalers']
         (self.masked_tensors, self.label_mask_matrix,
             self.augmentation_mask_matrix) = (
                 mask_data_for_dataset_mode(
@@ -481,7 +481,8 @@ class NPTBatchDataset(torch.utils.data.IterableDataset):
                 col[self.row_index:self.row_index + batch_size]
                 for col in self.masked_tensors],
             'target_cols': self.target_cols,
-            'sigmas': self.sigmas
+            'sigmas': self.sigmas,
+            'scalers': self.scalers
         }
 
         loss_indices = ['label', 'augmentation']

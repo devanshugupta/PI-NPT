@@ -32,20 +32,20 @@ def build_parser():
     # #### Dataset Config ########################################################
     ###########################################################################
     parser.add_argument('--dataset_path', type=str, default='./dataset', help='Path to the dataset')
-    parser.add_argument('--start_coeff_1', type=int, default=0, help='start point of beta range')
-    parser.add_argument('--start_coeff_2', type=int, default=0, help='start point of nu range')
-    parser.add_argument('--start_coeff_3', type=int, default=0, help='start point of rho range')
+    parser.add_argument('--start_coeff_1', type=int, default=40, help='start point of beta range')
+    parser.add_argument('--start_coeff_2', type=int, default=40, help='start point of nu range')
+    parser.add_argument('--start_coeff_3', type=int, default=40, help='start point of rho range')
 
-    parser.add_argument('--end_coeff_1', type=int, default=0, help='end point of beta range')
-    parser.add_argument('--end_coeff_2', type=int, default=0, help='end point of nu range')
-    parser.add_argument('--end_coeff_3', type=int, default=0, help='end point of rho range')
+    parser.add_argument('--end_coeff_1', type=int, default=40, help='end point of beta range')
+    parser.add_argument('--end_coeff_2', type=int, default=40, help='end point of nu range')
+    parser.add_argument('--end_coeff_3', type=int, default=40, help='end point of rho range')
 
     parser.add_argument('--init_cond', type=str, default='sin_1')
     parser.add_argument('--pde_type', type=str, default='convection')
 
-    parser.add_argument('--target_coeff_1', type=int, default=0, help='target coefficient beta')
-    parser.add_argument('--target_coeff_2', type=int, default=0, help='target coefficient nu')
-    parser.add_argument('--target_coeff_3', type=int, default=0, help='target coefficient rho')
+    parser.add_argument('--target_coeff_1', type=int, default=40, help='target coefficient beta')
+    parser.add_argument('--target_coeff_2', type=int, default=40, help='target coefficient nu')
+    parser.add_argument('--target_coeff_3', type=int, default=40, help='target coefficient rho')
 
     ###########################################################################
     # #### Data Config ########################################################

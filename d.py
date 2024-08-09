@@ -1,45 +1,34 @@
-import pandas as pd
 import numpy as np
-import torch
-import pickle
-import wandb
-from npt.configs import build_parser
-import json
-from npt.utils.model_init_utils import (
-    init_model_opt_scaler)
-metadata_path = '/Users/devu/PycharmProjects/PI-NPT/data/ode/ssl__True/np_seed=42__n_cv_splits=1__exp_num_runs=1/dataset__metadata.json'
-with open(metadata_path, 'r') as f:
-    metadata = json.load(f)
-print(metadata)
-parser = build_parser()
-args = parser.parse_args()
-wandb_args = dict(
-        project=args.project,
-        entity=args.entity,
-        dir=args.wandb_dir,
-        reinit=True,
-        name=args.exp_name,
-        group=args.exp_group)
-wandb_run = wandb.init(**wandb_args)
-args.cv_index = 0
-wandb.config.update(args, allow_val_change=True)
-c = wandb.config
-model, optimizer, scaler = init_model_opt_scaler(
-            c, metadata=metadata,
-            device='cpu')
-best_model_path = '/Users/devu/PycharmProjects/PI-NPT/data/ode/ssl__True/np_seed=42__n_cv_splits=1__exp_num_runs=1/model_checkpoints/model_540.pt'
-# Load from checkpoint, populate state dicts
-checkpoint = torch.load(best_model_path, map_location='cpu')
-# Strict setting -- allows us to load saved attention maps
-# when we wish to visualize them
-model.load_state_dict(checkpoint['model_state_dict'],
-                      strict=(not c.viz_att_maps))
-path = '/Users/devu/PycharmProjects/PI-NPT/data/ode/ssl__True/np_seed=42__n_cv_splits=1__exp_num_runs=1/dataset__split=0.pkl'
-with open(path, 'rb') as f:
-    data_dict = pickle.load(file=f)
-masked_tensors = data_dict['masked_tensors']
-extra_args = {}
-#print('masked tensor (input to model) ------------', masked_tensors)
-with torch.no_grad():
-    output = model(masked_tensors, **extra_args)
-print(output)
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+import seaborn as sns
+import pandas as pd
+
+path = './dataset/convection/test/test_40_convection.csv'
+test_data = pd.read_csv(f'{path}').drop(['beta', 'rho', 'nu'], axis=1)
+
+ground_truth_x = test_data['x_data'].to_numpy()
+ground_truth_t = test_data['t_data'].to_numpy()
+ground_truth_u = test_data['u_data'].to_numpy()
+
+# Assuming the data forms a grid, determine the unique values of x and t
+unique_x = np.unique(ground_truth_x)
+unique_t = np.unique(ground_truth_t)
+
+# Reshape ground_truth_u to a 2D array
+ground_truth_u_2d = ground_truth_u.reshape(len(unique_x), len(unique_t))
+
+# Visualize the solution
+fig, ax = plt.subplots(1, 1, figsize=(6, 5), constrained_layout=True)
+extent = [np.min(unique_t), np.max(unique_t), np.min(unique_x), np.max(unique_x)]
+sol_img1 = ax.imshow(ground_truth_u_2d, extent=extent, origin='lower', aspect='auto', cmap=cm.jet)
+
+# Add colorbar
+cb = fig.colorbar(sol_img1, ax=ax, location='bottom', aspect=20)
+
+# Set axis labels and title
+ax.set_xlabel('t')
+ax.set_ylabel('x')
+ax.set_title('Heat Map of U values')
+
+plt.show()

@@ -548,51 +548,10 @@ class Trainer:
             dataset_mode, eval_model, epoch, label_mask_matrix,
             augmentation_mask_matrix,):
         """Run forward pass and evaluate model loss."""
-
-
         extra_args = {}
         if eval_model:
             with torch.no_grad():
-                ground_truth_values = ground_truth_tensors[2].numpy().flatten()
-                masked_values = masked_tensors[2].numpy().flatten()
-                df = pd.DataFrame(ground_truth_values)
-                print('ground truth tensors')
-                print(df.describe())
-                print('masked tensor')
-                df = pd.DataFrame(masked_values)
-                print(df.describe())
                 output = self.model(masked_tensors, **extra_args)
-                output_values = output[2].numpy().flatten()
-                df = pd.DataFrame(output_values)
-                print('output')
-                print(df.describe())
-
-                '''
-                x = ground_truth_tensors[0][1256:].view(-1)
-                t = ground_truth_tensors[1][1256:].view(-1)
-                u = ground_truth_tensors[2][1256:].view(-1)
-                u_pred = output[2][1256:].view(-1)
-                mask = t>=0.1
-                x, t, u, u_pred = x.detach().numpy(), t.detach().numpy(), u.detach().numpy(), u_pred.detach().numpy()
-                sorted_indices = np.argsort(x)
-                x, t, u, u_pred = x[sorted_indices], t[sorted_indices], u[sorted_indices], u_pred[sorted_indices]
-
-                # Plot the original data
-                #plt.plot(x, u, color='blue', label='Original Data (u)')
-
-                # Plot the predicted data
-                plt.plot(x, u_pred, color='red', label='Predicted Data (u_pred)')
-
-                # Add title and labels
-                plt.title('Original vs Predicted Data')
-                plt.xlabel('x')
-                plt.ylabel('u')
-
-                # Add legend
-                plt.legend()
-                plt.show()
-                '''
-
         else:
             output = self.model(masked_tensors, **extra_args)
 

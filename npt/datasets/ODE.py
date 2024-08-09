@@ -51,7 +51,7 @@ class OrdinaryDifferentialEquationDataset(BaseDataset):
         train_data_bd = pd.concat([data_lb, data_ub], ignore_index=True)
         # u_data for boundary is None values for now
         '''
-        train_data_f['beta'] = train_data_f['beta'].apply(lambda x: 1.0)
+        #train_data_f['beta'] = train_data_f['beta'].apply(lambda x: 0.0)
 
         # Combine train and test datasets and remove columns
         data_table = pd.concat([train_data_f,train_data_u,test_data], ignore_index=True)
