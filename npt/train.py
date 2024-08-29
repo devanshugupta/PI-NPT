@@ -37,6 +37,7 @@ class Trainer:
         self.torch_dataset = torch_dataset
         self.max_epochs = self.get_max_epochs()
         self.gpu = None
+        self.fixed_test_set_index = dataset.metadata['fixed_test_set_index']
 
         if c.exp_checkpoint_setting is None and c.exp_eval_test_at_end_only:
             raise Exception(
@@ -140,7 +141,7 @@ class Trainer:
 
         for epoch in range(1, self.max_epochs + 1):
             if self.per_epoch_train_eval(epoch=epoch):
-                print('breaking', )
+                print('breaking ', epoch)
                 break
 
     def eval_model(self, train_loss, epoch, end_experiment):
@@ -301,8 +302,9 @@ class Trainer:
                 and epoch == 2 and dataset_mode in {'test'}):
             if self.c.debug_eval_row_interactions_timer is not None:
                 self.set_row_corruption_timer()
-
+        self.total_rows_processed = 0
         for batch_index, batch_dict_ in enumerate(batch_iter):
+
             if self.c.debug_row_interactions:
                 batch_dict_ = debug.modify_data(
                     self.c, batch_dict_, dataset_mode,
@@ -473,7 +475,6 @@ class Trainer:
                 data.to(device=device, non_blocking=True)
                 for data in masked_tensors]
 
-
             # Send everything else used in loss compute to the device
             batch_dict[f'{dataset_mode}_mask_matrix'] = (
                 batch_dict[f'{dataset_mode}_mask_matrix'].to(
@@ -487,6 +488,28 @@ class Trainer:
             if label_mask_matrix is not None:
                 label_mask_matrix = label_mask_matrix.to(
                     device=device, non_blocking=True)
+
+        n_rows = batch_dict['data_arrs'][0].shape[0]
+        self.total_rows_processed += n_rows
+
+
+        #Giving only test dataset when in test_mode
+        if dataset_mode == 'test':
+            if self.total_rows_processed < self.fixed_test_set_index:
+                return
+            if self.total_rows_processed - self.fixed_test_set_index < n_rows:
+                for col_ in range(len(batch_dict[f'{dataset_mode}_mask_matrix'][0])):
+                    for i in range(self.total_rows_processed - self.fixed_test_set_index):
+                        batch_dict[f'{dataset_mode}_mask_matrix'][i, col_] = 0
+
+        elif dataset_mode == 'train': #Giving only train dataset when in train mode
+            if self.total_rows_processed >= self.fixed_test_set_index:
+                if self.total_rows_processed - self.fixed_test_set_index > n_rows:
+                    return
+                for col_ in range(len(batch_dict[f'{dataset_mode}_mask_matrix'][0])):
+                    for i in range(n_rows - (self.total_rows_processed - self.fixed_test_set_index), n_rows):
+                        batch_dict[f'{dataset_mode}_mask_matrix'][i, col_] = 0
+
 
         forward_kwargs = dict(
             batch_dict=batch_dict,

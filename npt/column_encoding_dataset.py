@@ -578,7 +578,8 @@ class ColumnEncodingDataset:
                 train_mask_matrix, np.zeros((N, D)))
             '''
             assert not np.array_equal(
-                val_mask_matrix, np.zeros((N, D)))'''
+                val_mask_matrix, np.zeros((N, D)))
+            '''
             assert not np.array_equal(
                 test_mask_matrix, np.zeros((N, D)))
             assert not np.array_equal(

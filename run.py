@@ -165,7 +165,6 @@ def run_cv_splits(wandb_args, args, c, wandb_run):
 
         #######################################################################
         # Run training
-        #print(dataset.get_data_dict())
         trainer = Trainer(
             model=model, optimizer=optimizer, scaler=scaler,
             c=c, wandb_run=wandb_run, cv_index=cv_index, dataset=dataset)

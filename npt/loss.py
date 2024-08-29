@@ -268,7 +268,7 @@ class Loss:
                 # for loss normalisation purposes.
                 num_preds = col_loss_indices.sum()
 
-                # Compute PINNs loss for train collocation in col
+                # Compute PINNs loss for train_f (collocation points)
                 if not eval_model and dataset_mode=='train': # Train loss
                     physics_loss = self.convection_diffusion_loss(
                         col=col, is_cat=is_cat, output=out, masked_tensors=masked_tensors,
@@ -450,16 +450,11 @@ class Loss:
     def convection_diffusion_loss(self, col, is_cat, output, masked_tensors, col_mask, num_preds):
         """Compute the PINNs loss for the convection diffusion equation."""
         # Add the extra column to mask
-        col_mask = col_mask.reshape(-1,1)
-        x = [col_mask for i in range(masked_tensors[0].shape[1])]
-
-        col_mask = torch.cat(x, 1)
+        pinn_col_mask = col_mask.clone().detach().flatten()
         u = output
         x, t = masked_tensors[0], masked_tensors[1]
 
         beta, nu, rho = masked_tensors[3], masked_tensors[4],masked_tensors[5]
-        #beta = masked_tensors[3]
-        #nu, rho = 0, 0
 
         # Compute gradients
         u_t = torch.autograd.grad(u.sum(), t, create_graph=True)[0]
@@ -469,13 +464,12 @@ class Loss:
         # Compute the PDE residual
         residual = u_t + (beta * u_x) - (nu * u_xx) - (rho * u * (1-u))
 
-        residual = col_mask * residual
-        # Physics loss is the mean squared residual
-        s = residual**2
+        residual = pinn_col_mask * residual
+        mse_cost_function = torch.nn.MSELoss()  # Mean squared error
 
-        physics_loss = torch.mean(residual**2).unsqueeze(0)
-
-        return physics_loss
+        zeros = torch.zeros(residual.shape)
+        loss = mse_cost_function(residual, zeros)
+        return loss
 
     def compute_column_loss(
             self, col, is_cat, output, data, eval_model, col_mask, num_preds,
@@ -502,9 +496,15 @@ class Loss:
                 accuracy calculation. None for regression.
         """
         extra_out = {}
-        if not eval_model and self.dataset_mode == 'train':
+        mse_col_mask = col_mask.clone().detach().flatten()
+        if self.dataset_mode == 'train':
             # For train data, we calculate MSE for only initial points so we invert the mask
-            col_mask[:self.fixed_test_set_index] =  ~col_mask[:self.fixed_test_set_index]
+            mse_col_mask =  ~mse_col_mask
+        if mse_col_mask.sum() == 0:
+            return 0, {}
+        mse_output = output.clone().detach().flatten()
+        mse_data = data.clone().detach().flatten()
+
 
         if is_cat:
             # Cross-entropy loss does not expect one-hot encoding.
@@ -546,13 +546,13 @@ class Loss:
         else:
             # Apply the invalid entries multiplicatively, so we only
             # tabulate an MSE for the entries which were masked
-            col_mask = col_mask.clone()
 
-            output = output*col_mask
-            data = data*col_mask
+            mse_output = torch.mul(mse_output, mse_col_mask)
+            mse_data = torch.mul(mse_data, mse_col_mask)
 
+            mse_cost_function = torch.nn.MSELoss()  # Mean squared error
 
-            loss = torch.sum(torch.square((output - data)))
+            loss = mse_cost_function(mse_output, mse_data)
             extra_out['num_mse_loss'] = loss
 
             if eval_model and self.c.data_set not in ['cifar10']:
@@ -561,7 +561,7 @@ class Loss:
                 mse_unstd = extra_out['num_mse_loss'] * sigma**2
                 extra_out[self.extras[0]] = mse_unstd
                 extra_out[self.extras[1]] = mse_unstd
-
+        print(loss)
         return loss, extra_out
 
     def compute_auroc(self):

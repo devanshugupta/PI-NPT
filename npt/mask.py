@@ -97,6 +97,7 @@ def apply_mask(
         # (Bert-style masking)
 
         # Proportion for which to zero out.
+        # model_bert_mask_percentage = 0.9
         bert_random_mask_proportion = 1 - int(
             c.model_bert_mask_percentage * len(mask_indices))
 
@@ -142,7 +143,9 @@ def apply_mask(
         if bert_random_mask is None:
             # If there is no bert randomization,
             # all mask entries should be given a '1' mask token,
-            data_arr[mask_col, -1] = 1
+
+            #data_arr[mask_col, -1] = 1
+
             # and we are done with masking for this column
             continue
 

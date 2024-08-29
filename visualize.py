@@ -2,6 +2,8 @@
 import numpy as np
 import torch
 import matplotlib.pyplot as plt
+from scipy.interpolate import griddata
+
 import seaborn as sns
 import pandas as pd
 import pickle
@@ -47,8 +49,8 @@ scalers = data_dict['scalers']
 data_table = data_dict['data_table']
 fixed_test_index = data_dict['fixed_test_set_index']
 
-ground_truth_x, ground_truth_t, ground_truth_u = scalers[0].inverse_transform(data_table[0]).flatten()[fixed_test_index:], scalers[1].inverse_transform(data_table[1]).flatten()[fixed_test_index:], scalers[2].inverse_transform(data_table[2]).flatten()[fixed_test_index:]
-ground_truth_b = scalers[3].inverse_transform(data_table[3]).flatten()[fixed_test_index:]
+ground_truth_x, ground_truth_t, ground_truth_u = data_table[0].flatten()[fixed_test_index:], data_table[1].flatten()[fixed_test_index:], data_table[2].flatten()[fixed_test_index:]
+ground_truth_b = data_table[3].flatten()[fixed_test_index:]
 
 missing_matrix = data_dict['missing_matrix']
 
@@ -83,7 +85,7 @@ if c.data_set_on_cuda:
         for masked_arr in data_arrs]
 
 # MODEL
-
+'''
 model, optimizer, scaler = init_model_opt_scaler(
             c, metadata=metadata,
             device=c.exp_device)
@@ -94,40 +96,42 @@ checkpoint = torch.load(model_checkpoint)
         # when we wish to visualize them
 model.load_state_dict(checkpoint['model_state_dict'],
                       strict=True)
-
+'''
 
 extra_args = {}
 
 # OUTPUT
 
-with torch.no_grad():
+'''with torch.no_grad():
     output = model(masked_tensors, **extra_args)
 
-output_x, output_t, output_u = scalers[0].inverse_transform(output[0]).flatten()[fixed_test_index:], scalers[1].inverse_transform(output[1]).flatten()[fixed_test_index:], scalers[2].inverse_transform(output[2]).flatten()[fixed_test_index:]
-
+output_x, output_t, output_u = output[0].flatten()[fixed_test_index:], output[1].flatten()[fixed_test_index:], output[2].flatten()[fixed_test_index:]
+'''
 path = './dataset'
 test_data = pd.read_csv(f'{path}/{c.pde_type}/test/test_{c.target_coeff_1}_{c.pde_type}.csv').drop(['beta', 'rho', 'nu'], axis=1)
 
 ground_truth_x, ground_truth_t, ground_truth_u = test_data['x_data'].to_numpy(), test_data['t_data'].to_numpy(), test_data['u_data'].to_numpy()
 
-df = test_data.sort_values(by=['x_data', 't_data'])
+# Step 1: Create a uniform mesh grid
+x = ground_truth_x
+t = ground_truth_t
+u = ground_truth_u
 
-# Create a pivot table
-pivot_table = df.pivot(index='x_data', columns='t_data', values='u_data')
+x_d = np.linspace(0, max(x), 50)
+t_d = np.linspace(0, 1, 50)
 
-# Plotting the heatmap
-plt.figure(figsize=(10, 8))
-sns.heatmap(pivot_table, cmap='rainbow', cbar_kws={'label': 'U values'})
+#X, T = np.meshgrid(x_d, t_d)
+X, T = np.meshgrid(x, t)
 
-# Set axis labels and title
-plt.xlabel('T values')
-plt.ylabel('X values')
-plt.title('Heat Map of U values')
+U = griddata((x, t), u, (X, T), method = 'linear')
+print(np.sum(np.isnan(U))) # print indexes of nan values in the U grid --> np.argwhere()
 
-# Set 5 intervals for x and t axis ticks
-x_intervals = np.linspace(pivot_table.index.min(), pivot_table.index.max(), 5)
-t_intervals = np.linspace(pivot_table.columns.min(), pivot_table.columns.max(), 5)
-plt.xticks(np.linspace(0, len(pivot_table.columns) - 1, 5), np.round(t_intervals, 2))
-plt.yticks(np.linspace(0, len(pivot_table.index) - 1, 5), np.round(x_intervals, 2))
+# Step 3: Plot the results
+plt.figure(figsize=(8, 6))
 
+#plt.imshow(U, extent=(x.min(), x.max(), t.min(), t.max()), origin='lower', aspect = 'auto')
+plt.contourf(T, X, U, levels=50, cmap='viridis')  # Contour plot
+plt.colorbar(label='u(x,t)')
+plt.xlabel('t')
+plt.ylabel('x')
 plt.show()
