@@ -36,16 +36,16 @@ def build_parser():
     parser.add_argument('--start_coeff_2', type=int, default=0, help='start point of nu range')
     parser.add_argument('--start_coeff_3', type=int, default=0, help='start point of rho range')
 
-    parser.add_argument('--end_coeff_1', type=int, default=0, help='end point of beta range')
-    parser.add_argument('--end_coeff_2', type=int, default=0, help='end point of nu range')
-    parser.add_argument('--end_coeff_3', type=int, default=0, help='end point of rho range')
+    parser.add_argument('--end_coeff_1', type=int, default=40, help='end point of beta range')
+    parser.add_argument('--end_coeff_2', type=int, default=40, help='end point of nu range')
+    parser.add_argument('--end_coeff_3', type=int, default=40, help='end point of rho range')
 
     parser.add_argument('--init_cond', type=str, default='sin_1')
     parser.add_argument('--pde_type', type=str, default='convection')
 
-    parser.add_argument('--target_coeff_1', type=int, default=0, help='target coefficient beta')
-    parser.add_argument('--target_coeff_2', type=int, default=0, help='target coefficient nu')
-    parser.add_argument('--target_coeff_3', type=int, default=0, help='target coefficient rho')
+    parser.add_argument('--target_coeff_1', type=int, default=40, help='target coefficient beta')
+    parser.add_argument('--target_coeff_2', type=int, default=40, help='target coefficient nu')
+    parser.add_argument('--target_coeff_3', type=int, default=40, help='target coefficient rho')
 
     ###########################################################################
     # #### Data Config ########################################################
@@ -86,7 +86,7 @@ def build_parser():
     # #### Experiment Config ##################################################
     ###########################################################################
     parser.add_argument(
-        '--exp_device', default=None, type=str,
+        '--exp_device', default='cuda:0', type=str,
         help='If provided, use this (CUDA) device for the run.')
     parser.add_argument(
         '--exp_azure_sweep', default=False, type='bool',
@@ -117,7 +117,7 @@ def build_parser():
         '--baseline_seed', type=int, default=42,
         help='Random seed for baselines. Set to -1 to choose at random.')
     parser.add_argument(
-        '--exp_disable_cuda', dest='exp_use_cuda', default=False,
+        '--exp_disable_cuda', dest='exp_use_cuda', default=True,
         action='store_false', help='Disable GPU acceleration')
     parser.add_argument(
         '--exp_n_runs', type=int, default=1,
