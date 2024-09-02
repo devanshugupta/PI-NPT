@@ -61,13 +61,14 @@ class OrdinaryDifferentialEquationDataset(BaseDataset):
         print(len_train_u,len_train_f,len_train_bd, len_test)
         test_index = data_table.shape[0] - len_test
         self.fixed_test_set_index = test_index
+
         # Convert data table to numpy
         data_table = data_table.to_numpy()
         N = data_table.shape[0]
         D = data_table.shape[1]
 
         indexes_train_u = [i for i in range(len_train_u)]
-        k = int(0.05*len_train_u)
+        k = int(0.1*len_train_u)
         k_indexes_train_u = random.choices(indexes_train_u, k=k)
 
         print(f'ODE Dataset has {N} rows')
@@ -77,7 +78,7 @@ class OrdinaryDifferentialEquationDataset(BaseDataset):
         # Create the masks
         missing_matrix[test_index: , 2] = True
         missing_matrix[len_train_u:len_train_u+len_train_f, 2] = True
-        missing_matrix[k_indexes_train_u, 2] = True
+        #missing_matrix[k_indexes_train_u, 2] = True
 
         # Prepare feature indices
         cat_features = []

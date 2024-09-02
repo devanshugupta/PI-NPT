@@ -135,7 +135,6 @@ def encode_data(
 
             # Removed Scaling to original data
             #encoded_col = fitted_encoder.transform(non_missing_col)
-            scalers[col_index] = fitted_encoder
             standardisation[col_index, 0] = fitted_encoder.mean_[0]
             standardisation[col_index, 1] = fitted_encoder.scale_[0]
             sigmas.append(fitted_encoder.scale_[0])

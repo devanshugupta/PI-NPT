@@ -303,6 +303,9 @@ class Trainer:
             if self.c.debug_eval_row_interactions_timer is not None:
                 self.set_row_corruption_timer()
         self.total_rows_processed = 0
+        print('-------------------------------------')
+        print(dataset_mode)
+        print('epoch: ', epoch, '-------------------------------------')
         for batch_index, batch_dict_ in enumerate(batch_iter):
 
             if self.c.debug_row_interactions:
@@ -491,8 +494,6 @@ class Trainer:
 
         n_rows = batch_dict['data_arrs'][0].shape[0]
         self.total_rows_processed += n_rows
-
-
         #Giving only test dataset when in test_mode
         if dataset_mode == 'test':
             if self.total_rows_processed < self.fixed_test_set_index:

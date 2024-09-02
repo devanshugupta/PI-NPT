@@ -320,8 +320,9 @@ class NPTBatchDataset(torch.utils.data.IterableDataset):
                 extra_args['train_indices'] = mode_indices[0]
 
             stratified_sampler = StratifiedIndexSampler(
-                y=mode_indicators, n_splits=n_splits, shuffle=False,
+                y=mode_indicators, n_splits=n_splits,
                 **extra_args)
+
 
         # Concatenate together mode_indices (which index into our matrices)
         mode_indices = np.concatenate(mode_indices)
@@ -406,12 +407,15 @@ class NPTBatchDataset(torch.utils.data.IterableDataset):
 
         # Avoid stratifying when we have a super small batch size
         # TODO Should ideally check against number of classes (in classification)
+        '''
         if stratified_sampler and self.batch_size > 10:
             row_index_order, batch_sizes = (
                 stratified_sampler.get_stratified_test_array(row_index_order))
             self.batch_sizes = batch_sizes
         else:
             self.batch_sizes = None
+        '''
+
         # Construct tensor copies with the specified row index order
         mode_mask_matrix, mode_bert_mask_matrix = self.mode_masks[
             self.dataset_mode]
@@ -426,7 +430,6 @@ class NPTBatchDataset(torch.utils.data.IterableDataset):
         mode_mask_matrix_str = f'{self.dataset_mode}_mask_matrix'
         self.target_loss_matrix = self.data_dict[mode_mask_matrix_str][
             row_index_order, :]
-
 
         # Stochastic label masking
         dataset_mode_mask_matrices = None

@@ -133,7 +133,6 @@ class Loss:
                         self.epoch_loss[mode][key] +
                         self.batch_loss[mode][key])
 
-
     # @profile
     def compute_loss(
             self, output, ground_truth_data, masked_tensors, data_dict, label_mask_matrix,
@@ -464,7 +463,7 @@ class Loss:
         # Compute the PDE residual
         residual = u_t + (beta * u_x) - (nu * u_xx) - (rho * u * (1-u))
 
-        residual = pinn_col_mask * residual
+        residual = pinn_col_mask * residual.flatten()
         mse_cost_function = torch.nn.MSELoss()  # Mean squared error
 
         zeros = torch.zeros(residual.shape)
@@ -500,11 +499,9 @@ class Loss:
         if self.dataset_mode == 'train':
             # For train data, we calculate MSE for only initial points so we invert the mask
             mse_col_mask =  ~mse_col_mask
-        if mse_col_mask.sum() == 0:
-            return 0, {}
+
         mse_output = output.clone().detach().flatten()
         mse_data = data.clone().detach().flatten()
-
 
         if is_cat:
             # Cross-entropy loss does not expect one-hot encoding.
@@ -561,7 +558,6 @@ class Loss:
                 mse_unstd = extra_out['num_mse_loss'] * sigma**2
                 extra_out[self.extras[0]] = mse_unstd
                 extra_out[self.extras[1]] = mse_unstd
-        print(loss)
         return loss, extra_out
 
     def compute_auroc(self):
