@@ -413,7 +413,7 @@ def build_parser():
                        'used for model.')
     parser.add_argument(
         '--model_amp',
-        default=True,
+        default=False,
         type='bool', help='If True, use automatic mixed precision (AMP), '
                           'which can provide significant speedups on V100/'
                           'A100 GPUs.')
@@ -523,7 +523,7 @@ def build_parser():
         '--model_dim_hidden', type=int, default=32,
         help='Intermediate feature dimension.')
     parser.add_argument(
-        '--model_num_heads', type=int, default=4,
+        '--model_num_heads', type=int, default=8,
         help='Number of attention heads. Must evenly divide model_dim_hidden.')
     parser.add_argument(
         '--model_sep_res_embed',
@@ -539,7 +539,7 @@ def build_parser():
         '--model_stacking_depth',
         dest='model_stacking_depth',
         type=int,
-        default=4,
+        default=8,
         help=f'Number of layers to stack.')
     parser.add_argument(
         '--model_mix_heads',
