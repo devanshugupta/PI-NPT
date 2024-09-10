@@ -36,16 +36,16 @@ def build_parser():
     parser.add_argument('--start_coeff_2', type=int, default=0, help='start point of nu range')
     parser.add_argument('--start_coeff_3', type=int, default=0, help='start point of rho range')
 
-    parser.add_argument('--end_coeff_1', type=int, default=0, help='end point of beta range')
-    parser.add_argument('--end_coeff_2', type=int, default=0, help='end point of nu range')
-    parser.add_argument('--end_coeff_3', type=int, default=0, help='end point of rho range')
+    parser.add_argument('--end_coeff_1', type=int, default=2, help='end point of beta range')
+    parser.add_argument('--end_coeff_2', type=int, default=2, help='end point of nu range')
+    parser.add_argument('--end_coeff_3', type=int, default=2, help='end point of rho range')
 
     parser.add_argument('--init_cond', type=str, default='sin_1')
     parser.add_argument('--pde_type', type=str, default='convection')
 
-    parser.add_argument('--target_coeff_1', type=int, default=0, help='target coefficient beta')
-    parser.add_argument('--target_coeff_2', type=int, default=0, help='target coefficient nu')
-    parser.add_argument('--target_coeff_3', type=int, default=0, help='target coefficient rho')
+    parser.add_argument('--target_coeff_1', type=int, default=40, help='target coefficient beta')
+    parser.add_argument('--target_coeff_2', type=int, default=40, help='target coefficient nu')
+    parser.add_argument('--target_coeff_3', type=int, default=40, help='target coefficient rho')
 
     ###########################################################################
     # #### Data Config ########################################################
@@ -124,12 +124,12 @@ def build_parser():
         help=f'Maximum number of CV runs. This upper bounds the number of '
              f'cross validation folds that are being executed.')
     parser.add_argument(
-        '--exp_batch_size', type=int, default=300,
+        '--exp_batch_size', type=int, default = -1,
         help='Number of instances (rows) in each batch '
              'taken as input by the model. -1 corresponds to no '
              'minibatching.')
     parser.add_argument(
-        '--exp_batch_mode_balancing', type='bool', default=True,
+        '--exp_batch_mode_balancing', type='bool', default=False,
         help='Maintain relative train, val, and test proportions in batches.')
     parser.add_argument(
         '--exp_batch_class_balancing', type='bool', default=False,
@@ -137,7 +137,7 @@ def build_parser():
              'batches.')
     parser.add_argument(
         '--exp_full_batch_gd', dest='exp_minibatch_sgd',
-        default=False, action='store_false',
+        default=True, action='store_false',
         help='Full batch gradient descent (as opposed to mini-batch GD)')
     parser.add_argument(
         '--exp_val_perc', type=float, default=0,
@@ -173,7 +173,7 @@ def build_parser():
         help='If True, attempt to load from checkpoint and continue training.')
     parser.add_argument(
         '--exp_print_every_nth_forward', dest='exp_print_every_nth_forward',
-        default=True, type=int,
+        default=False, type=int,
         help='Print during mini-batch as well for large epochs.')
     parser.add_argument(
         '--exp_eval_every_n', type=int, default=10,
@@ -432,7 +432,7 @@ def build_parser():
     # #### Masking and Stochastic Forward Passes ##############################
 
     parser.add_argument(
-        '--model_bert_augmentation', type='bool', default=False,
+        '--model_bert_augmentation', type='bool', default=True,
         help='When True, use BERT style augmentation. This introduces a mask '
              'column for each data entry, which can also be used to track '
              'values that are truly missing (i.e., for which there is no '
@@ -523,7 +523,7 @@ def build_parser():
         '--model_dim_hidden', type=int, default=32,
         help='Intermediate feature dimension.')
     parser.add_argument(
-        '--model_num_heads', type=int, default=8,
+        '--model_num_heads', type=int, default=4,
         help='Number of attention heads. Must evenly divide model_dim_hidden.')
     parser.add_argument(
         '--model_sep_res_embed',

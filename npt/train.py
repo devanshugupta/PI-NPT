@@ -141,7 +141,6 @@ class Trainer:
 
         for epoch in range(1, self.max_epochs + 1):
             if self.per_epoch_train_eval(epoch=epoch):
-                print('breaking ', epoch)
                 break
 
     def eval_model(self, train_loss, epoch, end_experiment):
@@ -187,7 +186,11 @@ class Trainer:
 
         if train_loss is None and not self.c.debug_eval_row_interactions:
             # Train and compute loss over masked features in train rows
-            train_loss = self.run_epoch(dataset_mode='train', **kwargs)
+            kwargss = dict(epoch=epoch, eval_model=True)
+            kwargss['eval_train'] = False
+            kwargss['eval_model'] = False
+            train_loss = self.run_epoch(dataset_mode='train', **kwargss)
+
         elif self.c.debug_eval_row_interactions:
             train_loss = {}
         # Checkpoint model over trian loss
@@ -241,7 +244,7 @@ class Trainer:
         self.logger.summary_log(loss_dict, new_min)
 
         if counter == EarlyStopSignal.STOP:
-            print(self.early_stop_counter.stop_signal_message)
+            print('Early Stopping: ',self.early_stop_counter.stop_signal_message)
             return True
         else:
             return False
@@ -249,7 +252,7 @@ class Trainer:
     # fp = open('memory_profiler.log', 'w+')
     # @profile(stream=fp)
     # @profile
-    def run_epoch(self, dataset_mode, epoch, eval_model=False):
+    def run_epoch(self, dataset_mode, epoch, eval_model=False, eval_train=True):
         """Train or evaluate model for a full epoch.
 
         Args:
@@ -303,11 +306,8 @@ class Trainer:
             if self.c.debug_eval_row_interactions_timer is not None:
                 self.set_row_corruption_timer()
         self.total_rows_processed = 0
-        print('-------------------------------------')
-        print(dataset_mode)
-        print('epoch: ', epoch, '-------------------------------------')
-        for batch_index, batch_dict_ in enumerate(batch_iter):
 
+        for batch_index, batch_dict_ in enumerate(batch_iter):
             if self.c.debug_row_interactions:
                 batch_dict_ = debug.modify_data(
                     self.c, batch_dict_, dataset_mode,
@@ -404,8 +404,7 @@ class Trainer:
         # Perform batch GD?
         batch_GD = (dataset_mode == 'train') and (
             not self.c.exp_minibatch_sgd)
-
-        if eval_model or batch_GD:
+        if eval_model or batch_GD or not eval_train:
             # We want loss_dict either for logging purposes
             # or to backpropagate if we do full batch GD
             loss_dict = self.loss.finalize_epoch_losses(eval_model)
@@ -435,7 +434,7 @@ class Trainer:
         #       entries to get an eval loss.
         # - If we are doing full-batch training, we return the loss dict to
         #       immediately report loss metrics at eval time.
-        if (not eval_model) and self.c.exp_minibatch_sgd:
+        if (not eval_model) and self.c.exp_minibatch_sgd and eval_train:
             loss_dict = None
 
         return loss_dict
@@ -495,22 +494,20 @@ class Trainer:
         n_rows = batch_dict['data_arrs'][0].shape[0]
         self.total_rows_processed += n_rows
         #Giving only test dataset when in test_mode
+        cutoff = self.fixed_test_set_index - (self.total_rows_processed - n_rows)
         if dataset_mode == 'test':
             if self.total_rows_processed < self.fixed_test_set_index:
                 return
             if self.total_rows_processed - self.fixed_test_set_index < n_rows:
-                for col_ in range(len(batch_dict[f'{dataset_mode}_mask_matrix'][0])):
-                    for i in range(self.total_rows_processed - self.fixed_test_set_index):
-                        batch_dict[f'{dataset_mode}_mask_matrix'][i, col_] = 0
+                for col_ in batch_dict['target_cols']:
+                    batch_dict[f'{dataset_mode}_mask_matrix'][:cutoff, col_] = 0
 
         elif dataset_mode == 'train': #Giving only train dataset when in train mode
             if self.total_rows_processed >= self.fixed_test_set_index:
                 if self.total_rows_processed - self.fixed_test_set_index > n_rows:
                     return
-                for col_ in range(len(batch_dict[f'{dataset_mode}_mask_matrix'][0])):
-                    for i in range(n_rows - (self.total_rows_processed - self.fixed_test_set_index), n_rows):
-                        batch_dict[f'{dataset_mode}_mask_matrix'][i, col_] = 0
-
+                for col_ in batch_dict['target_cols']:
+                    batch_dict[f'{dataset_mode}_mask_matrix'][cutoff:, col_] = 0
 
         forward_kwargs = dict(
             batch_dict=batch_dict,
@@ -532,12 +529,10 @@ class Trainer:
             # Standardize and backprop on minibatch loss
             # if minibatch_sgd enabled
             loss_dict = self.loss.finalize_batch_losses()
-            train_loss = loss_dict['total_loss']
-
+            train_loss = loss_dict['total_loss'] + loss_dict['physics_loss']
             # ### Apply Automatic Mixed Precision ###
             # The scaler ops will be no-ops if we have specified
             # c.model_amp is False in the Trainer init
-
             # Scales loss.
             # Calls backward() on scaled loss to create scaled gradients.
             self.scaler.scale(train_loss).backward()
@@ -570,7 +565,7 @@ class Trainer:
     def forward_and_loss(
             self, batch_dict, ground_truth_tensors, masked_tensors,
             dataset_mode, eval_model, epoch, label_mask_matrix,
-            augmentation_mask_matrix,):
+            augmentation_mask_matrix):
         """Run forward pass and evaluate model loss."""
         extra_args = {}
         if eval_model:
@@ -585,7 +580,8 @@ class Trainer:
             label_mask_matrix=label_mask_matrix,
             augmentation_mask_matrix=augmentation_mask_matrix,
             data_dict=batch_dict, dataset_mode=dataset_mode,
-            eval_model=eval_model)
+            eval_model=eval_model,
+            total_rows_processed = self.total_rows_processed)
 
         self.loss.compute(**loss_kwargs)
 

@@ -107,7 +107,6 @@ def encode_data(
         non_missing_col = data_table[
             non_missing_filter, col_index].reshape(-1, 1)
         encoded_col = data_table[:,col_index].reshape(-1, 1)
-
         # Fit on stat_col, transform non_missing_col
         is_cat = False
         if col_index in cat_features:
@@ -168,7 +167,6 @@ def encode_data(
                 encoded_col = encoded_col.astype(data_dtype)
         encoded_dataset.append(encoded_col)
         input_feature_dims.append(encoded_col.shape[1])
-
     if tabnet_mode:
         return (
             encoded_dataset, input_feature_dims, standardisation,
@@ -182,7 +180,6 @@ def encode_data_dict(data_dict, c):
     # * TODO: (i.e. can't fit in CPU memory)
     compute_statistics_matrix, non_missing_matrix, missing_matrix = (
         get_compute_statistics_and_non_missing_matrix(data_dict, c))
-
     data_dtype = get_numpy_dtype(dtype_name=c.data_dtype)
 
     return encode_data(

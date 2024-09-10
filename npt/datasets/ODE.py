@@ -52,15 +52,14 @@ class OrdinaryDifferentialEquationDataset(BaseDataset):
         # u_data for boundary is None values for now
         '''
         #train_data_f['beta'] = train_data_f['beta'].apply(lambda x: 0.0)
-
         # Combine train and test datasets and remove columns
         data_table = pd.concat([train_data_u,train_data_f,test_data], ignore_index=True)
-
         # Get number of rows for each dataset
         len_train_f,len_train_u,len_train_bd,len_test = train_data_f.shape[0],train_data_u.shape[0],train_data_bd.shape[0],test_data.shape[0]
         print(len_train_u,len_train_f,len_train_bd, len_test)
         test_index = data_table.shape[0] - len_test
         self.fixed_test_set_index = test_index
+        print(data_table)
 
         # Convert data table to numpy
         data_table = data_table.to_numpy()

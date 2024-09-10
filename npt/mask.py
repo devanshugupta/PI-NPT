@@ -135,6 +135,7 @@ def apply_mask(
 
         # Zero out indices corresponding to
         # bert masking and bert random assignment.
+
         data_arr[mask_col, :] = 0
 
         # Set mask token.
@@ -144,7 +145,7 @@ def apply_mask(
             # If there is no bert randomization,
             # all mask entries should be given a '1' mask token,
 
-            #data_arr[mask_col, -1] = 1
+            data_arr[mask_col, -1] = 1
 
             # and we are done with masking for this column
             continue
