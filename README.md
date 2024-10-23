@@ -5,7 +5,7 @@ This codebase will allow you to reproduce experiments from the paper as well as 
 
 ## Abstract
 
-We have tried to run NPT (Non parametric Transformer Models) for Physics Simulation data, using Physiscs informed Neural Networks and NPT model MSE loss. The experiments show how we can predict the physical system with high accracy, using Transformers. The choice of Gradient Descent Optimization (Adam, Batch-GD, Mini_GD, energy natural gradients, Implicit stochastic gradient descent) also affects the model robustness and capability for prediction. 
+We used NPT (Non parametric Transformer Models) for Physics Simulation data (Ordinary Differential Equations), using Physiscs informed Neural Networks and NPT model MSE loss. The experiments show how we can predict the physical system with high accracy, using Transformers. The choice of Gradient Descent Optimization (Adam, Batch-GD, Mini_GD, energy natural gradients, Implicit stochastic gradient descent) also affects the model robustness and capability for prediction. 
 
 ## Installation
 
