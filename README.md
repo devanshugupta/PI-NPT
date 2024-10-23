@@ -1,7 +1,7 @@
 # Self-Attention Between Datapoints: Going Beyond Individual Input-Output Pairs in Deep Learning
-Thanks for checking out the code for Non-Parametric Transformers (NPTs) code by [Paper](https://arxiv.org/abs/2106.02584).
-
-This codebase will allow you to reproduce experiments from the paper as well as use NPTs for your own research.
+- Thanks for checking out the code for Non-Parametric Transformers (NPTs) code by [Paper](https://arxiv.org/abs/2106.02584).
+- Major changes in loss.py with additional Physics Informed Neural Networks loss functions and gradients. 
+- This codebase will allow you to reproduce experiments from the paper as well as use NPTs for your own research.
 
 ## Abstract
 
