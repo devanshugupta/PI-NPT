@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nptpinn"
+version = "1.0.0"
+description = "Physics-informed MLP and attention-between-datapoints (NPT) surrogates for convection, diffusion and reaction PDEs, scored against closed-form solutions"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Devanshu Gupta", email = "devanshu0gupta@gmail.com" }]
+dependencies = ["torch>=2.0", "numpy>=1.24", "matplotlib>=3.7"]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[tool.setuptools.packages.find]
+include = ["nptpinn*"]

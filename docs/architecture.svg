@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="440" viewBox="0 0 980 440" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1f2937"/>
+    </marker>
+    <style>
+      .box{fill:#ffffff;stroke:#1f2937;stroke-width:1.5;rx:8}
+      .acc{fill:#eaf1fb;stroke:#1f5fbf;stroke-width:1.5;rx:8}
+      .warn{fill:#fdf1f2;stroke:#d1495b;stroke-width:1.5;rx:8}
+      .t{font-size:14px;fill:#111827;font-weight:600}
+      .s{font-size:12px;fill:#4b5563}
+      .l{font-size:12px;fill:#1f2937}
+      .e{stroke:#1f2937;stroke-width:1.5;fill:none;marker-end:url(#a)}
+    </style>
+  </defs>
+
+  <text x="20" y="30" font-size="18" font-weight="700" fill="#111827">npt-pinn: physics-informed training with a coefficient curriculum</text>
+  <text x="20" y="50" class="s">u_t + beta u_x - nu u_xx - rho u(1-u) = 0 on [0, 2pi] x [0, 1], periodic in x. Every closed form is known, so test error is against the truth.</text>
+
+  <!-- sampling -->
+  <rect x="20" y="110" width="170" height="90" class="box"/>
+  <text x="105" y="140" text-anchor="middle" class="t">Point sampler</text>
+  <text x="105" y="160" text-anchor="middle" class="s">collocation (x,t)</text>
+  <text x="105" y="176" text-anchor="middle" class="s">initial, boundary, data</text>
+
+  <!-- features -->
+  <rect x="235" y="110" width="170" height="90" class="box"/>
+  <text x="320" y="140" text-anchor="middle" class="t">Periodic features</text>
+  <text x="320" y="160" text-anchor="middle" class="s">[sin x, cos x, t]</text>
+  <text x="320" y="176" text-anchor="middle" class="s">periodicity built in</text>
+
+  <!-- models -->
+  <rect x="450" y="80" width="200" height="66" class="acc"/>
+  <text x="550" y="104" text-anchor="middle" class="t">MLP (plain PINN)</text>
+  <text x="550" y="124" text-anchor="middle" class="s">each point mapped alone</text>
+
+  <rect x="450" y="156" width="200" height="66" class="acc"/>
+  <text x="550" y="180" text-anchor="middle" class="t">NPT (attention between points)</text>
+  <text x="550" y="200" text-anchor="middle" class="s">self-attention across the batch</text>
+
+  <!-- loss -->
+  <rect x="700" y="110" width="260" height="90" class="box"/>
+  <text x="830" y="135" text-anchor="middle" class="t">Loss via autograd</text>
+  <text x="830" y="155" text-anchor="middle" class="s">MSE(residual) + MSE(initial)</text>
+  <text x="830" y="171" text-anchor="middle" class="s">+ MSE(periodic BC) [+ MSE(data)]</text>
+  <text x="830" y="189" text-anchor="middle" class="s">u_t, u_x, u_xx from torch.autograd.grad</text>
+
+  <path d="M190,155 L235,155" class="e"/>
+  <path d="M405,150 L450,113" class="e"/>
+  <path d="M405,160 L450,189" class="e"/>
+  <path d="M650,113 L700,145" class="e"/>
+  <path d="M650,189 L700,165" class="e"/>
+
+  <!-- optimisation -->
+  <rect x="20" y="270" width="420" height="140" class="warn"/>
+  <text x="230" y="296" text-anchor="middle" class="t">Curriculum over the stiff coefficient</text>
+  <text x="40" y="322" class="s">beta = 1  ->  5  ->  10  ->  20  ->  30  ->  target</text>
+  <text x="40" y="342" class="s">warm-start each stage from the previous solution: the network only</text>
+  <text x="40" y="358" class="s">ever tracks a wave slightly faster than the one it already knows.</text>
+  <text x="40" y="382" class="s">Direct training at large beta lands in the trivial near-constant fit.</text>
+
+  <rect x="480" y="270" width="220" height="140" class="box"/>
+  <text x="590" y="296" text-anchor="middle" class="t">Optimiser</text>
+  <text x="590" y="322" text-anchor="middle" class="s">Adam + cosine LR</text>
+  <text x="590" y="340" text-anchor="middle" class="s">then L-BFGS (strong Wolfe)</text>
+  <text x="590" y="358" text-anchor="middle" class="s">on a frozen point set</text>
+  <text x="590" y="382" text-anchor="middle" class="s">L-BFGS sharpens ~10x</text>
+
+  <rect x="740" y="270" width="220" height="140" class="box"/>
+  <text x="850" y="296" text-anchor="middle" class="t">Evaluation</text>
+  <text x="850" y="322" text-anchor="middle" class="s">256 x 100 grid</text>
+  <text x="850" y="340" text-anchor="middle" class="s">relative L2 vs exact</text>
+  <text x="850" y="358" text-anchor="middle" class="s">max |error|, MSE</text>
+  <text x="850" y="382" text-anchor="middle" class="s">heatmaps: exact / pred / |err|</text>
+
+  <path d="M440,340 L480,340" class="e"/>
+  <path d="M700,340 L740,340" class="e"/>
+  <path d="M830,200 L830,240 L590,240 L590,270" class="e"/>
+</svg>
